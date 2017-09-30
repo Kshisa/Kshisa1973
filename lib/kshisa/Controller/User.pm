@@ -18,7 +18,7 @@ Catalyst Controller.
 sub index :Path :Args(0) {
     my ($self, $c) = @_;
     my ($id, $name);
-    my $redir = $c->config->{'redir1'};
+    my $redir = $c->config->{'redir'};
     my $param = $c->req->body_params;
     my $pass  = $param->{P1}.$param->{P2}.$param->{P3}.$param->{P4}.$param->{P5}.$param->{P6};
     

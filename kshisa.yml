@@ -39,8 +39,7 @@
 "img_path2": "/home/marat/images/imgs/"
 "img_path3": "/home/marat/images/find/"
 "img_path4": "/home/marat/images/imgs1/"
-"redir1": "http://127.0.0.1/find/find/"
-"redir2": "http://127.0.0.1/user/"
+"redir": "http://127.0.0.1/find/find/"
 "userPath": "/home/marat/Users/"
 
 "select":

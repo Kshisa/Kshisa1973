@@ -1,0 +1,188 @@
+body{
+    text-align: center;
+    
+}
+header{
+    display:block;
+    background: url(/images/buttons/title.jpg) no-repeat;
+    height: 70px;
+    width: 1335px; 
+    margin-bottom: 5px;
+    margin-left: auto;
+    margin-right: auto;
+}
+main{
+    height: 900px;
+    width: 1335px; 
+    margin-left: auto;
+    margin-right: auto;
+}
+footer{
+    font-family: "Sans MS", Verdana, Arial, Helvetica, sans-serif;
+    text-align: center;
+    color: grey;
+    font-weight: 600;
+    font-variant: small-caps;
+    font-style: oblique;
+    display:block;
+    width: 1335px; 
+    height: 70px;
+    margin-left: auto;
+    margin-right: auto; 
+}
+
+.left_col{
+    background: url(/images/buttons/film1.jpg) no-repeat;
+    width: 218px; 
+    height: 870px; 
+    float: left; 
+    border-right: 2px;
+    margin-bottom:-15px;
+    text-align: center;
+
+}
+.center_col {
+    font-family: "Sans MS", Verdana, Arial, Helvetica, sans-serif;
+    text-align: center;
+    color: grey;
+    font-weight: 600;
+    font-variant: small-caps;
+    font-style: oblique;
+    top: 210px;
+    left: 10%; 
+    width: 895px; 
+    float: left;
+    height: 870px;
+}
+.right_col{
+    background: url(/images/buttons/film1.jpg) no-repeat;
+    width: 218px; 
+    height: 870px; 
+    float: left; 
+    border-left: 2px; 
+    margin-bottom:-15px;
+    text-align: center;
+
+}
+#pass{
+    background: url(/images/buttons/back2.jpg) no-repeat;
+    text-align: left;
+    height: 470px;
+    border: 4px double black;
+}
+#user{
+    margin-top: 45px;
+    padding-left: 10px;
+    height: 365px;
+    border: 4px double black;
+}
+.fadein{ 
+    background: url(/images/buttons/TV.jpg) no-repeat;
+    position: relative; 
+    top: 170px;
+    left: 225px;
+    width: 540px;
+    height: 350px;
+
+}
+.fadein img { 
+    position:absolute; 
+    top: 17px;
+    left: 14px;
+    width: 505px;
+    height: 284px;
+}
+#dash{ 
+    position: absolute; 
+    top: 260px;
+    margin-left: 225px;
+    width: 530px;
+    height: 350px;
+
+}
+#clock {
+    width: 150px;
+    margin-right: 11px;
+    text-align: center;
+    float: right;
+}
+#weather {
+    float: right;
+    top: 7px;
+    left: 1020px;
+    height: 72px;
+    overflow: hidden;
+}
+#Date { 
+    font-family: 'BebasNeueRegular', Arial, Helvetica, sans-serif; 
+    font-size: 18px;
+    margin-bottom: 11px;
+    text-shadow: 0 0 5px gray; 
+}
+ul { 
+    width: 140px; 
+    margin: 0 auto; 
+    padding: 0px; 
+    list-style: none; 
+    text-align: left; 
+}
+
+ul li { 
+    display: inline; 
+    font-size: 1.9em; 
+    text-align: center; 
+    font-family: 'BebasNeueRegular', Arial, Helvetica, sans-serif; 
+    text-shadow: 0 0 5px gray; 
+}
+#start{
+    display: block;
+    margin-top: 80px;
+    margin-left: 310px;
+    text-align: left;
+    font-size: 1.5em;
+}
+form {
+    display: block;
+    text-align: center;
+}
+.image{
+    width: 150px;
+    margin: 2px 0px 50px 0px;
+}
+#poster{
+    float: left;
+    width: 320px;
+    margin-left: 10px;
+}
+.ava{
+    width: 69px;
+}
+.userid{
+    width: 300px;
+    border: 4px solid #cccccc;
+    background: #fbfaff !important;
+}
+#Name{
+    color:gray;
+    font-size:60px;
+    text-align:center;
+    border:2px lightskyblue;
+    font-family:serif;
+    border-radius:30px;
+    text-shadow: 1px 2px 20px lightskyblue;
+    float: right;
+    margin-right: 40px;
+    
+}
+#Avat{
+    float: right;
+    margin-right: 40px;
+}
+#avatar{
+    height: 70px;
+    width: 55px;
+}
+.numb{
+    font-family: 'BebasNeueRegular', Arial, Helvetica, sans-serif;
+    text-shadow: 1px 2px 20px lightskyblue;
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<title>Kshisatv</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+
+<style>
+body{
+	padding: 0 0 0 ;
+	font-family: "Sans MS", Verdana, Arial, Helvetica, sans-serif;
+	color: grey;
+	font-weight: 600;
+	font-style: oblique;
+	font-variant: small-caps;
+	font-size: small;
+	height: 100%;
+}
+.head {
+	position:absolute;
+	top: 900px;
+	left: 400px;
+	font-size: 13px;
+	height: 25px;
+	text-align: center;
+}
+form {
+	width: 100%;
+	height: 100%;
+	text-align: right;
+}
+table {
+	width: 73%;
+}
+.imgmin1 {
+	float: left;
+	width: 13%;
+	text-align: center;
+	display: inline-block;
+}
+.imgmin2 {
+	float: right;
+	width: 13%;
+	text-align: center;
+}
+.addr {
+	vertical-align: top;
+}
+.selec {
+	vertical-align: top;
+	float: left;
+}
+select {
+	width: 405px;
+}
+input[type=image].img {
+    width: 160px;
+}
+#kadr {
+    width: 210px;
+    margin-bottom: 10px;
+}
+#kad {
+    width: 390px;
+}
+#left {
+	display:block;
+    text-align: right;
+}
+textarea{
+	width: 390px;
+}
+.clear {
+	clear: left;
+}
+.poster {
+	float: left;
+	width: 360px;
+	height: 100%;
+	margin: 7px;
+}
+.kadr1 {
+	width: 360px;
+	height: 49%;
+	margin: 5px;
+}
+.foto {
+	margin: 5px;
+	float: left;
+	height: 530px;
+	font-size: 30px;
+	text-align: center;
+}
+input[type=image].image {
+    width: 160px;
+}
+
+</style>
+</head>
+<body>
+[% content %]
+</body>
+</html>

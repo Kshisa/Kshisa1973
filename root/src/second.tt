@@ -1,0 +1,39 @@
+[% WRAPPER page.tt %]
+<main>
+    <div class="left_col"> </div>
+    <div class="center_col">
+        <div id="pass">
+            <div id="start"></div>
+        </div>
+        <form name="put" method=POST action="more">
+            <input type="hidden" name="userId" value="[% userId %]" />
+            <div id="user">
+                <H2> 1. Enter Your any name and email. </H2>
+                <hr>
+                Name :  <input type="text" name="name" class="userid" />&nbsp;&nbsp;&nbsp;
+                Email : <input type="text" name="mail" class="userid"/>
+                <hr>
+                <H2> 2. Choose avatar. </H2>
+                <hr>
+                <input type="image" class="ava" src="/images/avat/ava001.jpg" name="ava001" />
+                <input type="image" class="ava" src="/images/avat/ava002.jpg" name="ava002" />
+                <input type="image" class="ava" src="/images/avat/ava003.jpg" name="ava003" />
+                <input type="image" class="ava" src="/images/avat/ava004.jpg" name="ava004" />
+                <input type="image" class="ava" src="/images/avat/ava005.jpg" name="ava005" />
+                <input type="image" class="ava" src="/images/avat/ava006.jpg" name="ava006" />
+                <input type="image" class="ava" src="/images/avat/ava007.jpg" name="ava007" />
+                <input type="image" class="ava" src="/images/avat/ava008.jpg" name="ava008" />
+                <input type="image" class="ava" src="/images/avat/ava009.jpg" name="ava009" />
+                <input type="image" class="ava" src="/images/avat/ava010.jpg" name="ava010" />
+                <input type="image" class="ava" src="/images/avat/ava011.jpg" name="ava011" />
+            </div>
+        </form>
+    </div>
+    <div class="right_col"></div>
+    <div class="fadein">
+        [% FOREACH code IN codes %]
+            <img src="/images/imgs/[% code %]kad2.jpg">
+        [% END %]
+    </div>
+</main>
+[% END %]

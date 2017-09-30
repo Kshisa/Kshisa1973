@@ -1,0 +1,92 @@
+---
+"name": "Kshisatv"
+"default_view": "TT"
+"path": "/home/marat/"
+"buts": [ Last_l, Next_l, del, add0, find0, find1, find2, find3, prev, add1, rew, Last_r, Next_r ]
+"cols": [
+    ["code", "Text"],
+    ["year", "Text"],
+    ["time", "Text"],
+    ["reit", "Text"],
+    ["runame", "Text"],
+    ["orname", "Text"],
+    ["coun_0", "Select"],
+    ["coun_1", "Select"],
+    ["coun_2", "Select"],
+    ["coun_3", "Select"],
+    ["genr_0", "Select"],
+    ["genr_1", "Select"],
+    ["genr_2", "Select"],
+    ["genr_3", "Select"],
+    ["director", "Text"],
+    ["actor1", "Text"],
+    ["actor2", "Text"],
+    ["actor3", "Text"],
+    ["actor4", "Text"],
+    ["actor5", "Text"],
+    ["kad0", "Text"],
+    ["kad1", "Text"],
+    ["kad2", "Text"],
+    ["kad3", "Text"],
+    ["kad4", "Text"],
+    ["review", "Text"],
+    ["magnet1", "Text"],
+    ["format", "Text"],
+    ["size", "Text"],
+    ["No", "Text"]
+    ]
+"img_path1": "/home/marat/images/find1/"
+"img_path2": "/home/marat/images/imgs/"
+"img_path3": "/home/marat/images/find/"
+"img_path4": "/home/marat/images/imgs1/"
+"redir1": "http://127.0.0.1/find/find/"
+"redir2": "http://127.0.0.1/user/"
+"userPath": "/home/marat/Users/"
+
+"select":
+  "coun":    
+    "AAAA": ["", ""]
+    "USOA": ["USA", "США"]
+    "RUSS": ["Russia","Россия"]   
+    "FRAN": ["France", "Франция"]
+    "GRBR": ["Great Britain", "Великобритания"]
+    "GERM": ["Germany", "Германия"]
+    "KANA": ["Kanada", "Канада"]
+    "ITAL": ["Italy", "Италия"] 
+    "SPAI": ["Spain", "Испания"]
+    "CZEC": ["Czech", "Чехия"]
+    "SAFR": ["RSA", "ЮАР"] 
+    "SKOR": ["Rep of Korea", "Корея Южная"]
+    "BELG": ["Belgium", "Бельгия"]
+    "ARGE": ["Argentina", "Аргентина"]
+    "MEXI": ["Mexico", "Мексика"]
+    "CHIN": ["China", "Китай"]
+    "JAPA": ["Japan", "Япония"]
+    "AUSL": ["Australia", "Австралия"]
+    "TAIW": ["Taiwan", "Тайвань"]
+    "IREL": ["Ireland ", "Ирландия"]
+  "genr": 
+    "AAAA": ["", ""]
+    "SCIF": ["sci-fi", "фантастика"]
+    "FANT": ["fantasy", "фэнтези"]   
+    "HORR": ["horror", "ужасы"]
+    "THRI": ["thiller", "триллер"]
+    "ACTI": ["action", "боевик"]
+    "CRIM": ["crime", "криминал"]
+    "COME": ["comedy", "комедия"]
+    "ADVE": ["adventure", "приключения"]
+    "HIST": ["historical", "история"] 
+    "DRAM": ["drama", "драма"]
+    "MELO": ["melodrama", "мелодрама"]
+    "MILI": ["war film", "военный"]
+    "WEST": ["western", "вестерн"]
+    "DOCU": ["documentary", "документальный"]
+    "CART": ["animation", "мультфильм"]
+    "MUSI": ["musical", "мюзикл"]
+    "CONC": ["concert", "концерт"]
+    "SPOR": ["sport", "спорт"]
+    "BIOG": ["biography", "биография"]
+    "DETE": ["detective", "детектив"]
+
+
+

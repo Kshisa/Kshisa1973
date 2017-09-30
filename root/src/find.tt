@@ -1,0 +1,7 @@
+[% WRAPPER page3.tt %]
+<div align="center">
+[% img %]
+<div>
+<hr>
+[% form %]
+[% END %]

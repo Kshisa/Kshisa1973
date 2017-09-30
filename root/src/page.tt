@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>kshisa</title>
+    <link rel="stylesheet" href="[% c.uri_for('/static/css/main.css') %]" />
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="../static/javascript/clock.js"></script>
+    <script src="../static/javascript/tv.js"></script>
+    <title>kshisa</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+<header>
+    <div id="weather">
+        <!-- weather widget start -->
+        <a target="_blank" href="http://nochi.com/weather/kazan-4422">
+        <img src="https://w.bookcdn.com/weather/picture/1_4422_1_20_babec2_320_ffffff_333333_08488D_1_ffffff_333333_0_6.png?scode=124&domid=589&anc_id=35927"  alt="booked.net"/>
+        </a>
+        <!-- weather widget end -->       
+    </div>    
+    <div id="clock">
+        <div id="Date"></div>
+            <ul>
+                <li id="hours"> </li>
+                <li id="point">:</li>
+                <li id="min"> </li>
+                <li id="point">:</li>
+                <li id="sec"> </li>
+            </ul>
+        </div>
+    </div>
+    <div id="Avat">
+        [% avat %]
+    </div>
+    <div id="Name">
+        [% name %]
+    </div>
+</header>
+
+[% content %]
+
+
+<footer>
+    © 2017 Hakimov Marat. kshisa1973@gmail.com
+</footer>
+</body>
+</html>

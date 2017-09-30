@@ -1,0 +1,31 @@
+[% WRAPPER page.tt %]
+
+<script>
+    function subm(){
+        var subm = document.getElementById("start");
+        subm.submit();
+    }
+</script>
+<main>
+    <div class="left_col"> </div>
+    <div class="center_col">
+        <div id="pass"></div>
+        <div id="user">
+        [% msg %]
+            <form id=start name="new" method=POST action="pass"> 
+                New User?
+                <input type="radio" name="New" onclick="subm()" value="Yes">Yes</input>
+                <input type="radio" name="New" onclick="subm()" value="No">No</input>
+            </form> 
+        </div>
+    </div>
+    <div class="right_col"></div>    
+    
+    <div class="fadein">
+        [% FOREACH code IN codes %]
+            <img src="/images/imgs/[% code %]kad2.jpg">
+        [% END %]
+    </div>
+</main>
+
+[% END %]

@@ -149,6 +149,7 @@ form {
     width: 150px;
     margin: 2px 0px 50px 0px;
 }
+
 #poster{
     float: left;
     width: 320px;
@@ -185,4 +186,34 @@ form {
 .numb{
     font-family: 'BebasNeueRegular', Arial, Helvetica, sans-serif;
     text-shadow: 1px 2px 20px lightskyblue;
+}
+#check1{
+    position: absolute; 
+    top: 130px;
+    left: 70px;
+}
+#check2{
+    position: absolute; 
+    top: 430px;
+    left: 70px;
+}
+#check3{
+    position: absolute; 
+    top: 730px;
+    left: 70px;
+}
+#check4{
+    position: absolute; 
+    top: 130px;
+    left: 1200px;
+}
+#check5{
+    position: absolute; 
+    top: 430px;
+    left: 1200px;
+}
+#check6{
+    position: absolute; 
+    top: 730px;
+    left: 1200px;
 }

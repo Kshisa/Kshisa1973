@@ -1,6 +1,7 @@
 ---
 "name": "Kshisatv"
 "default_view": "TT"
+
 "path": "/home/marat/"
 "buts": [ Last_l, Next_l, del, add0, find0, find1, find2, find3, prev, add1, rew, Last_r, Next_r ]
 "cols": [

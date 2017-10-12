@@ -9,19 +9,16 @@
         <span><input name="Last_l" type="image" src="/images/buttons/prev.jpg" /></span>
         <span><input name="Next_l" type="image" src="/images/buttons/next.jpg" /></span>
         <div class="numb">[% numbL+1 %]</div>
-        <input class="image" type="image" src="[% kadr1 %]" name="kadr1" />
+        [% kadr1 %]
         <div class="numb">[% numbL+2 %]</div>
-        <input class="image" type="image" src="[% kadr2 %]" name="kadr2" />
+        [% kadr2 %]
         <div class="numb">[% numbL+3 %]</div>
-        <input class="image" type="image" src="[% kadr3 %]" name="kadr3" />
+        [% kadr3 %]
     </div>
     <div class="center_col">
-        <input id="poster" type="image" src="[% kadr %]" name="poster" />
+        [% poster %]
         <div class="foto">
-            <img class="kadr1" src="[% kadr11 %]" />
-            <img class="kadr1" src="[% kadr12 %]" />
-            <img class="kadr1" src="[% kadr13 %]" />
-            <img class="kadr1" src="[% kadr14 %]" />
+            [% kadrs %]
             <H2>[% info.runame %]</p>[% info.orname %]</H2>
         </div> </p> <hr>
             [% info.coun %][% info.year %]</p><hr>
@@ -36,11 +33,11 @@
         <span><input name="Last_r" type="image" src="/images/buttons/prev.jpg" /></span>
         <span><input name="Next_r" type="image" src="/images/buttons/next.jpg" /></span>
         <div class="numb">[% numbR+1 %]</div>
-        <input class="image" type="image" src="[% kadr5 %]" name="kadr5" />
+        [% kadr4 %]
         <div class="numb">[% numbR+2 %]</div>
-        <input class="image" type="image" src="[% kadr6 %]" name="kadr6" />
+        [% kadr5 %]
         <div class="numb">[% numbR+3 %]</div>
-        <input class="image" type="image" src="[% kadr7 %]" name="kadr7" />
+        [% kadr6 %]
     </div>
 </form>
 </main>

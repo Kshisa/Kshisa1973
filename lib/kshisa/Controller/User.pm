@@ -40,13 +40,13 @@ sub index :Path :Args(0) {
         $c->detach('user');
     }
     $c->stash->{msg} = 'Wrong password';
-    $c->stash->{template} = 'second.tt';
+    $c->stash->{template} = 'third.tt';
 }
 sub user :Private {
     my ($self, $c) = @_;
     my $param = $c->req->body_params;
     my $userPath = $c->config->{'userPath'};
-    my ($avat, $name, $id, @info, @codes, @rightpic, @seen, $magic, $newcode, @dna, $pass, $rs);
+    my ($avat, $name, $id, @info, @rightpic, @seen, $magic, $newcode, @dna, $pass, $rs, $poster, $count, $info, $code, $check);
     
     if ($param->{P1} && $param->{P2} && $param->{P3} && $param->{P4} && $param->{P5} && $param->{P6}) {
         $pass  = $param->{P1}.$param->{P2}.$param->{P3}.$param->{P4}.$param->{P5}.$param->{P6};
@@ -68,31 +68,33 @@ sub user :Private {
         $c->stash->{msg} = 'Wrong password';
         $c->stash->{template} = 'second.tt';
     }
-    my $poster = 'G.jpg';
+        
+    my ($ds) = LoadFile($userPath.$id);                                 # загрузка инфы из файла юзера
     
-    my ($ds) = LoadFile($userPath.$id);                     # загрузка инфы из файла юзера
+    my @cent = split ':', $ds->{'count'}{'cent'};                       # переменная текущего центрального постера
+    my $cent = $cent[0] || 0;
+    my $side = $cent[1] || 'new';
     
-    my $cent = $ds->{'count'}{'cent'} || 0;                 # переменная текущего центрального постера
-    my $left = $ds->{'count'}{'left'} || 0;                 # переменная левых постеров
-    my $right = $ds->{'count'}{'right'} || 0;
+    my $left = $ds->{'count'}{'left'}   || 0;                           # переменная левых постеров
+    my $right = $ds->{'count'}{'right'} || 0;                           # переменная правых постеров
     my $rCount = $ds->{'now'}{'count'};
     
-    if ( $param->{'Next_l.x'} ) {                                            # прокрутка вперёд списка предложений по 3
+    if ( $param->{'Next_l.x'} ) {                                       # прокрутка вперёд списка предложений по 3
         $left = $left + 3;
         $left = 0             if $left > 98;
     }
-    if ( $param->{'Last_l.x'} ) {                                            # прокрутка назад списка предложений по 3
+    if ( $param->{'Last_l.x'} ) {                                       # прокрутка назад списка предложений по 3
         $left = $left - 3;
         $left = 96            if $left < 0;
     }
     
-    if ( $param->{'Next_r.x'} ) {                                            # прокрутка вперёд списка предложений по 3
+    if ( $param->{'Next_r.x'} ) {                                       # прокрутка вперёд списка предложений по 3
         $right = $right + 3;
         if ($right > $rCount) {
             $right = 0;
         }
     }
-    if ( $param->{'Last_r.x'} ) {                                            # прокрутка назад списка предложений по 3
+    if ( $param->{'Last_r.x'} ) {                                       # прокрутка назад списка предложений по 3
         $right = $right - 3;
         if ($right < 0) {
             if ($rCount > 3) {
@@ -104,18 +106,76 @@ sub user :Private {
         }
     }
     
-    $cent = $left     if $param->{'kadr1.x'};                                # установка значения центрального постера
-    $cent = $left + 1 if $param->{'kadr2.x'};
-    $cent = $left + 2 if $param->{'kadr3.x'};
-    my $new = $ds->{'new'}{$cent};
-
-    if ( $param->{'poster.x'} ) {                                           # выбор пользователя, интелектуальное предложение
-        my ( @dna1, @dna2, @dna3, $dna1, $dna2, %dna );
-        $ds->{'now'}{'count'} = $ds->{'now'}{'count'}+1 || 0;
+    $code = $ds->{$side}{$cent}{'code'};
+    $poster = '<input id="poster" type="image" name="poster" src="/images/imgs/'.$code;                             # установка значения центрального постера
+    $info = $ds->{$side}{$cent};
         
-        my $count = $ds->{'now'}{'count'};
-        $ds->{'now'}{$count} = {%$new};
+    if ( $param->{'Next_l.x'} or $param->{'Last_l.x'} ) {
+        $code = $ds->{$side}{$cent}{'code'};
+        $poster = '<input id="poster" type="image" name="poster" src="/images/imgs/'.$code;                         # установка значения центрального постера
+        $info = $ds->{$side}{$cent};
+        
+    }
+    if ( $param->{'Next_r.x'} or $param->{'Last_r.x'} ) {
+        $code = $ds->{$side}{$cent}{'code'};
+        $poster = '<img id="poster" src="/images/imgs/'.$code;                                                      # установка значения центрального постера
+        $info = $ds->{$side}{$cent};
+    }
+    
+    if    ($param->{'kadr1.x'}) {
+        $side = 'new';
+        $cent = $left;
+        $code = $ds->{$side}{$cent}{'code'};
+        $poster = '<input id="poster" type="image" name="poster" src="/images/imgs/'.$code;
+        $info = $ds->{$side}{$cent};
+    }
+    elsif ($param->{'kadr2.x'}) {
+        $side = 'new';
+        $cent = $left + 1;
+        $code = $ds->{$side}{$cent}{'code'};
+        $poster = '<input id="poster" type="image"  name="poster" src="/images/imgs/'.$code;
+        $info = $ds->{$side}{$cent};
+    }                              
+    elsif ($param->{'kadr3.x'}) {
+        $side = 'new';
+        $cent = $left + 2;
+        $code = $ds->{$side}{$cent}{'code'};
+        $poster = '<input id="poster" type="image"  name="poster" src="/images/imgs/'.$code;
+        $info = $ds->{$side}{$cent};
+    }
+    elsif ($param->{'kadr4.x'}) {
+        $side = 'now';
+        $cent = $right + 1;
+        $code = $ds->{$side}{$cent}{'code'};
+        $poster = '<img id="poster" src="/images/imgs/'.$code;
+        $info = $ds->{$side}{$cent};
+    }
+    elsif ($param->{'kadr5.x'}) {
+        $side = 'now';
+        $cent = $right + 2;
+        $code = $ds->{$side}{$cent}{'code'};
+        $poster = '<img id="poster" src="/images/imgs/'.$code;
+        $info = $ds->{$side}{$cent};
+    }
+    elsif ($param->{'kadr6.x'}) {
+        $side = 'now';
+        $cent = $right + 3;
+        $code = $ds->{$side}{$cent}{'code'};
+        $poster = '<img id="poster" src="/images/imgs/'.$code;
+        $info = $ds->{$side}{$cent};
+    }
+
+    if ($param->{'poster.x'} && $side eq 'new') {                       # выбор пользователя, интелектуальное предложение
+        my ( @dna1, @dna2, @dna3, $dna1, $dna2, %dna );
+
+        $ds->{'now'}{'count'} = $ds->{'now'}{'count'}+1 || 0;           # счётчик фильмов, выбранных пользователем
+        $count = $ds->{'now'}{'count'};
+        
+        my $new = $ds->{'new'}{$cent};
+        $ds->{'now'}{$count} = {%$new};                                 # запись нового выбора
+        $ds->{'now'}{$count}{grey} = 'G';
         delete $ds->{'new'}{$cent};
+        
         my $dna4 = 'a0a0';
         my $dna5 = '9999';
         $newcode = $ds->{'now'}{$count}{'code'};                            # днк пользователя
@@ -158,12 +218,12 @@ sub user :Private {
         for(1..$count){                                                 # коды просмотренных фильмов
            push @seen, $ds->{'now'}{$_}{'code'} if $ds->{'now'}{$_}{'code'}
         }
-        for(0..17){                                                     # коды фильмов
+        for(0..99){                                                     # коды фильмов
            push @seen, $ds->{'new'}{$_}{'code'} if $ds->{'new'}{$_}{'code'}
         }
         $magic = $c->model('DB')->magic(\@seen, \%dna);
         
-        my $rs = $c->model('DB')->resultset('Films2')->find({code=>$magic});
+        my $rs = $c->model('DB')->resultset('Films2')->find({code => $magic});
         
         my @code_coun = split ':', uc $rs->coun;
         my @code_genr = split ':', uc $rs->genr;
@@ -176,7 +236,7 @@ sub user :Private {
         my $genr1 = $selec->{'genr'}{$code_genr[1]}[1];
         my $genr2 = $selec->{'genr'}{$code_genr[2]}[1];
         my $genr3 = $selec->{'genr'}{$code_genr[3]}[1];
-        $ds->{'new'}{$cent} = {
+        $info = $ds->{'new'}{$cent} = {
                 code     => $rs->code,
                 year     => $rs->year,
                 coun     => $coun0.' '.$coun1.' '.$coun2.' '.$coun3,
@@ -192,49 +252,69 @@ sub user :Private {
                 actor4   => $rs->actor4,
                 actor5   => $rs->actor5,
                 review   => $rs->review,
+                
         };
-        $new = $ds->{'new'}{$cent};
+        $code = $rs->code;
     }
-    $rightpic[0] = $ds->{'now'}{$right+1}{'code'} || 'blank';
-    $rightpic[1] = $ds->{'now'}{$right+2}{'code'} || 'blank';
-    $rightpic[2] = $ds->{'now'}{$right+3}{'code'} || 'blank';
+    if    ($side eq 'new') {
+        if      ($left == $cent) {
+            $check = '<img id="check1" src="/images/buttons/Check.png" />';
+        }
+        elsif ($left+1 == $cent) {
+            $check = '<img id="check2" src="/images/buttons/Check.png" />';
+        }
+        elsif ($left+2 == $cent) {
+            $check = '<img id="check3" src="/images/buttons/Check.png" />';
+        }
+    }
+    elsif ($side eq 'now') {
+        if    ($right+1 == $cent) {
+            $check = '<img id="check4" src="/images/buttons/Check.png" />';
+        }
+        elsif ($right+2 == $cent) {
+            $check = '<img id="check5" src="/images/buttons/Check.png" />';
+        }
+        elsif ($right+3 == $cent) {
+            $check = '<img id="check6" src="/images/buttons/Check.png" />';
+        }
+    }
     
-    for(0..99){                                                         # коды фильмов
-       push @codes, $ds->{'new'}{$_}{'code'} if $ds->{'new'}{$_}{'code'}
-    }
-    $ds->{'count'}{'cent'} = $cent;
+    $rightpic[0] = $rightpic[1] = $rightpic[2] = '<img class="image" src="/images/buttons/blankkad.jpg" />';
+    my $grey = $ds->{'now'}{$right+1}{grey};
+    $rightpic[0] = '<input class="image" type="image" src="/images/imgs/'.$ds->{'now'}{$right+1}{'code'}.'kad0'.$grey.'.jpg" name="kadr4" />' if ($ds->{'now'}{$right+1}{'code'});
+    $rightpic[1] = '<input class="image" type="image" src="/images/imgs/'.$ds->{'now'}{$right+2}{'code'}.'kad0'.$grey.'.jpg" name="kadr5" />' if ($ds->{'now'}{$right+2}{'code'});
+    $rightpic[2] = '<input class="image" type="image" src="/images/imgs/'.$ds->{'now'}{$right+3}{'code'}.'kad0'.$grey.'.jpg" name="kadr6" />' if ($ds->{'now'}{$right+3}{'code'});
+
+    $ds->{'count'}{'cent'} = $cent.':'.$side;
     $ds->{'count'}{'left'} = $left;
     $ds->{'count'}{'right'} = $right;
-
+    
     DumpFile($userPath.$id, $ds);                                   # загрузка инфы ив файл юзера
 
     $c->stash ( 
         template => 'user.tt',
-        info     => $new,
-        user   => $name,
-        id     => $id,
-        kadr   => '/images/imgs/'.$codes[$cent].'kad0.jpg',             # центральный постер фильма
-        kadr1  => '/images/imgs/'.$codes[$left  ].'kad0.jpg',           # 1 постер фильма слева
-        kadr2  => '/images/imgs/'.$codes[$left+1].'kad0.jpg',           # 2 постер фильма слева
-        kadr3  => '/images/imgs/'.$codes[$left+2].'kad0.jpg',           # 3 постер фильма слева
-        kadr11 => '/images/imgs/'.$codes[$cent].'kad1.jpg',
-        kadr12 => '/images/imgs/'.$codes[$cent].'kad2.jpg',
-        kadr13 => '/images/imgs/'.$codes[$cent].'kad3.jpg',
-        kadr14 => '/images/imgs/'.$codes[$cent].'kad4.jpg',
-        kadr5  => '/images/imgs/'.$rightpic[0].'kad0'.$poster,
-        kadr6  => '/images/imgs/'.$rightpic[1].'kad0'.$poster,
-        kadr7  => '/images/imgs/'.$rightpic[2].'kad0'.$poster,
-        procent  => $magic,
-        name => $name,
-        numbL => $left,
-        numbR => $right,
-        avat=> '<img id="avatar" src="/images/avat/'.$avat.'.jpg">',
-        );
-    
-    
+        info     => $info,
+        user     => $name,
+        name     => $name,
+        numbL    => $left,
+        numbR    => $right,        
+        id       => $id,
+        avat     => '<img id="avatar" src="/images/avat/'.$avat.'.jpg">',
+        
+        kadr1    => '<input class="image" type="image" name="kadr1" src="/images/imgs/'.$ds->{'new'}{$left  }{'code'}.'kad0.jpg" />'.$check,    # 1 постер слева
+        kadr2    => '<input class="image" type="image" name="kadr2" src="/images/imgs/'.$ds->{'new'}{$left+1}{'code'}.'kad0.jpg" />'.$check,    # 2 постер слева
+        kadr3    => '<input class="image" type="image" name="kadr3" src="/images/imgs/'.$ds->{'new'}{$left+2}{'code'}.'kad0.jpg" />'.$check,    # 3 постер слева
+        
+        poster   => '<input id="poster" type="image"  name="poster" src="/images/imgs/'.$code.'kad0.jpg" />',                                                                                                                    # центральный постер
+        kadrs    => '<img class="kadr1" src="/images/imgs/'.$code.'kad1.jpg" />'.               # первый кадр
+                    '<img class="kadr1" src="/images/imgs/'.$code.'kad2.jpg" />'.               # второй кадр
+                    '<img class="kadr1" src="/images/imgs/'.$code.'kad3.jpg" />'.               # третий кадр
+                    '<img class="kadr1" src="/images/imgs/'.$code.'kad4.jpg" />',               # четвёртый кадр
+        kadr4    => $rightpic[0].$check,         # 1 постер справа
+        kadr5    => $rightpic[1].$check,         # 2 постер справа
+        kadr6    => $rightpic[2].$check,         # 3 постер справа
+    );
 }
-
-
 
 =encoding utf8
 
@@ -243,10 +323,8 @@ sub user :Private {
 Hakimov Marat
 
 =head1 LICENSE
-
 23.07.2017
 This library is not free software.
-
 =cut
 
 __PACKAGE__->meta->make_immutable;

@@ -85,6 +85,7 @@ sub more :Local :Args(0) {
             email    => $mail,
             avatar   => $avat,
         });
+
         $c->stash ( 
             template => 'third.tt',
             userId   => $id,
@@ -97,7 +98,7 @@ sub more :Local :Args(0) {
             );
     } 
 }
-
+       
 =head2 default
 
 Standard 404 error page

@@ -84,7 +84,7 @@ sub _findd {
         }
     }
     closedir $dh;
-    for (0..4){
+    for (0..2){
         if ($entries[$_]){
             $cols0{'code'.$_} = '/images/find/'.$entries[$_];
         }else{
@@ -211,12 +211,7 @@ sub search {
             @film0 = ( $1, $3, $5 );
             @film1 = ( $2, $4, $6 );
         }
-        if ( $_ =~ m{(\d+)/\)" href="/cinema/movies/(.*?)/.*?/(\d+)/\)" href="/cinema/movies/(.*?)/.*?/(\d+)/\)" href="/cinema/movies/(.*?)/.*?/(\d+)/\)" href="/cinema/movies/(.*?)/}){
-            @film0 = ( $1, $3, $5, $7 );
-            @film1 = ( $2, $4, $6, $8 );
-        }
-
-    }
+   }
     for ( 0..4 ) {
         my $dir = $img_path3.$film1[$_].'kad'.$_.'.jpg';
         getstore( 'https://pic.afisha.mail.ru/'.$film0[$_].'/', $dir );

@@ -1,7 +1,12 @@
-[% WRAPPER page3.tt %]
-<div align="center">
-[% img %]
-<div>
-<hr>
+[% WRAPPER page.tt %]
+<form name="big" method=POST action="/find/base">
+    <input type="hidden" name="id" value="[% id %]" />
+    <input type="hidden" name="id_b" value="[% id_b %]" />
+    <hr>
+    <div id="pics">
+        [% micro %]
+    <div>
+    <hr>
+</form>
 [% form %]
 [% END %]

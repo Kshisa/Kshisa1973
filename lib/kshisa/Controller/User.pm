@@ -15,17 +15,23 @@ Catalyst Controller.
 =head2 index
 =cut
 
-sub index :Path :Args(0) {
+sub pass :Local {
     my ($self, $c) = @_;
     my ($id, $name);
     my $redir = $c->config->{'redir'};
     my $param = $c->req->body_params;
-    my $pass  = $param->{P1}.$param->{P2}.$param->{P3}.$param->{P4}.$param->{P5}.$param->{P6};
     
-    my $rs = $c->model('DB')->resultset('User')->find({password => $pass});
-    if ($rs) {
-        $id = $rs->id;
-        $name = $rs->username;
+    my $pass  = $param->{P1}.$param->{P2}.$param->{P3}.$param->{P4}.$param->{P5}.$param->{P6} if $param->{P6};
+    if ($pass) {
+        my $rs = $c->model('DB')->resultset('User')->find({password => $pass});
+        if ($rs) {
+            $id = $rs->id;
+            $name = $rs->username;
+        }
+    }
+    else {
+        $id = $param->{id} if $param->{id};
+        $name = $c->model('DB')->resultset('User')->find({id => $id})->username;
     }
     if ( $c->authenticate({username => $name, password => $pass}) ) {
             if ( $c->check_user_roles( qw/ admin /) ) {
@@ -33,20 +39,21 @@ sub index :Path :Args(0) {
             }
             elsif ( $c->check_user_roles( qw/ user /) ) {
                 
-                $c->detach('user');
+                $c->detach('user', [$id]);
         }
     }
     if ($c->user_exists( )) {
-        $c->detach('user');
+        $c->detach('user', [$id]);
     }
     $c->stash->{msg} = 'Wrong password';
     $c->stash->{template} = 'third.tt';
 }
 sub user :Private {
-    my ($self, $c) = @_;
+    my ($self, $c, $id) = @_;
     my $param = $c->req->body_params;
     my $userPath = $c->config->{'userPath'};
-    my ($avat, $name, $id, @info, @rightpic, @seen, $magic, $newcode, @dna, $pass, $rs, $poster, $count, $info, $code, $check);
+    my ($avat, $name, @info, @rightpic, @seen, $magic, $newcode, @dna, $pass, $rs, $poster, $count, $info, $code, $check, $rew,
+        $allL, $allR);
     
     if ($param->{P1} && $param->{P2} && $param->{P3} && $param->{P4} && $param->{P5} && $param->{P6}) {
         $pass  = $param->{P1}.$param->{P2}.$param->{P3}.$param->{P4}.$param->{P5}.$param->{P6};
@@ -222,7 +229,6 @@ sub user :Private {
            push @seen, $ds->{'new'}{$_}{'code'} if $ds->{'new'}{$_}{'code'}
         }
         $magic = $c->model('DB')->magic(\@seen, \%dna);
-        
         my $rs = $c->model('DB')->resultset('Films2')->find({code => $magic});
         
         my @code_coun = split ':', uc $rs->coun;
@@ -252,9 +258,41 @@ sub user :Private {
                 actor4   => $rs->actor4,
                 actor5   => $rs->actor5,
                 review   => $rs->review,
+                grey     => 'G',
                 
         };
         $code = $rs->code;
+    }
+    if ($param->{'poster.x'} && $param->{rew}) {
+        $ds->{'now'}{$cent}{$id}{'Usreit'} = $param->{usreit}.'00';
+        $ds->{'now'}{$cent}{$id}{'rew'} = $param->{rew};
+        $ds->{'now'}{$cent}{'grey'} = '';
+        
+    }
+    if ($param->{'poster.x'} && $side eq 'now') {
+        my $radio;
+        foreach my $numb ( 1..9 ) {
+            $radio = $radio.'<label><input type="radio" name="usreit" value="'.$numb.'" />'.$numb.'</label>';
+        }
+        $rew = '<textarea name="rew" cols="68" rows="2" placeholder="Review">'.$ds->{'now'}{$cent}{$id}{'rew'}
+        .'</textarea>'.'<p>IMDB ='.$ds->{'now'}{$cent}{'reit'}.'&nbsp;&nbsp;&nbsp;Your ='.$radio.'</p>';
+    }
+    
+    if ($param->{'All_l.x'}) {
+        for(0..98) {                                                    # все коды фильмов предложений юзера
+            $allL = $allL.'<input class="imageall" type="image" src="/images/imgs/'.$ds->{'new'}{$_}{'code'}.'kad0.jpg" name="'.$_.'" />';
+        }
+        $c->detach('all', [$allL, $id]);
+    }
+    if ($param->{'All_r.x'}) {
+        $count = $ds->{'now'}{'count'};
+        for(1..$count){                                                 # все коды фильмов выбранных юзером
+            $allR = $allR.'<input class="imageall" type="image" src="/images/imgs/'.$ds->{'now'}{$_}{'code'}.'kad0.jpg" name="'.$_.'" />';
+        }
+        $c->detach('all', [$allR, $id]);
+    }
+    if ($param->{'Find_l.x'}) {
+         $c->go("/find/start", [$id]);
     }
     if    ($side eq 'new') {
         if      ($left == $cent) {
@@ -278,9 +316,9 @@ sub user :Private {
             $check = '<img id="check6" src="/images/buttons/Check.png" />';
         }
     }
-    
+
     $rightpic[0] = $rightpic[1] = $rightpic[2] = '<img class="image" src="/images/buttons/blankkad.jpg" />';
-    my $grey = $ds->{'now'}{$right+1}{grey};
+    my $grey = $ds->{'now'}{$right+1}{grey} or '';
     $rightpic[0] = '<input class="image" type="image" src="/images/imgs/'.$ds->{'now'}{$right+1}{'code'}.'kad0'.$grey.'.jpg" name="kadr4" />' if ($ds->{'now'}{$right+1}{'code'});
     $rightpic[1] = '<input class="image" type="image" src="/images/imgs/'.$ds->{'now'}{$right+2}{'code'}.'kad0'.$grey.'.jpg" name="kadr5" />' if ($ds->{'now'}{$right+2}{'code'});
     $rightpic[2] = '<input class="image" type="image" src="/images/imgs/'.$ds->{'now'}{$right+3}{'code'}.'kad0'.$grey.'.jpg" name="kadr6" />' if ($ds->{'now'}{$right+3}{'code'});
@@ -288,6 +326,8 @@ sub user :Private {
     $ds->{'count'}{'cent'} = $cent.':'.$side;
     $ds->{'count'}{'left'} = $left;
     $ds->{'count'}{'right'} = $right;
+    my $usreit = $name.':'.$ds->{'now'}{$cent}{$id}{'Usreit'} if $side eq 'now';
+    my $usrew = $ds->{'now'}{$cent}{$id}{'rew'} if $side eq 'now';
     
     DumpFile($userPath.$id, $ds);                                   # загрузка инфы ив файл юзера
 
@@ -299,12 +339,13 @@ sub user :Private {
         numbL    => $left,
         numbR    => $right,        
         id       => $id,
+        Usereit  => $usreit,
         avat     => '<img id="avatar" src="/images/avat/'.$avat.'.jpg">',
-        
+        UserRew  => $usrew,
         kadr1    => '<input class="image" type="image" name="kadr1" src="/images/imgs/'.$ds->{'new'}{$left  }{'code'}.'kad0.jpg" />'.$check,    # 1 постер слева
         kadr2    => '<input class="image" type="image" name="kadr2" src="/images/imgs/'.$ds->{'new'}{$left+1}{'code'}.'kad0.jpg" />'.$check,    # 2 постер слева
         kadr3    => '<input class="image" type="image" name="kadr3" src="/images/imgs/'.$ds->{'new'}{$left+2}{'code'}.'kad0.jpg" />'.$check,    # 3 постер слева
-        
+        rew      => $rew,
         poster   => '<input id="poster" type="image"  name="poster" src="/images/imgs/'.$code.'kad0.jpg" />',                                                                                                                    # центральный постер
         kadrs    => '<img class="kadr1" src="/images/imgs/'.$code.'kad1.jpg" />'.               # первый кадр
                     '<img class="kadr1" src="/images/imgs/'.$code.'kad2.jpg" />'.               # второй кадр
@@ -315,7 +356,16 @@ sub user :Private {
         kadr6    => $rightpic[2].$check,         # 3 постер справа
     );
 }
+sub all :Private {
+    my ($self, $c, $all, $id) = @_;
+    my $param = $c->req->body_params;
 
+    $c->stash ( 
+        template => 'all.tt',
+        all      => $all,
+        id       => $id,
+    );
+}
 =encoding utf8
 
 =head1 AUTHOR

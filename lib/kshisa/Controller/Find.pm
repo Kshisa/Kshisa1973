@@ -12,9 +12,22 @@ Catalyst Controller.
 =cut
 =head2 index
 =cut
+sub start :Local  :FormConfig('find.json') {
+    my ($self, $c, $id) = @_;
+    my $form = $c->stash->{form};
+    my $param = $c->req->body_params;
+    my $img_path3 = $c->config->{'img_path3'};
+    my (@cols, $cols0, $cols1);
+    push @cols, $_->[0] foreach @{$c->config->{'cols'}};                                             # столбцы таблиц
 
-sub find :Local :FormConfig('find.json') {
-    my ($self, $c) = @_;
+    ($cols0, $cols1) = $c->model('DB')->start(\@cols, $img_path3);                                   # начальный экран
+
+    $c->detach('base', [$id, $cols0, $cols1]);
+    
+}
+
+sub base :Local :FormConfig('find.json') {
+    my ($self, $c, $id, $cols0, $cols1) = @_;
     my $form = $c->stash->{form};
     my $param = $c->req->body_params;
     my $nextval0 = $param->{'id_a'} || 0;
@@ -23,13 +36,13 @@ sub find :Local :FormConfig('find.json') {
     my $img_path2 = $c->config->{'img_path2'};
     my $img_path3 = $c->config->{'img_path3'};
     my $img_path4 = $c->config->{'img_path4'};
-    my (@cols, $cols0, $cols1, $par, $pics);
-    
+    my (@cols, $par, $pics, $micro);
     push @cols, $_->[0] foreach @{$c->config->{'cols'}};                                             # столбцы таблиц
-    
-    ($cols0, $cols1) = $c->model('DB')->start(\@cols, $img_path3);                                   # начальный экран
-    $form->default_values({$_.'_b' => $cols1->{$_}}) foreach (keys %$cols1);
-
+    $form->add_valid($_.'_b', $cols1->{$_}) foreach (keys %$cols1);
+    my $userid = $param->{id};
+    if ($param->{'user.x'}) {
+        $c->go("/user/pass", [$userid]);
+    }
     if  ($param->{$par ='prev.x'} or $param->{$par ='next.x'}) {                                     # переход в базе на шаг вперёд и назад
         ($cols0, $cols1) = $c->model('DB')->step($nextval1, \@cols, $par, $img_path3);
         $form->add_valid($_.'_b', $cols1->{$_}) foreach (keys %$cols1);
@@ -53,14 +66,13 @@ sub find :Local :FormConfig('find.json') {
    if ($param->{$par ='kadr0.x'} or $param->{$par ='kadr1.x'} or $param->{$par ='kadr2.x'} or $param->{$par ='kadr3.x'} or $param->{$par ='kadr4.x'}) {
         ($cols0, $cols1, $pics) = $c->model('DB')->mail(\@cols, $par, $c->config->{'select'}, $img_path1, $img_path3, $nextval1);
         $form->add_valid($_.'_a', $cols0->{$_}) foreach (keys %$cols0);
-        foreach my $post (@$pics){
-            my $pic = $form->element({type => 'Image', container_tag => 'span', name => $post, src => "/images/find1/$post.jpg"});
-            my $position = $form->get_element({ type => 'Block', tag => 'table' });
-            $form->insert_before($pic, $position);
+        foreach (@$pics) {
+            $micro = $micro.'<input class="imagemail" type="image" src="/images/find1/'.$_.'.jpg" name="'.$_.'" /><input type="checkbox" name="'.$_.'" />';
         }
+        $c->model('Yaml')->tempIn($cols0, \@cols, $img_path1);
     }
     
-    if ($param->{'add.x'}) {
+    if ($param->{inst}) {
         ( $cols0, $cols1 ) = $c->model('DB')->ins( $nextval1, $form, '_a', \@cols, $img_path2, $img_path3, $img_path4 );
         $form->add_valid('Address', '');
         $form->add_valid($_.'_b', $cols1->{$_}) foreach (keys %$cols1);
@@ -68,48 +80,53 @@ sub find :Local :FormConfig('find.json') {
     }
     if ($param->{add1}) {
         ( $cols0, $cols1 ) = $c->model('DB')->ins( $nextval1, $form, '_b', \@cols, $img_path2, $img_path3, $img_path4 );
+        $c->model('Yaml')->tempIn($cols1, \@cols, $img_path1);
+        
+        $form->add_valid('Address', '');
         $form->add_valid($_.'_b', $cols1->{$_}) foreach (keys %$cols1);
-        $form->add_valid($_.'_a', '') foreach @cols
+        $form->add_valid($_.'_a', '') foreach @cols;
+        
     }
     foreach my $key (keys %$param){
         if ($key =~ /https:SSpicDkinoDmailDruS\d+S\.x/) {
-            ($cols0, $cols1, $pics) = $c->model('DB')->pics( \@cols, $img_path1, $img_path3, $nextval1);
-            for (1..4){                                                                                                     # поля адресов картинок
-                my $kadr = $form->element({type => 'Text',  container_tag => 'span', id => 'kadr', name => "kadr$_", placeholder => "https://pic.kino.mail.ru/"});
-                my $position = $form->get_element({ type => 'Block', tag => 'table' });
-                $form->insert_before( $kadr, $position );
-            }
-            my $submit = $form->element({type => 'Submit',  container_tag => 'span', name => 'kadr', value => 'in kad'});
-            my $position = $form->get_element({ type => 'Block', tag => 'table' });
-            $form->insert_before( $submit, $position );
-            $position = $form->get_element({ type => 'Submit', name => 'kadr' });
-            $form->insert_after( $form->element({type => 'Hr'}), $position ); 
-            
-            foreach my $post (@$pics){
-                my $pic = $form->element({type => 'Image', container_tag => 'span', name => $post, src => "/images/find1/$post.jpg"});
-                my $position = $form->get_element({ type => 'Block', tag => 'table' });
-                $form->insert_before( $pic, $position );
-            }
-            $position = $form->get_element({ type => 'Block', tag => 'table' });
-            $form->insert_before( $form->element({type => 'Hr'}), $position );
-           
             $key =~ s/S/\//g;
             $key =~ s/D/\./g;
             $key =~ s/\.x//;
-            $c->stash ( 
-                img => "<img id=left width=640px src=\"$key\">",
-            );
-        }
+            $micro = '<img id=left width=640px src="'.$key.'"><div id="findimgs">';
+            $nextval1 = $param->{id_b};
+            ($cols0, $cols1, $pics) = $c->model('DB')->pics( \@cols, $img_path1, $img_path3, $nextval1);
+
+            $form->add_valid($_.'_a', $cols0->{$_}) foreach (keys %$cols0);
+            foreach (@$pics) {
+                $micro = $micro.'<input class="imagemail" type="image" src="/images/find1/'.$_.'.jpg" name="'.$_.'" /><input type="checkbox" name="'.$_.'" />';
+            }
+            $micro = $micro.'<input type="submit" name="inkad" value="InKad" /></div>';
+           
+            my %info = $c->model('Yaml')->tempOut(\@cols, $img_path1);
+            $form->add_valid($_.'_a', $info{$_}) foreach (keys %info);
+       }
     }
-    if ($param->{kadr}) { 
-        $form->add_valid('kad1_a', $param->{'kadr1'});
-        $form->add_valid('kad2_a', $param->{'kadr2'});
-        $form->add_valid('kad3_a', $param->{'kadr3'});
-        $form->add_valid('kad4_a', $param->{'kadr4'});
+    if ($param->{inkad}) { 
+        my %info = $c->model('Yaml')->tempOut(\@cols, $img_path1);
+        $form->add_valid($_.'_a', $info{$_}) foreach (keys %info);
+        my $kad = 1;
+        foreach my $key (keys %$param){
+            
+            if ($key =~ /https:SSpicDkinoDmailDruS\d+/) {
+                
+                $form->add_valid('kadr'.$kad, $key);
+                $key =~ s/S/\//g;
+                $key =~ s/D/\./g;
+                $key =~ s/\.x//;
+                $form->add_valid('kad'.$kad.'_a', $key);
+                $kad++;
+            }
+        }
         ( $cols0, $cols1 ) = $c->model('DB')->pics( \@cols, $img_path1, $img_path3, $nextval1 );
         
     }
     if ($param->{ID}) {
+        ($cols0, $cols1) = $c->model('DB')->start(\@cols, $img_path3);
         my $id = $param->{'Info2'};
         my $rs = $c->model('DB')->resultset('Films2')->find({id => $id });
         if ($rs) {
@@ -126,7 +143,7 @@ sub find :Local :FormConfig('find.json') {
             $form->add_valid($_.'_b', $cols1->{$_}) foreach (keys %$cols1);
         }
         else{
-            
+            ($cols0, $cols1) = $c->model('DB')->start(\@cols, $img_path3);                                   # начальный экран
         }
     }
     if ($param->{'kadr5.x'}) {
@@ -138,26 +155,28 @@ sub find :Local :FormConfig('find.json') {
     my $sum = $c->model('DB')->resultset('Films2')->get_column('id')->func('count');
     $form->add_valid('Info1', $sum);
     $form->add_valid('Info2', $cols1->{'id'});
+    
     my %cols0 = %$cols0;
     my %cols1 = %$cols1;
-    my ($pict11, $pict12, $pict13, $pict14, $pict15) = ($cols0{'code0'}, $cols0{'code1'}, $cols0{'code2'}, $cols0{'code3'}, $cols0{'code4'});
+    my ($pict11, $pict12, $pict13) = ($cols0{'code0'}, $cols0{'code1'}, $cols0{'code2'});
     my $pict2 = '/images/imgs/'.$cols1{'code'};
     
-    $form->get_element({type=>'Block', tag=>'div class=imgmin1'})->get_element({type=>'Image', name=>'kadr0'})->add_attrs({src =>$pict11.'kad0.jpg'});     
-    $form->get_element({type=>'Block', tag=>'div class=imgmin1'})->get_element({type=>'Image', name=>'kadr1'})->add_attrs({src =>$pict12.'kad1.jpg'});
-    $form->get_element({type=>'Block', tag=>'div class=imgmin1'})->get_element({type=>'Image', name=>'kadr2'})->add_attrs({src =>$pict13.'kad2.jpg'});
-    $form->get_element({type=>'Block', tag=>'div class=imgmin1'})->get_element({type=>'Image', name=>'kadr3'})->add_attrs({src =>$pict14.'kad3.jpg'});
-    $form->get_element({type=>'Block', tag=>'div class=imgmin1'})->get_element({type=>'Image', name=>'kadr4'})->add_attrs({src =>$pict15.'kad4.jpg'});
+    $form->get_element({type=>'Block', tag=>'div class=left_col'})->get_element({type=>'Image', name=>'kadr0'})->add_attrs({src =>$pict11.'kad0.jpg'});     
+    $form->get_element({type=>'Block', tag=>'div class=left_col'})->get_element({type=>'Image', name=>'kadr1'})->add_attrs({src =>$pict12.'kad1.jpg'});
+    $form->get_element({type=>'Block', tag=>'div class=left_col'})->get_element({type=>'Image', name=>'kadr2'})->add_attrs({src =>$pict13.'kad2.jpg'});
     
-    $form->get_element({type=>'Block', tag=>'div class=imgmin2'})->get_element({type=>'Image', name=>'kadr5'})->add_attrs({src =>$pict2.'kad0.jpg'});
-    $form->get_element({type=>'Block', tag=>'div class=imgmin2'})->get_element({type=>'Image', name=>'kadr6'})->add_attrs({src =>$pict2.'kad1.jpg'});
-    $form->get_element({type=>'Block', tag=>'div class=imgmin2'})->get_element({type=>'Image', name=>'kadr7'})->add_attrs({src =>$pict2.'kad2.jpg'});
-    $form->get_element({type=>'Block', tag=>'div class=imgmin2'})->get_element({type=>'Image', name=>'kadr8'})->add_attrs({src =>$pict2.'kad3.jpg'});
-    $form->get_element({type=>'Block', tag=>'div class=imgmin2'})->get_element({type=>'Image', name=>'kadr9'})->add_attrs({src =>$pict2.'kad4.jpg'});
+    $form->get_element({type=>'Block', tag=>'div class=right_col'})->get_element({type=>'Image', name=>'kadr5'})->add_attrs({src =>$pict2.'kad0.jpg'});
+    $form->get_element({type=>'Block', tag=>'div class=right_col'})->get_element({type=>'Image', name=>'kadr6'})->add_attrs({src =>$pict2.'kad1.jpg'});
+    $form->get_element({type=>'Block', tag=>'div class=right_col'})->get_element({type=>'Image', name=>'kadr7'})->add_attrs({src =>$pict2.'kad2.jpg'});
+    $form->get_element({type=>'Block', tag=>'div class=right_col'})->get_element({type=>'Image', name=>'kadr8'})->add_attrs({src =>$pict2.'kad3.jpg'});
+    $form->get_element({type=>'Block', tag=>'div class=right_col'})->get_element({type=>'Image', name=>'kadr9'})->add_attrs({src =>$pict2.'kad4.jpg'});
     
     $c->stash ( 
         template => 'find.tt',
-    );
+        id       => $id || $userid,
+        micro    => $micro,
+        id_b     => $nextval1,
+    ); 
 }
 
 =encoding utf8

@@ -13,7 +13,7 @@
     <div class="right_col"></div>
     <div class="fadein"></div>
     <div id="dash"> 
-        <form name="put" method=POST action="user"> 
+        <form name="put" method=POST action="/user/pass"> 
             <input type="hidden" name="userId" value="[% userId %]" />
             <p/>[% FOREACH pas IN [ 'P1' 'P2' 'P3' 'P4' 'P5' 'P6' ]%]
                     <hr/>

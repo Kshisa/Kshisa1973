@@ -52,7 +52,7 @@ footer{
     left: 10%; 
     width: 895px; 
     float: left;
-    height: 870px;
+
 }
 .right_col{
     background: url(/images/buttons/film1.jpg) no-repeat;
@@ -94,7 +94,7 @@ footer{
 }
 #dash{ 
     position: absolute; 
-    top: 260px;
+    top: 245px;
     margin-left: 225px;
     width: 530px;
     height: 350px;
@@ -158,6 +158,9 @@ form {
 .ava{
     width: 69px;
 }
+.kadr1{
+    margin: 2px;
+}
 .userid{
     width: 300px;
     border: 4px solid #cccccc;
@@ -216,4 +219,38 @@ form {
     position: absolute; 
     top: 730px;
     left: 1200px;
+}
+.imageall{
+    margin: 5px 5px 5px 5px;
+    width: 150px;
+}
+#kad {
+    width: 300px;
+}
+table {
+    text-align: right;
+    padding: 10px;
+}
+select {
+    width: 320px;
+}
+#but {
+    width: 40px;
+    padding: 0;
+    font-size: 12px;
+}
+#findimgs {
+    min-height: 450px;
+}
+.imagemail {
+    margin: 5px;
+    width: 150px;
+
+}
+#pics {
+    text-align: left;
+}
+#left {
+    margin: 5px;
+    float: left;
 }

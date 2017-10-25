@@ -1,12 +1,14 @@
 [% WRAPPER page.tt %]
 
-<main>
-<form method="post" action="user">
+<form method="post" action="/user/pass">
     <input type="hidden" name="id" value="[% id %]" /> 
     <input type="hidden" name="cent" value="[% cent %]" /> 
     <input type="hidden" name="left" value="[% left %]" /> 
     <div class="left_col">
         <span><input name="Last_l" type="image" src="/images/buttons/prev.jpg" /></span>
+        <span><input name="All_l" type="image" src="/images/buttons/all.jpg" />
+              <input name="Find_l" type="image" src="/images/buttons/find.jpg" />
+        </span>
         <span><input name="Next_l" type="image" src="/images/buttons/next.jpg" /></span>
         <div class="numb">[% numbL+1 %]</div>
         [% kadr1 %]
@@ -16,21 +18,31 @@
         [% kadr3 %]
     </div>
     <div class="center_col">
+        
         [% poster %]
         <div class="foto">
+            [% rew %]
+            
             [% kadrs %]
             <H2>[% info.runame %]</p>[% info.orname %]</H2>
-        </div> </p> <hr>
+      </div> </p> <hr>
             [% info.coun %][% info.year %]</p><hr>
             [% info.genr %]</p><hr>
   Producer: [% info.director %]</p><hr>
    Staring: [% info.actor1 %] [% info.actor2 %] [% info.actor3 %] [% info.actor4 %] [% info.actor5 %]</p><hr>
             [% info.review %]</p> <hr>
       Time: [% info.time %] minutes</p><hr>
-      IMDB: [% info.reit %]</p>
+      IMDB: [% info.reit %]&nbsp;&nbsp;&nbsp;[% Usereit %]</p>
+             <hr>
+             <div id="Avat">[% avat %]</div><div id="Name">[% name %]</div>
+             [% UserRew %]
+             <hr>
     </div>
     <div class="right_col">
         <span><input name="Last_r" type="image" src="/images/buttons/prev.jpg" /></span>
+        <span><input name="All_r" type="image" src="/images/buttons/all.jpg" />
+              <input name="All_r" type="image" src="/images/buttons/find.jpg" />
+        </span>
         <span><input name="Next_r" type="image" src="/images/buttons/next.jpg" /></span>
         <div class="numb">[% numbR+1 %]</div>
         [% kadr4 %]
@@ -40,6 +52,5 @@
         [% kadr6 %]
     </div>
 </form>
-</main>
 
 [% END %]

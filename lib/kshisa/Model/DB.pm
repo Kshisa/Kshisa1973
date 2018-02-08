@@ -1,7 +1,7 @@
 package kshisa::Model::DB;
 use base 'Catalyst::Model::DBIC::Schema';
 use utf8;
-use YAML::Any qw(DumpFile);
+use YAML::Any qw(LoadFile DumpFile);
 use LWP;
 use LWP::Simple qw(getstore);
 use Image::Magick;
@@ -19,21 +19,146 @@ __PACKAGE__->config(
         },
     ]
 );
-sub pass {
+sub inyaml{
     my ( $self, $selec, $userPath) = @_;
-    my ( $password, $mediainfo );
+    my @rs = $self->resultset('Films2')->search(undef, {order_by => { -desc => [qw/ year reit /] }});
+    my $max = $self->resultset('Films2')->get_column('id')->max() || 0;
+    my $mediainfo;
+    my $num = 1;
+    foreach my $rs ( @rs ) {
+        my @code_coun = split ':', uc $rs->coun;
+        my @code_genr = split ':', uc $rs->genr;
+        my $coun0 = $selec->{'coun'}{$code_coun[0]}[1];
+        my $coun1 = $selec->{'coun'}{$code_coun[1]}[1];
+        my $coun2 = $selec->{'coun'}{$code_coun[2]}[1];
+        my $coun3 = $selec->{'coun'}{$code_coun[3]}[1];
+
+        my $genr0 = $selec->{'genr'}{$code_genr[0]}[1];
+        my $genr1 = $selec->{'genr'}{$code_genr[1]}[1];
+        my $genr2 = $selec->{'genr'}{$code_genr[2]}[1];
+        my $genr3 = $selec->{'genr'}{$code_genr[3]}[1];
+        $mediainfo->{1}{1}{0} = $max;
+        $mediainfo->{1}{1}{$num} = {
+            code     => $rs->code,
+            year     => $rs->year,
+            coun     => $coun0.' '.$coun1.' '.$coun2.' '.$coun3,
+            genr     => $genr0.' '.$genr1.' '.$genr2.' '.$genr3,
+            time     => $rs->time,
+            reit     => $rs->reit,
+            runame   => $rs->runame,
+            orname   => $rs->orname,
+            director => $rs->director,
+            actor1   => $rs->actor1,
+            actor2   => $rs->actor2,
+            actor3   => $rs->actor3,
+            actor4   => $rs->actor4,
+            actor5   => $rs->actor5,
+            review   => $rs->review,
+        };
+        $num++;
+    }
+    DumpFile($userPath.'all', $mediainfo);
+    chmod 0666, $userPath.'all';
+}
+
+sub user {
+    my ( $self, $userPath, $name, $avat, $mail) = @_;
+    my ($ds) = LoadFile($userPath.0);
+    my $count = $ds->{0};
+    my ($text);
+    my $flag = 1;
+    for (1..$count) {
+        if ($name eq $ds->{$_}{2}) {
+           $text = 'This name exists';
+           $flag = 0; 
+        }
+        if ($mail eq $ds->{$_}{3}) {
+           $text = $text.'<p>This email exists'; 
+           $flag = 0;
+        }
+    }
+    if ($flag == 1) {
+        my ( $pass, $info );
+        newpass: while (1) {
+            my @chars = split( " ","A B C D E F G H I J K L" );
+            for (0..5){
+                $pass .= $chars[int(rand 12)]
+            }
+            for (1..$count) {
+                if ($pass eq $ds->{$count}{1}) {
+                    next newpass
+                }
+            }
+            last
+        }
+        $count++;
+        $ds->{$count}{0} = $count;
+        $ds->{$count}{1} = $pass;
+        $ds->{$count}{2} = $name;
+        $ds->{$count}{3} = $mail;
+        $ds->{0} = $count;
+        DumpFile($userPath.0, $ds);
+        my $auth = 100;
+        $info->{0}{0} = $name;
+        $info->{0}{1} = $avat;
+        $info->{0}{2} = $mail;
+        $info->{0}{3} = 1;
+        for (0..7) {
+            $info->{1}{0}{$_} = 0;
+        }
+        $info->{1}{1}{0} = $auth;
+        $info->{1}{2}{0} = 0;
+        $info->{1}{3}{0} = 0;
+        my ($ds1) = LoadFile($userPath.'best');
+        for (1..$auth) {
+            my $film = $ds1->{$_};
+            $info->{1}{1}{$_} = {%$film};
+        }
+
+        my $num = 1;
+        for my $rs ( 1.. $count-1) {                                          # MAKING FRIENDSFILES
+            my $rs1 = $ds->{$rs}{0};
+            my ($ds1) = LoadFile($userPath.$rs1);
+            $info->{2}{0} = $num;
+            $info->{2}{$num} = {
+                0 => $rs1,
+                1 => $ds1->{0}{0},
+                2 => $ds1->{0}{1},
+                3 => 'G',
+            };
+            $num++;
+            my $coun = $ds1->{2}{0};
+            $ds1->{2}{0} = $coun+1;
+            $ds1->{2}{$coun+1} = {
+                0 => $ds->{$count}{0},
+                1 => $info->{0}{0},
+                2 => $info->{0}{1},
+                3 => 'G',
+            };
+            DumpFile($userPath.$rs1, $ds1);    
+        }
+        DumpFile($userPath.$count, $info);
+    }
+    return $text;
+}
+sub pass {
+    my ( $self, $selec, $userPath, $name, $mail, $avat) = @_;
+    my ( $password, $mediainfo, $friendsinfo, $friendnew );
     my @chars = split( " ","a b c d e f g h i j k l " );
     for (0..5){
         $password .= $chars[int(rand 12)]
     }
     my $rs = $self->resultset('User')->create({ 
+        username => $name,
+        email    => $mail,
+        avatar   => $avat,
         password => $password, 
         status   => 'user',
     });
     my $userId = $rs->id;
     
     my @rs = $self->resultset('Films2')->search(undef, {rows => 99});
-    my $num = 0;
+    my $num = 1;
     foreach my $rs ( @rs ) {
         my @code_coun = split ':', uc $rs->coun;
         my @code_genr = split ':', uc $rs->genr;
@@ -68,10 +193,33 @@ sub pass {
     }
     DumpFile($userPath.$userId, $mediainfo);
     chmod 0666, $userPath.$userId;
-    my $pass;
-    for (0..2) {
-        $pass .= substr ($password, 2*$_, 2);
+    
+    my @rs1 = $self->resultset('User')->search(undef, {rows => $userId-1});
+    $num = 1;
+    foreach my $rs1 ( @rs1 ) {                                          # MAKING FRIENDSFILES
+        $friendsinfo->{'new'}{$num} = {
+            id   => $rs1->id,
+            ava  => $rs1->avatar,
+            name => $rs1->username,
+            grey => 'G',
+            };
+        $num++;
+        $friendsinfo->{'new'}{'count'} = $num-1;
+        my $ds = LoadFile($userPath.'_'.$rs1->id);
+        my $count = $ds->{'new'}{'count'} || 1;
+        $count = $count+1;
+        $ds->{'new'}{$count} = {
+                id   => $rs->id,
+                ava  => $avat,
+                name => $name,
+                grey => 'G',
+            };
+        $ds->{'new'}{'count'} = $count;
+        DumpFile($userPath.'_'.$rs1->id, $ds);    
     }
+    DumpFile($userPath.'_'.$userId, $friendsinfo);
+    chmod 0666, $userPath.'_'.$userId;
+
     return $userId;
 }
 sub _findd {
@@ -123,7 +271,7 @@ sub step {
     my ( $rs, %cols0, %cols1 );
     my $max = $self->resultset('Films2')->get_column('id')->max();
     if ( $par eq 'next.x' ) {
-        while ( $nextval1 < $max + 1 ) {                                # поиск следующей записи
+        while ( $nextval1 < $max + 1 ) {                                # NEXT ENTRY
             $nextval1 ++;
             $nextval1 = 1 if $nextval1 == $max + 1;
             $rs = $self->resultset('Films2')->find({id => $nextval1});
@@ -131,7 +279,7 @@ sub step {
         }
     }
     elsif ( $par eq 'prev.x' ) {
-        while ( $nextval1 > -1 ) {                                      # поиск предыдущей записи
+        while ( $nextval1 > -1 ) {                                      # LAST ENTRY
             $nextval1 --;
             $nextval1 = $max + 1  if $nextval1 == 0;
             $rs = $self->resultset('Films2')->find({id => $nextval1});
@@ -223,7 +371,7 @@ sub search {
 }
 sub mail {
     my ($self, $cols, $par, $selec, $img_path1, $img_path3, $nextval1) = @_;
-    my (@entries, $pics, %cols0, %cols1, @pic0, @pic1, @pic2, @pic3, $am, @country, @genre, @actors, $rew);
+    my (@entries, $pics, %cols0, %cols1, @pic0, @pic1, @pic2, @pic3, $am, @country, @genre, @actors, $rew, $orname);
     unlink glob "$img_path1*.*";
     opendir(my $dh, $img_path3);
     while ( my $entry = readdir $dh ) {
@@ -253,7 +401,7 @@ sub mail {
     my $filename = '/home/marat/images/find/mail1.html';
     open my $fh, '>', $filename;
     print $fh $content;
-    
+
     foreach my $line (split /\n/, $content) {
         if ( $line =~ m{<div class="block_posrel">(.*?)<span class="countyellow">(\d+)</span>.*?} ){
             $am = $2;
@@ -261,7 +409,11 @@ sub mail {
             @pic0 = $piece =~ m/https:\/\/pic.kino.mail.ru\/\d+\//g;
         }
         $cols1{'runame'} = $1 if ( $line =~ m{<h1 class="movieabout__name" itemprop="name">(.*?)</h1>} );
-        $cols1{'orname'} = $1 if ( $line =~ m{<h2 class="movieabout__nameeng" itemprop="alternativeHeadline">(.*?)</h2>} );
+        
+        $orname = $1 if ( $line =~ m{<h2 class="movieabout__nameeng" itemprop="alternativeHeadline">(.*?)</h2>} );
+        $orname =~ s[&#39;][']d;
+        $cols1{'orname'} = $orname;
+        
         if ( $line =~ m{IMDb</b>(.*?)</span>} ) {
             my $reit = $1;
             $reit =~ tr[.][]d;
@@ -306,8 +458,8 @@ sub mail {
         $rew =~ tr[&nbsp;][ ]d;
         $rew =~ tr[&mdash;]["—]d;
         $rew =~ tr[&hellip;]["..."]d;
-        $rew =~ tr[&laquo;][""]d;
-        $rew =~ tr[&raquo;]["""]d;
+        $rew =~ s[ rquo]["]d;
+        $rew =~ s[.quo]["]d;
         $cols1{'review'} = $rew;
         $cols1{'size'} = 0;
         $cols1{'No'} = $entries[$par];
@@ -327,6 +479,7 @@ sub mail {
         my $dir = $img_path1.$pic3[$_].'.jpg';
         getstore( $pic2[$_], $dir );
     }
+    
     my $rs = $self->resultset('Films2')->find({id => $nextval1});
     %cols0 = _set($cols, $rs);
 
@@ -340,14 +493,12 @@ sub pics {
     %cols1 = _set($cols, $rs);
     opendir(my $dh, $img_path1);
     while ( my $entry = readdir $dh ) {
-        if ( $entry =~ m{(.*?)kad(\d+)\.jpg}) {
-            $entries[$2] = $1;
-        }
         if ( $entry =~ m{(https:SSpicDkinoDmailDruS\d+S)\.jpg}) {
             push @pics, $1;
         }
     }
     closedir $dh;
+
     return \%cols0, \%cols1, \@pics;
 }
 
@@ -406,7 +557,7 @@ sub ins {
     %cols0 = _findd($img_path3);
     %cols1 = _set($cols, $rs); 
     
-    return \%cols0, \%cols1;
+    return \%cols0, \%cols1, $code;
 }
 
 1;

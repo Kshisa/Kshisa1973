@@ -4,6 +4,7 @@ use namespace::autoclean;
 
 use Catalyst::Runtime 5.80;
 
+
 # Set flags and add plugins for the application.
 #
 # Note that ORDERING IS IMPORTANT here as plugins are initialized in order,
@@ -20,11 +21,6 @@ use Catalyst qw/
     -Debug
     ConfigLoader
     Static::Simple
-    Authentication
-    Authorization::Roles
-    Session
-    Session::State::Cookie
-    Session::Store::FastMmap
 /;
 
 extends 'Catalyst';
@@ -53,25 +49,7 @@ __PACKAGE__->config(
         CATALYST_VAR          => 'c',
         TIMER                 => 0,
     },
-   'Plugin::Authentication' => {
-       default => {
-          credential => {
-             class => 'Password',
-             password_field => 'password',
-             password_type => 'clear'
-             
-          },
-          store => {
-             class => 'DBIx::Class',
-             user_model => 'DB::User',
-             id_field => 'id',
-             user_field => 'username',
-             role_column => 'status',
-             use_userdata_from_session => '1'
-          }
-       }
-    },
-   
+      
     'Controller::HTML::FormFu' => {
         'model_stash' => {
             schema => 'DB'

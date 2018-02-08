@@ -1,0 +1,15 @@
+[% WRAPPER page.tt %]
+    <div class="left_col">
+       [% ba %] [% lb %] [% l %]
+    </div>
+    <div class="center_col">
+        [% full %]
+        [% text %]
+        [% all %]
+    </div>
+    <div class="right_col">
+        [% fr %] [% rb %] [% r %]
+    </div>    
+    [% codes %]
+    [% form %]
+[% END %]

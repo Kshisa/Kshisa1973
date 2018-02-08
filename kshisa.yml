@@ -64,7 +64,11 @@
     "JAPA": ["Japan", "Япония"]
     "AUSL": ["Australia", "Австралия"]
     "TAIW": ["Taiwan", "Тайвань"]
-    "IREL": ["Ireland ", "Ирландия"]
+    "IREL": ["Ireland", "Ирландия"]
+    "HONG": ["Hong Kong", "Гонконг"]
+    "INDI": ["India", "Индия"]
+    "SWED": ["Sweden", "Швеция"]
+    "POLA": ["Poland", "Польша"]
   "genr": 
     "AAAA": ["", ""]
     "SCIF": ["sci-fi", "фантастика"]

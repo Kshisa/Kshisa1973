@@ -1,4 +1,4 @@
-package kshisa::Controller::Find;
+package kshisa::Controller::Admin;
 use Moose;
 use namespace::autoclean;
 use utf8;
@@ -13,7 +13,7 @@ Catalyst Controller.
 =head2 index
 =cut
 sub start :Local  :FormConfig('find.json') {
-    my ($self, $c, $id) = @_;
+    my ($self, $c,) = @_;
     my $form = $c->stash->{form};
     my $param = $c->req->body_params;
     my $img_path3 = $c->config->{'img_path3'};
@@ -21,34 +21,42 @@ sub start :Local  :FormConfig('find.json') {
     push @cols, $_->[0] foreach @{$c->config->{'cols'}};                                             # столбцы таблиц
 
     ($cols0, $cols1) = $c->model('DB')->start(\@cols, $img_path3);                                   # начальный экран
-
-    $c->detach('base', [$id, $cols0, $cols1]);
-    
+    $c->detach('base', [$cols0, $cols1]);
 }
 
 sub base :Local :FormConfig('find.json') {
-    my ($self, $c, $id, $cols0, $cols1) = @_;
+    my ($self, $c, $cols0, $cols1) = @_;
     my $form = $c->stash->{form};
     my $param = $c->req->body_params;
-    my $nextval0 = $param->{'id_a'} || 0;
-    my $nextval1 = $param->{'id_b'} || 0;
+    my $nextval0  = $param->{'id_a'} || 0;
+    my $nextval1  = $param->{'id_b'} || 0;
     my $img_path1 = $c->config->{'img_path1'};
     my $img_path2 = $c->config->{'img_path2'};
     my $img_path3 = $c->config->{'img_path3'};
     my $img_path4 = $c->config->{'img_path4'};
+    my $select    = $c->config->{'select'};    
+    my $userPath  = $c->config->{'userPath'};
+
     my (@cols, $par, $pics, $micro);
     push @cols, $_->[0] foreach @{$c->config->{'cols'}};                                             # столбцы таблиц
-    $form->add_valid($_.'_b', $cols1->{$_}) foreach (keys %$cols1);
-    my $userid = $param->{id};
-    if ($param->{'user.x'}) {
-        $c->go("/user/pass", [$userid]);
+
+    if ($param->{'kshisa.x'}) {
     }
     if  ($param->{$par ='prev.x'} or $param->{$par ='next.x'}) {                                     # переход в базе на шаг вперёд и назад
         ($cols0, $cols1) = $c->model('DB')->step($nextval1, \@cols, $par, $img_path3);
         $form->add_valid($_.'_b', $cols1->{$_}) foreach (keys %$cols1);
     }
- 
-    if ($param->{'find.x'}) { 
+    
+    if ($param->{'kadr5.x'}) {
+        $c->model('DB')->inyaml($select, $c->config->{'userPath'});
+        ($cols0, $cols1) = $c->model('DB')->start(\@cols, $img_path3);                                   # home screen
+    }
+    if ($param->{'add.x'}) {
+        $c->model('Yaml')->base($select, $c->config->{'userPath'});
+       ($cols0, $cols1) = $c->model('DB')->start(\@cols, $img_path3);                                    # home screen
+    }
+    
+    if ($param->{find}) { 
         my $address = $param->{'Address'};                                                           # поиск
         my $rs = $c->model('DB')->resultset('Films2')->find({runame => { 'like', "%$address%" } });
         if ($rs) {
@@ -61,70 +69,91 @@ sub base :Local :FormConfig('find.json') {
            ($cols0, $cols1) = $c->model('DB')->search($address, $img_path3, $nextval1, \@cols); 
         }
         $form->add_valid($_.'_a', '') foreach @cols;
+        $form->add_valid('Address', $address);
     }
    
-   if ($param->{$par ='kadr0.x'} or $param->{$par ='kadr1.x'} or $param->{$par ='kadr2.x'} or $param->{$par ='kadr3.x'} or $param->{$par ='kadr4.x'}) {
-        ($cols0, $cols1, $pics) = $c->model('DB')->mail(\@cols, $par, $c->config->{'select'}, $img_path1, $img_path3, $nextval1);
+   if ($param->{$par ='kadr0.x'} or $param->{$par ='kadr1.x'} or $param->{$par ='kadr2.x'}) {
+        ($cols0, $cols1, $pics) = $c->model('DB')->mail(\@cols, $par, $select, $img_path1, $img_path3, $nextval1);
+        my $orname = $cols0->{'orname'};
+        $form->add_valid('Address', $orname);
         $form->add_valid($_.'_a', $cols0->{$_}) foreach (keys %$cols0);
+        $c->model('Yaml')->tempIn($cols0, $userPath);
+        my $rs = $c->model('DB')->resultset('Films2')->find({orname => { 'like', "%$orname%" } });
+        if ($rs) {
+            $cols1->{'id'} = $rs->id;
+            $nextval1 = $rs->id;
+            ($cols0, $cols1) = $c->model('DB')->search($orname, $img_path3, $nextval1, \@cols);
+            $form->add_valid($_.'_b', $cols1->{$_}) foreach (keys %$cols1);
+        }
+        my $big = @$pics[0];
+        $big =~ s/S/\//g;
+        $big =~ s/D/\./g;
+        $micro = '<img id=left width=640px src="'.$big.'"><div id="findimgs">';
         foreach (@$pics) {
             $micro = $micro.'<input class="imagemail" type="image" src="/images/find1/'.$_.'.jpg" name="'.$_.'" /><input type="checkbox" name="'.$_.'" />';
         }
-        $c->model('Yaml')->tempIn($cols0, \@cols, $img_path1);
+        $micro = $micro.'<input type="submit" name="inkad" value="InKad" /></div>';
     }
     
-    if ($param->{inst}) {
-        ( $cols0, $cols1 ) = $c->model('DB')->ins( $nextval1, $form, '_a', \@cols, $img_path2, $img_path3, $img_path4 );
-        $form->add_valid('Address', '');
-        $form->add_valid($_.'_b', $cols1->{$_}) foreach (keys %$cols1);
-        $form->add_valid($_.'_a', '') foreach @cols
-    }
-    if ($param->{add1}) {
-        ( $cols0, $cols1 ) = $c->model('DB')->ins( $nextval1, $form, '_b', \@cols, $img_path2, $img_path3, $img_path4 );
-        $c->model('Yaml')->tempIn($cols1, \@cols, $img_path1);
-        
-        $form->add_valid('Address', '');
-        $form->add_valid($_.'_b', $cols1->{$_}) foreach (keys %$cols1);
-        $form->add_valid($_.'_a', '') foreach @cols;
-        
-    }
     foreach my $key (keys %$param){
         if ($key =~ /https:SSpicDkinoDmailDruS\d+S\.x/) {
             $key =~ s/S/\//g;
             $key =~ s/D/\./g;
             $key =~ s/\.x//;
-            $micro = '<img id=left width=640px src="'.$key.'"><div id="findimgs">';
             $nextval1 = $param->{id_b};
             ($cols0, $cols1, $pics) = $c->model('DB')->pics( \@cols, $img_path1, $img_path3, $nextval1);
-
             $form->add_valid($_.'_a', $cols0->{$_}) foreach (keys %$cols0);
+
+            $micro = '<img id=left width=640px src="'.$key.'"><div id="findimgs">';
             foreach (@$pics) {
                 $micro = $micro.'<input class="imagemail" type="image" src="/images/find1/'.$_.'.jpg" name="'.$_.'" /><input type="checkbox" name="'.$_.'" />';
             }
             $micro = $micro.'<input type="submit" name="inkad" value="InKad" /></div>';
-           
-            my %info = $c->model('Yaml')->tempOut(\@cols, $img_path1);
+            my %info = $c->model('Yaml')->tempOut(\@cols, $userPath);
             $form->add_valid($_.'_a', $info{$_}) foreach (keys %info);
        }
     }
+    
     if ($param->{inkad}) { 
-        my %info = $c->model('Yaml')->tempOut(\@cols, $img_path1);
+        my %info = $c->model('Yaml')->tempOut(\@cols, $userPath);
         $form->add_valid($_.'_a', $info{$_}) foreach (keys %info);
         my $kad = 1;
-        foreach my $key (keys %$param){
-            
+        foreach my $key (keys %$param) {
             if ($key =~ /https:SSpicDkinoDmailDruS\d+/) {
-                
-                $form->add_valid('kadr'.$kad, $key);
                 $key =~ s/S/\//g;
                 $key =~ s/D/\./g;
                 $key =~ s/\.x//;
+                $info{'kad'.$kad} = $key;
                 $form->add_valid('kad'.$kad.'_a', $key);
                 $kad++;
             }
         }
         ( $cols0, $cols1 ) = $c->model('DB')->pics( \@cols, $img_path1, $img_path3, $nextval1 );
+        $c->model('Yaml')->tempIn(\%info, $userPath);
+    }
+    
+    if ($param->{'inst.x'}) {
+        my $code;
+        ( $cols0, $cols1, $code ) = $c->model('DB')->ins( $nextval1, $form, '_a', \@cols, $img_path2, $img_path3, $img_path4 );
+        $form->add_valid('Address', '');
+        $form->add_valid($_.'_b', $cols1->{$_}) foreach (keys %$cols1);
+        $form->add_valid($_.'_a', '') foreach @cols;
+        my %info = $c->model('Yaml')->tempOut(\@cols, $userPath);
+        $info{'coun'} = $select->{'coun'}{$info{'coun_0'}}[1].':'.$select->{'coun'}{$info{'coun_1'}}[1].':'.$select->{'coun'}{$info{'coun_2'}}[1].':'.$select->{'coun'}{$info{'coun_3'}}[1];
+        $info{'genr'} = $select->{'genr'}{$info{'genr_0'}}[1].':'.$select->{'genr'}{$info{'genr_1'}}[1].':'.$select->{'genr'}{$info{'genr_2'}}[1].':'.$select->{'genr'}{$info{'genr_3'}}[1];
+        $info{'code'} = $code;
+        $c->model('Yaml')->tempIn(\%info, $userPath);
+        $c->model('Yaml')->create(\%info, $userPath);
+    }
+    if ($param->{add1}) {
+        ( $cols0, $cols1 ) = $c->model('DB')->ins( $nextval1, $form, '_b', \@cols, $img_path2, $img_path3, $img_path4 );
+        $c->model('Yaml')->tempIn($cols1, $userPath);
+        $form->add_valid('Address', '');
+        $form->add_valid($_.'_b', $cols1->{$_}) foreach (keys %$cols1);
+        $form->add_valid($_.'_a', '') foreach @cols;
         
     }
+    
     if ($param->{ID}) {
         ($cols0, $cols1) = $c->model('DB')->start(\@cols, $img_path3);
         my $id = $param->{'Info2'};
@@ -143,19 +172,21 @@ sub base :Local :FormConfig('find.json') {
             $form->add_valid($_.'_b', $cols1->{$_}) foreach (keys %$cols1);
         }
         else{
-            ($cols0, $cols1) = $c->model('DB')->start(\@cols, $img_path3);                                   # начальный экран
+            ($cols0, $cols1) = $c->model('DB')->start(\@cols, $img_path3);                              # home screen
         }
     }
-    if ($param->{'kadr5.x'}) {
+    
+    if ($param->{doun}) {
        my $magnet = $param->{'magnet1_b'};
        my $message = `transmission-remote 192.168.1.33:9091 -a magnet:?xt=urn:btih:$magnet`;
        $form->add_valid('Address', $message);
+       ($cols0, $cols1) = $c->model('DB')->start(\@cols, $img_path3);                                   # home screen
     }
-    
+
     my $sum = $c->model('DB')->resultset('Films2')->get_column('id')->func('count');
     $form->add_valid('Info1', $sum);
     $form->add_valid('Info2', $cols1->{'id'});
-    
+    $form->add_valid($_.'_b', $cols1->{$_}) foreach (keys %$cols1);
     my %cols0 = %$cols0;
     my %cols1 = %$cols1;
     my ($pict11, $pict12, $pict13) = ($cols0{'code0'}, $cols0{'code1'}, $cols0{'code2'});
@@ -173,9 +204,10 @@ sub base :Local :FormConfig('find.json') {
     
     $c->stash ( 
         template => 'find.tt',
-        id       => $id || $userid,
         micro    => $micro,
         id_b     => $nextval1,
+        kshisa   => '<input type="image" name="kshisa" src="/images/buttons/kshisa1.png"/>',
+        action => '/',
     ); 
 }
 

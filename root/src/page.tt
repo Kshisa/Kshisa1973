@@ -10,57 +10,25 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
-<main>
-<header>
-    <form method="post" id=start action="[% action %]">
-        [%kshisa%]
-        <input type="hidden" name="id" value="[% id %]" /> 
 
-        <div id="Avat">
-            [% avat %]
-        </div>
-        <div id="Name">
-            [% name %]
-        </div>
+[% content %]
 
-        <div class="clock">
-        <div id="Date"></div>
-            <ul>
-                <li class="hours"> </li>
-                <li class="point">:</li>
-                <li class="min"> </li>
-                <li class="point">:</li>
-                <li class="sec"> </li>
-            </ul>
-        </div>
-        </div>
-</header>
-<hr>
+<div id="weather">
+    <a target="_blank" href="http://nochi.com/weather/kazan-4422">
+    <img src="https://w.bookcdn.com/weather/picture/1_4422_1_20_babec2_320_ffffff_333333_08488D_1_ffffff_333333_0_6.png?scode=124&domid=589&anc_id=35927"  alt="booked.net"/></a>
+    <p><h>      
+</div>
 
-    [% content %]
+<div id="info">
+    © 2017 Hakimov Marat. kshisa1973@gmail.com © 2017 Hakimov Marat. kshisa1973@gmail.com © 2017 Hakimov Marat. 
+    kshisa1973@gmail.com © 2017 Hakimov Marat kshisa1973@gmail.com
+</div>
 
-
-        <div id="weather">
-            <!-- weather widget start -->
-            <a target="_blank" href="http://nochi.com/weather/kazan-4422">
-            <img src="https://w.bookcdn.com/weather/picture/1_4422_1_20_babec2_320_ffffff_333333_08488D_1_ffffff_333333_0_6.png?scode=124&domid=589&anc_id=35927"  alt="booked.net"/>
-            </a>
-            <!-- weather widget end --> 
-            <p><h>      
-            <div id="info">
-                [%admin%]© 2017 Hakimov Marat. kshisa1973@gmail.com © 2017 Hakimov Marat. kshisa1973@gmail.com © 2017 Hakimov Marat. 
-                kshisa1973@gmail.com © 2017 Hakimov Marat kshisa1973@gmail.com
-            </div>
-        </div>
-        
-</form>
-</main>
 <script>
     function subm(){
         var subm = document.getElementById("start");
         subm.submit();
     }
-    
     $(document).ready(function() {
     var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ]; 
     var dayNames= ["Sun","Mon","Tue","Wen","Thu","Fri","Sut"]

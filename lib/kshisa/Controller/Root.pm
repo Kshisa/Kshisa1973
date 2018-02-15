@@ -21,8 +21,16 @@ The root page (/)
 
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
-    my ( $codes, $text, $form, $full, $ba, $fr, $ava, $name, $id, $lb, $l, $r, $rb, $all, $rew, $admin,
+    my ( $codes, $text, $form, $full, $ba, $fr, $ava, $name, $id, $lb, $l, $r, $rb, $all, $rew,
     $avat, $file, $side, $right, $maxr, $rcent, $dsl, $left, $maxl, $cout, $info, $ds );
+    my $action = '/';
+    my $kshisa = '<input type="image" id="kshisa" name="kshisa" src="/images/buttons/kshisa1.png"/>';
+    my $clock = '<div class="clock"><div id="Date"></div>
+                <ul> <li class="hours"> </li>
+                    <li class="point">:</li>
+                    <li class="min"> </li>
+                    <li class="point">:</li>
+                    <li class="sec"> </li></ul></div></div> ';
     my $param = $c->req->body_params;
     my $userPath = $c->config->{'userPath'};
     sub char {
@@ -45,14 +53,16 @@ sub index :Path :Args(0) {
         }
         return $codes;
     }
-    if ($param->{'admin.x'}) {
-        $c->stash (
-            action => '/admin/start',
-        );
+
+    if ($param->{'kshisa.x'}) {
+        $c->response->redirect($c->uri_for("/"));
     }
-     if ($param->{Enter}) {
+    if ($param->{Enter}) {
         my $pass;
         for (1..6) { $pass = $pass.$param->{$_} if $param->{$_}}
+        if ($pass eq 'F') {
+            $c->response->redirect($c->uri_for("/admin/index"));
+        }
         my ($ds0) = LoadFile($userPath.0);
         for (1..$ds0->{0}) {
             if ( $ds0->{$_}{1} eq $pass ) {
@@ -67,7 +77,7 @@ sub index :Path :Args(0) {
         }
     }
     elsif ($id = $param->{id}) {
-         my ($s0, $s1, $s2, $s3, $s4, $s5, $s6, $s7)=                        # SNIPETS
+        my ($s0, $s1, $s2, $s3, $s4, $s5, $s6, $s7)=                        # SNIPETS
             ('<img class="', '<input class="', '" type="image" name="', '" src="/images/imgs/', '.jpg" />', '<div class="numb">', '</div>', 
             '" src="/images/buttons/');
             
@@ -109,7 +119,15 @@ sub index :Path :Args(0) {
             $ds->{0}{'reit'} = $ds->{0}{'reit'} + 1;
         }
         elsif ($param->{'All_l.x'}) {
-            $all = $all.$s1.'imageall'.$s2.$_.$s3.$ds->{1}{1}{$_}{'code'}.'kad0'.$s4 for(1..$ds->{1}{1}{0});
+            foreach my $key (keys %$param){
+                if ($key =~ /\d+/) {
+                    for(1..$dsl->{1}{1}{0}) {
+                        if ($key eq $dsl->{1}{1}{$_}{'year'}) {
+                            $all = $all.$s1.'imageall'.$s2.$_.$s3.$dsl->{1}{1}{$_}{'code'}.'kad0'.$s4.$dsl->{1}{1}{$_}{'year'}
+                        }
+                    }
+                }
+            }
         }
         elsif ($param->{'All_r.x'}) {
             $all = $all.$s1.'imageall'.$s2.$_.$s3.$ds->{1}{2}{$_}{'code'}.'kad0'.$s4 for(1..$ds->{1}{2}{0});
@@ -147,7 +165,6 @@ sub index :Path :Args(0) {
         $text = '<div id="pass"></div><div id="user">New User? &nbsp&nbsp&nbsp
                      <input type="radio" name="New" onclick="subm()"value="Yes">Yes</input>
                      <input type="radio" name="New" onclick="subm()"value="No">No</input></div>';
-        $admin = '<input type="image" name="admin" src="/images/buttons/@.png"/>';
     }
     foreach my $avat (keys %$param) {
         if ($avat =~ /ava\d+.x/) {
@@ -167,23 +184,21 @@ sub index :Path :Args(0) {
     }
 
     $c->stash (
+        kshisa   => $kshisa,                                            # LOGO
+        avat     => '<div id="Avat">'.$ava.'</div>',                    # AVATAR
+        name     => '<div id="Name">'.$name.'</div>',                   # NAME
+        clock    => $clock,                                             # CLOCK
+        id       => '<input type="hidden" name="id" value="'.$id.'" />',# USERID
+        ba       => '<hr><div class="left_col">'.$ba,                   # BUTTON BASE-AUTH
+        l        => $lb.$l.'</div><div class="center_col">',            # LEFT PICTURES
+        full     => $full,                                              # CENTER-FULLINFO
         text     => $text,
-        form     => $form,
-        codes    => $codes,
-        admin    => $admin,
-        full     => $full,
-        ba       => $ba,
+        all      => $all.'</div><div class="right_col">',               # ALLPICTURES
         fr       => $fr,
-        avat     => $ava,
-        name     => $name,
-        id       => $id,
-        user     => $name,
-        lb       => $lb,                                                # LEFT BUTTONS
-        l        => $l,                                                 # LEFT PICTURES
-        r        => $r,                                                 # RIGT PICTURES
-        rb       => $rb,                                                # RIGHT BUTTONS
-        all      => $all,
-        
+        r        => $rb.$r.'</div> ',                                   # RIGT PICTURES
+        codes    => $codes,
+        forma    => $form,
+        action   => $action,
     );
 }
      

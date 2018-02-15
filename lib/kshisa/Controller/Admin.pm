@@ -12,19 +12,7 @@ Catalyst Controller.
 =cut
 =head2 index
 =cut
-sub start :Local  :FormConfig('find.json') {
-    my ($self, $c,) = @_;
-    my $form = $c->stash->{form};
-    my $param = $c->req->body_params;
-    my $img_path3 = $c->config->{'img_path3'};
-    my (@cols, $cols0, $cols1);
-    push @cols, $_->[0] foreach @{$c->config->{'cols'}};                                             # столбцы таблиц
-
-    ($cols0, $cols1) = $c->model('DB')->start(\@cols, $img_path3);                                   # начальный экран
-    $c->detach('base', [$cols0, $cols1]);
-}
-
-sub base :Local :FormConfig('find.json') {
+sub index :Local :FormConfig('find.json') {
     my ($self, $c, $cols0, $cols1) = @_;
     my $form = $c->stash->{form};
     my $param = $c->req->body_params;
@@ -39,8 +27,10 @@ sub base :Local :FormConfig('find.json') {
 
     my (@cols, $par, $pics, $micro);
     push @cols, $_->[0] foreach @{$c->config->{'cols'}};                                             # столбцы таблиц
-
+    
+    ($cols0, $cols1) = $c->model('DB')->start(\@cols, $img_path3);                                    # home screen
     if ($param->{'kshisa.x'}) {
+        $c->response->redirect($c->uri_for("/"));
     }
     if  ($param->{$par ='prev.x'} or $param->{$par ='next.x'}) {                                     # переход в базе на шаг вперёд и назад
         ($cols0, $cols1) = $c->model('DB')->step($nextval1, \@cols, $par, $img_path3);
@@ -191,6 +181,7 @@ sub base :Local :FormConfig('find.json') {
     my %cols1 = %$cols1;
     my ($pict11, $pict12, $pict13) = ($cols0{'code0'}, $cols0{'code1'}, $cols0{'code2'});
     my $pict2 = '/images/imgs/'.$cols1{'code'};
+    my $kshisa = '<input type="image" id="kshisa" name="kshisa" src="/images/buttons/kshisa1.png"/>';
     
     $form->get_element({type=>'Block', tag=>'div class=left_col'})->get_element({type=>'Image', name=>'kadr0'})->add_attrs({src =>$pict11.'kad0.jpg'});     
     $form->get_element({type=>'Block', tag=>'div class=left_col'})->get_element({type=>'Image', name=>'kadr1'})->add_attrs({src =>$pict12.'kad1.jpg'});
@@ -203,11 +194,12 @@ sub base :Local :FormConfig('find.json') {
     $form->get_element({type=>'Block', tag=>'div class=right_col'})->get_element({type=>'Image', name=>'kadr9'})->add_attrs({src =>$pict2.'kad4.jpg'});
     
     $c->stash ( 
-        template => 'find.tt',
-        micro    => $micro,
+        template => 'index.tt',
+        micro    => '<form name="big" method=POST action="/find/base"><input type="hidden" name="id_b" value="[% id_b %]" />
+                        <hr> <div id="pics">'.$micro.'<div> <hr> </form>',
         id_b     => $nextval1,
-        kshisa   => '<input type="image" name="kshisa" src="/images/buttons/kshisa1.png"/>',
-        action => '/',
+        kshisa   => $kshisa,
+        action   => '/admin/index',
     ); 
 }
 

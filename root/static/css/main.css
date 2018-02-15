@@ -8,17 +8,17 @@ h3{
     color: #16602b;
     margin: 0;
 }
+#kshisa{
+    padding: 5px;
+}
 header{
     display:block;
-    background: url(/images/buttons/kshisa1.png) no-repeat;
-    background-position: 97% 40%;
     height: 75px;
     width: 1320px;
     padding-top: 5px; 
     margin-bottom: 5px;
     margin-left: auto;
     margin-right: auto;
-
 }
 main{
     background: url(/images/buttons/scene1.jpg) no-repeat;
@@ -55,7 +55,7 @@ footer{
 .center_col {
     font-family: "Sans MS", Verdana, Arial, Helvetica, sans-serif;
     text-align: center;
-    color: grey;
+    color: #675353;
     font-weight: 600;
     font-style: oblique;
     top: 210px;
@@ -171,6 +171,9 @@ form {
     width: 150px;
     height: 210px;
     margin: 1px 0 45px 4px;
+}
+.image1{
+    width: 150px;
 }
 .buts{
     width: 70px;

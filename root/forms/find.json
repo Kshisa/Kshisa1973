@@ -1,5 +1,5 @@
  
-{"attributes":{ "action":"/admin/base" },
+{"attributes":{ "action":"/admin/index" },
  "elements"  :[ {"type":"Hidden", "name":"id_b"},
                 {"type":"Block", "tag": "div class=left_col",
                  "elements":[{"type":"Image", "name":"user", "container_tag":"span", "src":"/images/buttons/prev.jpg"},
@@ -212,15 +212,15 @@
                              {"type":"Image", "name":"add",  "container_tag":"span", "src":"/images/buttons/add.jpg"},
                              {"type":"Image", "name":"next", "container_tag":"span", "src":"/images/buttons/next.jpg"},
                              
-                             {"type":"Image", "name":"kadr5", "attributes":{"class":"image"}},
+                             {"type":"Image", "name":"kadr5", "attributes":{"class":"image1"}},
 
-                             {"type":"Image", "name":"kadr6", "attributes":{"class":"image"}},
+                             {"type":"Image", "name":"kadr6", "attributes":{"class":"image1"}},
 
-                             {"type":"Image", "name":"kadr7", "attributes":{"class":"image"}},
+                             {"type":"Image", "name":"kadr7", "attributes":{"class":"image1"}},
 
-                             {"type":"Image", "name":"kadr8", "attributes":{"class":"image"}},
+                             {"type":"Image", "name":"kadr8", "attributes":{"class":"image1"}},
 
-                             {"type":"Image", "name":"kadr9", "attributes":{"class":"image"}},
+                             {"type":"Image", "name":"kadr9", "attributes":{"class":"image1"}},
 
                             ]
                 },

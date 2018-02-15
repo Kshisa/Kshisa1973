@@ -130,7 +130,9 @@ sub info {
     my $r = $s5.($right+1).$s6.$p5.$s5.($right+2).$s6.$p6.$s5.($right+3).$s6.$p7.$s5.($right+4).$s6.$p8.$check.$s5.$s6;       # RIGT PICS
 
     my $full = $p.'<h3>IMDB: '.$info->{reit}.'&nbsp;&nbsp;&nbsp;'.$usreit.'</h3><div class="foto">'.$k.$rew
-      .'<hr><h3>'.$info->{year}.',&nbsp;&nbsp;&nbsp;'.$info->{coun}.'</h3></p><hr>'
+      .'<hr><h3>'.$info->{year}.
+      '<input type="checkbox" name="'.$info->{year}.'" 
+      />&nbsp;&nbsp;&nbsp;'.$info->{coun}.'</h3></p><hr>'
       .'<H2>'.$info->{runame}.'</p>'.$info->{orname}.'</H2>'.$del.'</div> </p>'
       .'<hr>'.$info->{genr}.'</p><hr>
       Producer (Режисёр):'.$info->{director}.'</p><hr>Staring (В главных ролях):'

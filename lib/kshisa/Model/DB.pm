@@ -253,7 +253,7 @@ sub _set {
             $cols1{$_} = $rs->$_ if ($rs);
         }
     }
-    $cols1{'id'} = $rs->id || 0;
+    $cols1{'id'} = $rs->id if ($rs);
     return %cols1;
 }
 sub start {

@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <title>kshisa</title>
     <link rel="stylesheet" href="[% c.uri_for('/static/css/main.css') %]" />
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <script src="../static/javascript/tv.js"></script>
-    <title>kshisa</title>
+    <link rel="stylesheet" href="[% c.uri_for('/static/css/star-rating-svg.css') %]" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
@@ -25,9 +25,29 @@
 </div>
 
 <script>
+    $(function() {
+    $(".my-rating-2").starRating({
+        totalStars: 9,
+        emptyColor: 'lightgray',
+        hoverColor: 'salmon',
+        activeColor: 'cornflowerblue',
+        strokeWidth: 0,
+        useGradient: false
+    });
+    });
     function subm(){
         var subm = document.getElementById("start");
         subm.submit();
+    }
+    function subm1(){
+        var subm = document.getElementById("pass");
+        subm.submit();
+    }
+    function subm2(checkbox){
+        if(checkbox.checked == true) {
+            var subm = document.getElementById("main");
+            subm.submit();
+        }
     }
     $(document).ready(function() {
     var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ]; 
@@ -71,5 +91,7 @@
     }, 1000);   
     });
 </script>
+<script src="../static/javascript/tv.js"></script>
+<script src="../static/javascript/jquery.star-rating-svg.js"></script>
 </body>
 </html>

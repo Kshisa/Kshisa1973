@@ -1,30 +1,11 @@
  
-{"attributes":{ "action":"/admin/index" },
- "elements"  :[ {"type":"Hidden", "name":"id_b"},
-                {"type":"Block", "tag": "div class=left_col",
-                 "elements":[{"type":"Image", "name":"user", "container_tag":"span", "src":"/images/buttons/prev.jpg"},
-                             {"type":"Image", "name":"inst", "container_tag":"span", "src":"/images/buttons/all.jpg"},
-                             {"type":"Image", "name":"inst", "container_tag":"span", "src":"/images/buttons/next.jpg"},                             
-                             
-                             {"type":"Image", "name":"kadr0", "attributes":{"class":"image"}},
-
-                             {"type":"Image", "name":"kadr1", "attributes":{"class":"image"}},
-
-                             {"type":"Image", "name":"kadr2", "attributes":{"class":"image"}},
-                            ]},
-                
-                {"type":"Block",  "tag": "div class=images",},
-                
+{ "elements"  :[{"type":"Block", "tag": "div class=left_col"},
                 {"type":"Block",  "tag": "div class=center_col",
                  "elements":[{
                  "type":"Block",  "tag": "table", "elements":[
-                 {"type":"Block",  "tag": "tr", "elements":[{"type":"Submit", "name":"find",    "container_tag":"span", "value":"find", "id":"but"},
-                                                            {"type":"Text",   "name":"Address", "container_tag":"span", "size":"80"},
-                                                            {"type":"Text",   "name":"Info1",   "container_tag":"span   class=addr", "size":"3"},
-                                                            {"type":"Text",   "name":"Info2",   "container_tag":"span   class=addr", "size":"3"},
-                                                            {"type":"Submit", "name":"ID",      "container_tag":"span", "value":"find", "id":"but"},
-                                                            {"type":"Submit", "name":"add1",    "container_tag":"span", "value":"redt", "id":"but"},
-                                                            {"type":"Submit", "name":"doun",    "container_tag":"span", "value":"doun", "id":"but"},
+                 {"type":"Block",  "tag": "tr", "elements":[{"type":"Submit", "name":"find1",    "container_tag":"span", "value":"find1", "id":"but"},
+                                                            {"type":"Text",   "name":"Address", "container_tag":"span", "size":"65"},
+                                                            {"type":"Submit", "name":"find2",    "container_tag":"span", "value":"find2", "id":"but"},
                                                           ]
                 },
 
@@ -90,60 +71,40 @@
     },
     {"type":"Block",  "tag": "tr",
     "elements":
-    [{"type":"Block",  "tag": "td", "element":{"label":"kad1", "id":"kad", "type":"Text","name":"kad1_a", "size":"60"}},
-     {"type":"Block",  "tag": "td", "element":{"label":"kad1", "id":"kad", "type":"Text","name":"kad1_b", "size":"60"}}],
-    },
-    {"type":"Block",  "tag": "tr",
-    "elements":
-    [{"type":"Block",  "tag": "td", "element":{"label":"kad2", "id":"kad", "type":"Text","name":"kad2_a", "size":"60"}},
-     {"type":"Block",  "tag": "td", "element":{"label":"kad2", "id":"kad", "type":"Text","name":"kad2_b", "size":"60"}}],
-    },
-    {"type":"Block",  "tag": "tr",
-    "elements":
-    [{"type":"Block",  "tag": "td", "element":{"label":"kad3", "id":"kad", "type":"Text","name":"kad3_a", "size":"60"}},
-     {"type":"Block",  "tag": "td", "element":{"label":"kad3", "id":"kad", "type":"Text","name":"kad3_b", "size":"60"}}],
-    },
-    {"type":"Block",  "tag": "tr",
-    "elements":
-    [{"type":"Block",  "tag": "td", "element":{"label":"kad4", "id":"kad", "type":"Text","name":"kad4_a", "size":"60"}},
-     {"type":"Block",  "tag": "td", "element":{"label":"kad4", "id":"kad", "type":"Text","name":"kad4_b", "size":"60"}}],
-    },
-    {"type":"Block",  "tag": "tr",
-    "elements":
     [{"type":"Block",  "tag": "td", "element":{"label":"No", "id":"kad", "type":"Text","name":"No_a", "size":"60"}},
      {"type":"Block",  "tag": "td", "element":{"label":"No", "id":"kad", "type":"Text","name":"No_b", "size":"60"}}],
     }, 
       {"type":"Block",  "tag": "tr",
       "elements":
       [{"type":"Block",  "tag": "td", "element":{"label":"ct_0", "type":"Select","name":"coun_0_a", "options":[
-    { "value":"AAAA", "label":"" },{ "value":"ARGE", "label":"Argentina" },{ "value":"AUSL", "label":"Australia" },{ "value":"BELG", "label":"Belgium" },{ "value":"CHIN", "label":"China" },{ "value":"CZEC", "label":"Czech" },{ "value":"FRAN", "label":"France" },{ "value":"GERM", "label":"Germany" },{ "value":"GRBR", "label":"Great Britain" },{ "value":"ITAL", "label":"Italy" },{ "value":"JAPA", "label":"Japan" },{ "value":"KANA", "label":"Kanada" },{ "value":"MEXI", "label":"Mexico" },{ "value":"RUSS", "label":"Russia" },{ "value":"SAFR", "label":"RSA" },{ "value":"SKOR", "label":"Rep of Korea" },{ "value":"SPAI", "label":"Spain" },{ "value":"TAIW", "label":"Taiwan" },{ "value":"USOA", "label":"USA" },{ "value":"IREL", "label":"Ireland" },{ "value":"HONG", "label":"Hong Kong" },{ "value":"INDI", "label":"India" },{ "value":"SWED", "label":"Sweden" },{ "value":"POLA", "label":"Poland" },
+    { "value":"AAAA", "label":"" },{ "value":"ARGE", "label":"Argentina" },{ "value":"AUSL", "label":"Australia" },{ "value":"BELG", "label":"Belgium" },{ "value":"CHIN", "label":"China" },{ "value":"CZEC", "label":"Czech" },{ "value":"FRAN", "label":"France" },{ "value":"GERM", "label":"Germany" },{ "value":"UNKI", "label":"UK" },{ "value":"ITAL", "label":"Italy" },{ "value":"JAPA", "label":"Japan" },{ "value":"KANA", "label":"Kanada" },{ "value":"MEXI", "label":"Mexico" },{ "value":"RUSS", "label":"Russia" },{ "value":"SAFR", "label":"RSA" },{ "value":"SKOR", "label":"Rep of Korea" },{ "value":"SPAI", "label":"Spain" },{ "value":"TAIW", "label":"Taiwan" },{ "value":"USOA", "label":"USA" },{ "value":"IREL", "label":"Ireland" },{ "value":"HONG", "label":"Hong Kong" },{ "value":"INDI", "label":"India" },{ "value":"SWED", "label":"Sweden" },{ "value":"POLA", "label":"Poland" },{ "value":"NETH", "label":"Netherlands" }
     ]}},
     {"type":"Block",  "tag": "td", "element":{"label":"ct_0", "type":"Select","name":"coun_0_b", "options":[
-    { "value":"AAAA", "label":"" },{ "value":"ARGE", "label":"Argentina" },{ "value":"AUSL", "label":"Australia" },{ "value":"BELG", "label":"Belgium" },{ "value":"CHIN", "label":"China" },{ "value":"CZEC", "label":"Czech" },{ "value":"FRAN", "label":"France" },{ "value":"GERM", "label":"Germany" },{ "value":"GRBR", "label":"Great Britain" },{ "value":"ITAL", "label":"Italy" },{ "value":"JAPA", "label":"Japan" },{ "value":"KANA", "label":"Kanada" },{ "value":"MEXI", "label":"Mexico" },{ "value":"RUSS", "label":"Russia" },{ "value":"SAFR", "label":"RSA" },{ "value":"SKOR", "label":"Rep of Korea" },{ "value":"SPAI", "label":"Spain" },{ "value":"TAIW", "label":"Taiwan" },{ "value":"USOA", "label":"USA" },{ "value":"IREL", "label":"Ireland" },{ "value":"HONG", "label":"Hong Kong" },{ "value":"INDI", "label":"India" },{ "value":"SWED", "label":"Sweden" },{ "value":"POLA", "label":"Poland" },
+    { "value":"AAAA", "label":"" },{ "value":"ARGE", "label":"Argentina" },{ "value":"AUSL", "label":"Australia" },{ "value":"BELG", "label":"Belgium" },{ "value":"CHIN", "label":"China" },{ "value":"CZEC", "label":"Czech" },{ "value":"FRAN", "label":"France" },{ "value":"GERM", "label":"Germany" },{ "value":"UNKI", "label":"UK" },{ "value":"ITAL", "label":"Italy" },{ "value":"JAPA", "label":"Japan" },{ "value":"KANA", "label":"Kanada" },{ "value":"MEXI", "label":"Mexico" },{ "value":"RUSS", "label":"Russia" },{ "value":"SAFR", "label":"RSA" },{ "value":"SKOR", "label":"Rep of Korea" },{ "value":"SPAI", "label":"Spain" },{ "value":"TAIW", "label":"Taiwan" },{ "value":"USOA", "label":"USA" },{ "value":"IREL", "label":"Ireland" },{ "value":"HONG", "label":"Hong Kong" },{ "value":"INDI", "label":"India" },{ "value":"SWED", "label":"Sweden" },{ "value":"POLA", "label":"Poland" },{ "value":"NETH", "label":"Netherlands" }
     ]}}],
     },
       {"type":"Block",  "tag": "tr",
       "elements":
       [{"type":"Block",  "tag": "td", "element":{"label":"ct_1", "type":"Select","name":"coun_1_a", "options":[
-    { "value":"AAAA", "label":"" },{ "value":"ARGE", "label":"Argentina" },{ "value":"AUSL", "label":"Australia" },{ "value":"BELG", "label":"Belgium" },{ "value":"CHIN", "label":"China" },{ "value":"CZEC", "label":"Czech" },{ "value":"FRAN", "label":"France" },{ "value":"GERM", "label":"Germany" },{ "value":"GRBR", "label":"Great Britain" },{ "value":"ITAL", "label":"Italy" },{ "value":"JAPA", "label":"Japan" },{ "value":"KANA", "label":"Kanada" },{ "value":"MEXI", "label":"Mexico" },{ "value":"RUSS", "label":"Russia" },{ "value":"SAFR", "label":"RSA" },{ "value":"SKOR", "label":"Rep of Korea" },{ "value":"SPAI", "label":"Spain" },{ "value":"TAIW", "label":"Taiwan" },{ "value":"USOA", "label":"USA" },{ "value":"IREL", "label":"Ireland" },{ "value":"HONG", "label":"Hong Kong" },{ "value":"INDI", "label":"India" },{ "value":"SWED", "label":"Sweden" },{ "value":"POLA", "label":"Poland" },
+    { "value":"AAAA", "label":"" },{ "value":"ARGE", "label":"Argentina" },{ "value":"AUSL", "label":"Australia" },{ "value":"BELG", "label":"Belgium" },{ "value":"CHIN", "label":"China" },{ "value":"CZEC", "label":"Czech" },{ "value":"FRAN", "label":"France" },{ "value":"GERM", "label":"Germany" },{ "value":"UNKI", "label":"UK" },{ "value":"ITAL", "label":"Italy" },{ "value":"JAPA", "label":"Japan" },{ "value":"KANA", "label":"Kanada" },{ "value":"MEXI", "label":"Mexico" },{ "value":"RUSS", "label":"Russia" },{ "value":"SAFR", "label":"RSA" },{ "value":"SKOR", "label":"Rep of Korea" },{ "value":"SPAI", "label":"Spain" },{ "value":"TAIW", "label":"Taiwan" },{ "value":"USOA", "label":"USA" },{ "value":"IREL", "label":"Ireland" },{ "value":"HONG", "label":"Hong Kong" },{ "value":"INDI", "label":"India" },{ "value":"SWED", "label":"Sweden" },{ "value":"POLA", "label":"Poland" },{ "value":"NETH", "label":"Netherlands" }
     ]}},
     {"type":"Block",  "tag": "td", "element":{"label":"ct_1", "type":"Select","name":"coun_1_b", "options":[
-    { "value":"AAAA", "label":"" },{ "value":"ARGE", "label":"Argentina" },{ "value":"AUSL", "label":"Australia" },{ "value":"BELG", "label":"Belgium" },{ "value":"CHIN", "label":"China" },{ "value":"CZEC", "label":"Czech" },{ "value":"FRAN", "label":"France" },{ "value":"GERM", "label":"Germany" },{ "value":"GRBR", "label":"Great Britain" },{ "value":"ITAL", "label":"Italy" },{ "value":"JAPA", "label":"Japan" },{ "value":"KANA", "label":"Kanada" },{ "value":"MEXI", "label":"Mexico" },{ "value":"RUSS", "label":"Russia" },{ "value":"SAFR", "label":"RSA" },{ "value":"SKOR", "label":"Rep of Korea" },{ "value":"SPAI", "label":"Spain" },{ "value":"TAIW", "label":"Taiwan" },{ "value":"USOA", "label":"USA" },{ "value":"IREL", "label":"Ireland" },{ "value":"HONG", "label":"Hong Kong" },{ "value":"INDI", "label":"India" },{ "value":"SWED", "label":"Sweden" },{ "value":"POLA", "label":"Poland" },
+    { "value":"AAAA", "label":"" },{ "value":"ARGE", "label":"Argentina" },{ "value":"AUSL", "label":"Australia" },{ "value":"BELG", "label":"Belgium" },{ "value":"CHIN", "label":"China" },{ "value":"CZEC", "label":"Czech" },{ "value":"FRAN", "label":"France" },{ "value":"GERM", "label":"Germany" },{ "value":"UNKI", "label":"UK" },{ "value":"ITAL", "label":"Italy" },{ "value":"JAPA", "label":"Japan" },{ "value":"KANA", "label":"Kanada" },{ "value":"MEXI", "label":"Mexico" },{ "value":"RUSS", "label":"Russia" },{ "value":"SAFR", "label":"RSA" },{ "value":"SKOR", "label":"Rep of Korea" },{ "value":"SPAI", "label":"Spain" },{ "value":"TAIW", "label":"Taiwan" },{ "value":"USOA", "label":"USA" },{ "value":"IREL", "label":"Ireland" },{ "value":"HONG", "label":"Hong Kong" },{ "value":"INDI", "label":"India" },{ "value":"SWED", "label":"Sweden" },{ "value":"POLA", "label":"Poland" },{ "value":"NETH", "label":"Netherlands" }
     ]}}],
     },
       {"type":"Block",  "tag": "tr",
       "elements":
       [{"type":"Block",  "tag": "td", "element":{"label":"ct_2", "type":"Select","name":"coun_2_a", "options":[
-    { "value":"AAAA", "label":"" },{ "value":"ARGE", "label":"Argentina" },{ "value":"AUSL", "label":"Australia" },{ "value":"BELG", "label":"Belgium" },{ "value":"CHIN", "label":"China" },{ "value":"CZEC", "label":"Czech" },{ "value":"FRAN", "label":"France" },{ "value":"GERM", "label":"Germany" },{ "value":"GRBR", "label":"Great Britain" },{ "value":"ITAL", "label":"Italy" },{ "value":"JAPA", "label":"Japan" },{ "value":"KANA", "label":"Kanada" },{ "value":"MEXI", "label":"Mexico" },{ "value":"RUSS", "label":"Russia" },{ "value":"SAFR", "label":"RSA" },{ "value":"SKOR", "label":"Rep of Korea" },{ "value":"SPAI", "label":"Spain" },{ "value":"TAIW", "label":"Taiwan" },{ "value":"USOA", "label":"USA" },{ "value":"IREL", "label":"Ireland" },{ "value":"HONG", "label":"Hong Kong" },{ "value":"INDI", "label":"India" },{ "value":"SWED", "label":"Sweden" },{ "value":"POLA", "label":"Poland" },
+    { "value":"AAAA", "label":"" },{ "value":"ARGE", "label":"Argentina" },{ "value":"AUSL", "label":"Australia" },{ "value":"BELG", "label":"Belgium" },{ "value":"CHIN", "label":"China" },{ "value":"CZEC", "label":"Czech" },{ "value":"FRAN", "label":"France" },{ "value":"GERM", "label":"Germany" },{ "value":"UNKI", "label":"UK" },{ "value":"ITAL", "label":"Italy" },{ "value":"JAPA", "label":"Japan" },{ "value":"KANA", "label":"Kanada" },{ "value":"MEXI", "label":"Mexico" },{ "value":"RUSS", "label":"Russia" },{ "value":"SAFR", "label":"RSA" },{ "value":"SKOR", "label":"Rep of Korea" },{ "value":"SPAI", "label":"Spain" },{ "value":"TAIW", "label":"Taiwan" },{ "value":"USOA", "label":"USA" },{ "value":"IREL", "label":"Ireland" },{ "value":"HONG", "label":"Hong Kong" },{ "value":"INDI", "label":"India" },{ "value":"SWED", "label":"Sweden" },{ "value":"POLA", "label":"Poland" },{ "value":"NETH", "label":"Netherlands" }
     ]}},
     {"type":"Block",  "tag": "td", "element":{"label":"ct_2", "type":"Select","name":"coun_2_b", "options":[
-    { "value":"AAAA", "label":"" },{ "value":"ARGE", "label":"Argentina" },{ "value":"AUSL", "label":"Australia" },{ "value":"BELG", "label":"Belgium" },{ "value":"CHIN", "label":"China" },{ "value":"CZEC", "label":"Czech" },{ "value":"FRAN", "label":"France" },{ "value":"GERM", "label":"Germany" },{ "value":"GRBR", "label":"Great Britain" },{ "value":"ITAL", "label":"Italy" },{ "value":"JAPA", "label":"Japan" },{ "value":"KANA", "label":"Kanada" },{ "value":"MEXI", "label":"Mexico" },{ "value":"RUSS", "label":"Russia" },{ "value":"SAFR", "label":"RSA" },{ "value":"SKOR", "label":"Rep of Korea" },{ "value":"SPAI", "label":"Spain" },{ "value":"TAIW", "label":"Taiwan" },{ "value":"USOA", "label":"USA" },{ "value":"IREL", "label":"Ireland" },{ "value":"HONG", "label":"Hong Kong" },{ "value":"INDI", "label":"India" },{ "value":"SWED", "label":"Sweden" },{ "value":"POLA", "label":"Poland" },
+    { "value":"AAAA", "label":"" },{ "value":"ARGE", "label":"Argentina" },{ "value":"AUSL", "label":"Australia" },{ "value":"BELG", "label":"Belgium" },{ "value":"CHIN", "label":"China" },{ "value":"CZEC", "label":"Czech" },{ "value":"FRAN", "label":"France" },{ "value":"GERM", "label":"Germany" },{ "value":"UNKI", "label":"UK" },{ "value":"ITAL", "label":"Italy" },{ "value":"JAPA", "label":"Japan" },{ "value":"KANA", "label":"Kanada" },{ "value":"MEXI", "label":"Mexico" },{ "value":"RUSS", "label":"Russia" },{ "value":"SAFR", "label":"RSA" },{ "value":"SKOR", "label":"Rep of Korea" },{ "value":"SPAI", "label":"Spain" },{ "value":"TAIW", "label":"Taiwan" },{ "value":"USOA", "label":"USA" },{ "value":"IREL", "label":"Ireland" },{ "value":"HONG", "label":"Hong Kong" },{ "value":"INDI", "label":"India" },{ "value":"SWED", "label":"Sweden" },{ "value":"POLA", "label":"Poland" },{ "value":"NETH", "label":"Netherlands" }
     ]}}],
     },
       {"type":"Block",  "tag": "tr",
       "elements":
       [{"type":"Block",  "tag": "td", "element":{"label":"ct_3", "type":"Select","name":"coun_3_a", "options":[
-    { "value":"AAAA", "label":"" },{ "value":"ARGE", "label":"Argentina" },{ "value":"AUSL", "label":"Australia" },{ "value":"BELG", "label":"Belgium" },{ "value":"CHIN", "label":"China" },{ "value":"CZEC", "label":"Czech" },{ "value":"FRAN", "label":"France" },{ "value":"GERM", "label":"Germany" },{ "value":"GRBR", "label":"Great Britain" },{ "value":"ITAL", "label":"Italy" },{ "value":"JAPA", "label":"Japan" },{ "value":"KANA", "label":"Kanada" },{ "value":"MEXI", "label":"Mexico" },{ "value":"RUSS", "label":"Russia" },{ "value":"SAFR", "label":"RSA" },{ "value":"SKOR", "label":"Rep of Korea" },{ "value":"SPAI", "label":"Spain" },{ "value":"TAIW", "label":"Taiwan" },{ "value":"USOA", "label":"USA" },{ "value":"IREL", "label":"Ireland" },{ "value":"HONG", "label":"Hong Kong" },{ "value":"INDI", "label":"India" },{ "value":"SWED", "label":"Sweden" },{ "value":"POLA", "label":"Poland" },
+    { "value":"AAAA", "label":"" },{ "value":"ARGE", "label":"Argentina" },{ "value":"AUSL", "label":"Australia" },{ "value":"BELG", "label":"Belgium" },{ "value":"CHIN", "label":"China" },{ "value":"CZEC", "label":"Czech" },{ "value":"FRAN", "label":"France" },{ "value":"GERM", "label":"Germany" },{ "value":"UNKI", "label":"UK" },{ "value":"ITAL", "label":"Italy" },{ "value":"JAPA", "label":"Japan" },{ "value":"KANA", "label":"Kanada" },{ "value":"MEXI", "label":"Mexico" },{ "value":"RUSS", "label":"Russia" },{ "value":"SAFR", "label":"RSA" },{ "value":"SKOR", "label":"Rep of Korea" },{ "value":"SPAI", "label":"Spain" },{ "value":"TAIW", "label":"Taiwan" },{ "value":"USOA", "label":"USA" },{ "value":"IREL", "label":"Ireland" },{ "value":"HONG", "label":"Hong Kong" },{ "value":"INDI", "label":"India" },{ "value":"SWED", "label":"Sweden" },{ "value":"POLA", "label":"Poland" },{ "value":"NETH", "label":"Netherlands" }
     ]}},
     {"type":"Block",  "tag": "td", "element":{"label":"ct_3", "type":"Select","name":"coun_3_b", "options":[
     { "value":"AAAA", "label":"" },{ "value":"ARGE", "label":"Argentina" },{ "value":"AUSL", "label":"Australia" },{ "value":"BELG", "label":"Belgium" },{ "value":"CHIN", "label":"China" },{ "value":"CZEC", "label":"Czech" },{ "value":"FRAN", "label":"France" },{ "value":"GERM", "label":"Germany" },{ "value":"GRBR", "label":"Great Britain" },{ "value":"ITAL", "label":"Italy" },{ "value":"JAPA", "label":"Japan" },{ "value":"KANA", "label":"Kanada" },{ "value":"MEXI", "label":"Mexico" },{ "value":"RUSS", "label":"Russia" },{ "value":"SAFR", "label":"RSA" },{ "value":"SKOR", "label":"Rep of Korea" },{ "value":"SPAI", "label":"Spain" },{ "value":"TAIW", "label":"Taiwan" },{ "value":"USOA", "label":"USA" },{ "value":"IREL", "label":"Ireland" },{ "value":"HONG", "label":"Hong Kong" },{ "value":"INDI", "label":"India" },{ "value":"SWED", "label":"Sweden" },{ "value":"POLA", "label":"Poland" },
@@ -207,21 +168,5 @@
      {"type":"Block",  "tag": "td", "element":{"label":"size", "id":"kad", "type":"Text","name":"size_b", "size":"60"}}],
     },
  ]}]},
-                 {"type":"Block",  "tag": "div class=right_col",
-                 "elements":[{"type":"Image", "name":"prev", "container_tag":"span", "src":"/images/buttons/prev.jpg"},
-                             {"type":"Image", "name":"add",  "container_tag":"span", "src":"/images/buttons/add.jpg"},
-                             {"type":"Image", "name":"next", "container_tag":"span", "src":"/images/buttons/next.jpg"},
-                             
-                             {"type":"Image", "name":"kadr5", "attributes":{"class":"image1"}},
-
-                             {"type":"Image", "name":"kadr6", "attributes":{"class":"image1"}},
-
-                             {"type":"Image", "name":"kadr7", "attributes":{"class":"image1"}},
-
-                             {"type":"Image", "name":"kadr8", "attributes":{"class":"image1"}},
-
-                             {"type":"Image", "name":"kadr9", "attributes":{"class":"image1"}},
-
-                            ]
-                },
+     {"type":"Block",  "tag": "div class=right_col"},
  ]} 

@@ -1,10 +1,29 @@
 ---
 "name": "Kshisatv"
 "default_view": "TT"
-
-"path": "/home/marat/"
-"buts": [ Last_l, Next_l, del, add0, find0, find1, find2, find3, prev, add1, rew, Last_r, Next_r ]
+"img_path1": "/home/marat/images/find1/"
+"img_path2": "/home/marat/images/imgs/"
+"img_path3": "/home/marat/images/find/"
+"img_path4": "/home/marat/images/imgs1/"
+"userPath": "/home/marat/Users/"
 "cols": [
+    ["code", "Text"],
+    ["year", "Text"],
+    ["time", "Text"],
+    ["reit", "Text"],
+    ["runame", "Text"],
+    ["orname", "Text"],
+    ["director", "Text"],
+    ["actor1", "Text"],
+    ["actor2", "Text"],
+    ["actor3", "Text"],
+    ["actor4", "Text"],
+    ["actor5", "Text"],
+    ["review", "Text"],
+    ["No", "Text"],
+    ["kad0", "Text"],
+    ]
+"cols1": [
     ["code", "Text"],
     ["year", "Text"],
     ["time", "Text"],
@@ -36,20 +55,12 @@
     ["size", "Text"],
     ["No", "Text"]
     ]
-"img_path1": "/home/marat/images/find1/"
-"img_path2": "/home/marat/images/imgs/"
-"img_path3": "/home/marat/images/find/"
-"img_path4": "/home/marat/images/imgs1/"
-"redir": "http://127.0.0.1/find/find/"
-"userPath": "/home/marat/Users/"
-
 "select":
   "coun":    
-    "AAAA": ["", ""]
     "USOA": ["USA", "США"]
     "RUSS": ["Russia","Россия"]   
     "FRAN": ["France", "Франция"]
-    "GRBR": ["Great Britain", "Великобритания"]
+    "UNKI": ["UK", "Великобритания"]
     "GERM": ["Germany", "Германия"]
     "KANA": ["Kanada", "Канада"]
     "ITAL": ["Italy", "Италия"] 
@@ -69,8 +80,8 @@
     "INDI": ["India", "Индия"]
     "SWED": ["Sweden", "Швеция"]
     "POLA": ["Poland", "Польша"]
+    "NETH": ["Netherlands", "Нидерланды"]
   "genr": 
-    "AAAA": ["", ""]
     "SCIF": ["sci-fi", "фантастика"]
     "FANT": ["fantasy", "фэнтези"]   
     "HORR": ["horror", "ужасы"]
@@ -91,6 +102,3 @@
     "SPOR": ["sport", "спорт"]
     "BIOG": ["biography", "биография"]
     "DETE": ["detective", "детектив"]
-
-
-

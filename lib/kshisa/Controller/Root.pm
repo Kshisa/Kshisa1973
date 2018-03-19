@@ -5,7 +5,8 @@ use namespace::autoclean;
 use utf8;
 use YAML::Any qw(LoadFile DumpFile);
 
-BEGIN { extends 'Catalyst::Controller' }
+
+BEGIN { extends 'Catalyst::Controller::HTML::FormFu' }
 
 __PACKAGE__->config(namespace => '');
 
@@ -19,78 +20,67 @@ kshisa::Controller::Root - Root Controller for kshisa
 The root page (/)
 =cut
 
+sub _findpic {
+    my ($numb) = @_;
+    my $left;
+    my $p = $numb/4 - int($numb/4);
+    if    ( $p == 0)    { $left = $numb-4}
+    elsif ( $p == 0.75) { $left = $numb-3}
+    elsif ( $p == 0.5)  { $left = $numb-2}
+    elsif ( $p == 0.25) { $left = $numb-1}
+    return $left
+}
+
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
-    my ( $codes, $text, $form, $full, $ba, $fr, $ava, $name, $id, $lb, $l, $r, $rb, $all, $rew,
-    $avat, $file, $side, $right, $maxr, $rcent, $dsl, $left, $maxl, $cout, $info, $ds );
-    my $action = '/';
-    my $kshisa = '<input type="image" id="kshisa" name="kshisa" src="/images/buttons/kshisa1.png"/>';
-    my $clock = '<div class="clock"><div id="Date"></div>
-                <ul> <li class="hours"> </li>
-                    <li class="point">:</li>
-                    <li class="min"> </li>
-                    <li class="point">:</li>
-                    <li class="sec"> </li></ul></div></div> ';
+    
     my $param = $c->req->body_params;
-    my $userPath = $c->config->{'userPath'};
-    sub char {
-        my $pass;
-        my @chars = split( " ","A B C D E F G H I J K L" );
-        foreach my $line (1..6) {
-            $pass = $pass.'<hr/>';
-            foreach my $char (@chars) {
-                $pass = $pass.'<label><input type="radio" name="'.$line.'"value="'.$char.'" />'.$char.'</label>'
-            }
-        }
-        return '<form method=POST action="/user/pass"><p/>'.$pass.'<hr/><input type="submit" name="Enter" value="Enter"/><p/></form>'
-    }
-    sub code {
-        my (@codes, $codes);
-        my ($ds) = LoadFile('/home/marat/Users/best');
-        push @codes, $ds->{$_}{'code'} for (1..100);
-        foreach (@codes) {
-            $codes = $codes.'<img src="/images/imgs/'.$_.'kad3.jpg">';
-        }
-        return $codes;
-    }
+    my $userPath = $c->config->{'userPath'};    
+    my $img_path1 = $c->config->{'img_path1'};
+    my $img_path2 = $c->config->{'img_path2'};
+    my $img_path3 = $c->config->{'img_path3'};
+    my $img_path4 = $c->config->{'img_path4'};
+
+    my ( $ident, $text, $form, $full, $ba, $lo, $ava, $name, $user, $id, $lb, $l, $r, $rb, $micro, $rew,
+         $avat, $file, $side, $right, $maxr, $rcent, $dsl, $left, $maxl, $cout, $info, $ds, $path, $usreit, 
+         $usrew, $love, $message, $n, $film );
+    my $pl = 0;
 
     if ($param->{'kshisa.x'}) {
         $c->response->redirect($c->uri_for("/"));
     }
-    if ($param->{Enter}) {
+    if ($param->{'P6'}) {                                               # PASSWORD VERIFICATION
         my $pass;
-        for (1..6) { $pass = $pass.$param->{$_} if $param->{$_}}
-        if ($pass eq 'F') {
-            $c->response->redirect($c->uri_for("/admin/index"));
-        }
+        for (1..6) { $pass = $pass.$param->{'P'.$_} if $param->{'P'.$_}}
         my ($ds0) = LoadFile($userPath.0);
+        my $flag = 0;
         for (1..$ds0->{0}) {
             if ( $ds0->{$_}{1} eq $pass ) {
-                $id = $ds0->{$_}{0};
-
-                ( $name, $avat, $file, $side, $right, $maxr, $rcent, $ava, $fr, $ba, $dsl, $left, $maxl, $cout, $info, $ds ) = 
+                $id = $ds0->{$_}{0};                                    # HOME SCREEN
+                ( $user, $file, $side, $right, $maxr, $rcent, $ava, $lo, $ba, $dsl, $left, $maxl, $cout, $info, $ds, $love, $n ) = 
                     $c->model('Html')->load( $param, $userPath, $id );
-                ( $l, $full, $r, $lb, $rb  ) = 
-                    $c->model('Html')->info( $cout, $side, $left, $right, $info->{'code'}, $ds, $dsl, $info, $rew, $ava, $name, $id ); 
-                    $c->model('Html')->dump( $userPath, $id, $ds, $file, $left, $side, $right, $cout );
+                ($l, $full, $r, $lb, $rb) = 
+                    $c->model('Html')->info( $cout, $side, $left, $right, $info->{'code'}, $ds, $dsl, $info, $rew, 
+                                             $path, $message, $usreit, $usrew, $lo, $ba, $n, $pl ); 
+                    $c->model('Yaml')->dump( $userPath, $id, $ds, $file, $left, $side, $right, $cout, $love );
+                $flag = 1;
             }
         }
+        ($text, $ident) = ($c->model('Html')->wrong($userPath), 'pass') if $flag == 0;  # WRONG PASSWORD
     }
+    
     elsif ($id = $param->{id}) {
-        my ($s0, $s1, $s2, $s3, $s4, $s5, $s6, $s7)=                        # SNIPETS
-            ('<img class="', '<input class="', '" type="image" name="', '" src="/images/imgs/', '.jpg" />', '<div class="numb">', '</div>', 
-            '" src="/images/buttons/');
-            
-        ( $name, $avat, $file, $side, $right, $maxr, $rcent, $ava, $fr, $ba, $dsl, $left, $maxl, $cout, $info, $ds ) = 
+        $ident = 'main';
+        ( $user, $file, $side, $right, $maxr, $rcent, $ava, $lo, $ba, $dsl, $left, $maxl, $cout, $info, $ds, $love, $n ) = 
             $c->model('Html')->load( $param, $userPath, $id );
-            
+
         if ( $param->{'Next_l.x'} or $param->{'Last_l.x'}) {            # STEP LEFT POSTERS
             $left = $c->model('Yaml')->step($param, $left, $maxl)
         }
         elsif ( $param->{'Next_r.x'} or $param->{'Last_r.x'}) {         # STEP RIGHT POSTERS
             $right = $c->model('Yaml')->step($param, $right, $maxr);
         }
-        elsif ($param->{'kadr1.x'}) { ($cout, $side, $info) = ($left+1,   0, $dsl->{1}{1}{$left+1}) }
+        elsif ($param->{'kadr1.x'}) { ($cout, $side, $info) = ($left+1,   0, $dsl->{1}{1}{$left+1}) }   # CENTRAL VIEW
         elsif ($param->{'kadr2.x'}) { ($cout, $side, $info) = ($left+2,   0, $dsl->{1}{1}{$left+2}) }
         elsif ($param->{'kadr3.x'}) { ($cout, $side, $info) = ($left+3,   0, $dsl->{1}{1}{$left+3}) }
         elsif ($param->{'kadr4.x'}) { ($cout, $side, $info) = ($left+4,   0, $dsl->{1}{1}{$left+4}) }
@@ -98,110 +88,182 @@ sub index :Path :Args(0) {
         elsif ($param->{'kadr6.x'}) { ($cout, $side, $info) = ($right+2,  1, $ds->{1}{2}{$right+2}) }
         elsif ($param->{'kadr7.x'}) { ($cout, $side, $info) = ($right+3,  1, $ds->{1}{2}{$right+3}) }
         elsif ($param->{'kadr8.x'}) { ($cout, $side, $info) = ($right+4,  1, $ds->{1}{2}{$right+4}) }
-        elsif ($param->{'poster.x'} && $side==0 && $file==1) {          # CHOOSE
-            $c->model('Yaml')->magic($ds, $cout, $dsl);
-        }
-        elsif ($param->{'poster.x'} && $side==0 && $file==0) {          # MAGIC CHOOSE
-            my ($dsb) = LoadFile($userPath.'base');
-            my ( $dsc, $code ) = $c->model('Yaml')->magic($ds, $cout, $dsl, $dsb);
-            DumpFile($userPath.'code', $dsc);
-        }
-        elsif ($param->{'poster.x'} && $side==1) {
-            my $radio;
-            $radio = $radio.'<label><input type="radio" name="usreit" value="'.$_.'" />'.$_.'</label>' for ( 1..9 );
-            $rew = '<textarea name="rew" cols="68" rows="2" placeholder="Review">'.$ds->{1}{2}{$cout}{$id}{'rew'}
-            .'</textarea>'.'<p>IMDB ='.$ds->{1}{2}{$cout}{'reit'}.'&nbsp;&nbsp;&nbsp;Your ='.$radio.'</p>';
-        }
-        elsif ($param->{'poster.x'} && $param->{rew}) {
-            $ds->{1}{2}{$cout}{$id}{'Usreit'} = $param->{usreit}.'00';
-            $ds->{1}{2}{$cout}{$id}{'rew'} = $param->{rew};
-            $ds->{1}{2}{$cout}{'grey'} = '';
-            $ds->{0}{'reit'} = $ds->{0}{'reit'} + 1;
-        }
-        elsif ($param->{'All_l.x'}) {
-            foreach my $key (keys %$param){
-                if ($key =~ /\d+/) {
-                    for(1..$dsl->{1}{1}{0}) {
-                        if ($key eq $dsl->{1}{1}{$_}{'year'}) {
-                            $all = $all.$s1.'imageall'.$s2.$_.$s3.$dsl->{1}{1}{$_}{'code'}.'kad0'.$s4.$dsl->{1}{1}{$_}{'year'}
-                        }
-                    }
-                }
+        
+        if ( $side == 0 ) {
+            if ($param->{'g.x'} && $file==0) {                          # MAGIC CHOICE
+                my ( $dsc, $code ) = $c->model('Yaml')->magic($ds, $cout, $dsl, $userPath);
+           }
+            if ($param->{'g.x'} && $file==1) {                          # THE CHOICE FOR VIEWING
+                my $count = $c->model('Yaml')->magic($ds, $cout, $dsl, 'g');
+                ($cout, $side, $info, $right) = ($count,  1, $ds->{1}{2}{$count}, $count);
+            }
+            if ($param->{'h.x'} && $file==1) {                          # THE CHOICE OF FAVORITE
+                my $count = $c->model('Yaml')->magic($ds, $cout, $dsl, 'h');
             }
         }
-        elsif ($param->{'All_r.x'}) {
-            $all = $all.$s1.'imageall'.$s2.$_.$s3.$ds->{1}{2}{$_}{'code'}.'kad0'.$s4 for(1..$ds->{1}{2}{0});
-        }
-        elsif ($param->{'del.x'}) { $side = $c->model('Yaml')->del($ds, $rcent, $maxr) }              # DELETE
-        elsif ($param->{id} && $param->{'fr.x'}){ $c->go("/friends/index", [$id]) }
-
-        ( $l, $full, $r, $lb, $rb  ) = 
-            $c->model('Html')->info( $cout, $side, $left, $right, $info->{'code'}, $ds, $dsl, $info, $rew, $ava, $name, $id ); 
-            $c->model('Html')->dump( $userPath, $id, $ds, $file, $left, $side, $right, $cout );
-    }
-    
-    elsif ($param->{New}) {
-        if ($param->{New} eq 'Yes') {
-            my $avat;
-            $codes = '<div class="fadein">'.code.'</div>';
-            my @ava = split( " ","001 002 003 004 005 006 007 008 009 010 011 012" );
-            foreach (@ava) {
-                $avat = $avat.'<input type="image" class="ava" src="/images/avat/ava'.$_.'.jpg" name="ava'.$_.'" />';
+        if ( $side == 1 ) {
+            if ($param->{'phon.x'} && $param->{rew}) {                  # SAVE USER REWIEW
+                ($usreit, $usrew) = $c->model('Yaml')->rew($ds, $cout, $id, $param);
+            }        
+            if ($param->{'phon.x'}) {  
+                $rew = $c->model('HTML')->rew($ds, $cout, $id);         # USER REWIEW PANEL
+           }
+            if ($param->{'del.x'}) {                                    # DELETE
+                ($cout, $side, $info, $left ) = $c->model('Yaml')->del($ds, $dsl, $rcent, $maxr);
             }
-        $text = '<div id="pass"></div><div id="user"><hr>______________1. Enter Your Name:________________________2. Enter Your Email:__<p>
-                 <input type="text" name="name" class="userid"/>&nbsp&nbsp
-                 <input type="text" name="mail" class="userid"/>
-                 <hr>3. Choose Your Avatar<p>'.$avat.'</div>';
-        }
-        elsif ($param->{New} eq 'No') {
-            $text = '<div id="pass"></div><div id="user">Enter your password</div>';
-            $form = '<div id="dash">'.char.'</div>';
-            $codes = '<div class="fadein"></div>';
-
-        }
-    }        
-    else {
-        $codes = '<div class="fadein">'.code.'</div>';
-        $text = '<div id="pass"></div><div id="user">New User? &nbsp&nbsp&nbsp
-                     <input type="radio" name="New" onclick="subm()"value="Yes">Yes</input>
-                     <input type="radio" name="New" onclick="subm()"value="No">No</input></div>';
-    }
-    foreach my $avat (keys %$param) {
-        if ($avat =~ /ava\d+.x/) {
-            $avat =~ s/\.x//;
-            $codes = '';
-            if ($param->{name} && $param->{mail}) {
-                $text = $c->model('Yaml')->user($c->config->{'userPath'}, $param->{name}, $avat, $param->{mail});
-                if ($text eq '') {
-                    $text = '<div id="pass"></div><div id="user">Enter your password</div>';
-                }
-                $form = '<div id="dash">'.char.'</div>';
+        } 
+        
+        if ($param->{ID}) {                                             # FIND IN BASE BY NUMBER
+            if ($param->{Info} <= $dsl->{1}{1}{0}) {
+                ($file, $cout, $side, $info, $left) = 
+                (1, $param->{Info},  0, $dsl->{1}{1}{$param->{Info}}, _findpic($param->{Info}));
             }
             else {
-                $text = '<div id="pass"></div><div id="user">You forgot to type your name or email</div>';
+                $message = 'exceeded maximum';
+            }
+        }
+        if ($param->{find}) {                                           # FIND IN BASE BY NAME
+            my $find = 0;
+            ($file, $cout, $side, $info, $left, $find) = 
+                $c->model('Yaml')->find(lc $param->{Address}, $dsl);
+            if ($find == 0) {                                           # FIND IN AFISHA BY NAME
+                $c->detach('admin', [$user, 'new', $param->{Address}]);
+            }            
+        }
+        if ($param->{find1}) {                                          # INSERT INFO IN MYSQL BASE
+            $c->detach('admin', [$user, 'insert']);
+        }   
+        if ($param->{find2}) {                                          # LOAD PICTURES FROM MAIL.RU INTO /FIND1 AND SHOW
+            $micro = $c->model('Yaml')->pics($img_path1, $userPath);
+        }     
+
+        foreach my $key (keys %$param) {                                # FIND ALL OF THAT YEAR
+            if ($key =~ /^\d+$/) {
+                $micro = $c->model('Html')->micro($dsl, $key);
+            }
+            if ($key =~ /^(\d+)\.x/) {                                  # ONE FROM FILMS OF THAT YEAR
+                ($micro, $side, $cout, $info, $left) = 
+                    ('', 0, $1, $dsl->{1}{1}{$1}, _findpic($1));
+            }
+            if ($key =~ /^(\d+_.*?)\.x/) { 
+                $key =~ tr[.x][]d;
+                $c->detach('admin', [$user, 'edit', $key]);             # CHOOSE ONE FILM FROM POSTERS
+            }
+        }
+        if ($param->{find3}) {                                          # SHOW PREVIEW
+            ($micro, $side, $pl) = ('', 0, 3);                              
+            ($path, $info) = $c->model('Yaml')->tempIn3($userPath, $c->config->{'cols'}, $param);      # IN TEMP
+        }
+
+        if ($param->{add1}) {                                           # CHOOSE 4 PICTURES AND LOAD POSTER AND GREY
+           my $code = 
+                      $c->model('Yaml')->imgs( $userPath, $img_path1, $img_path2, $img_path3, $img_path4 ); 
+           my $find = $c->model('Yaml')->all($c->config->{'select'}, $c->config->{'userPath'}, $code);
+            
+           ($file, $cout, $side, $info, $left) = (1, $find, 0, $dsl->{1}{1}{$find}, _findpic($find));
+        }
+        if ($param->{edit}) {                                           # EDIT
+            $c->detach('admin', [$user, 'new', $info->{'orname'}]);
+        }
+        if ($param->{down}) {                                           # DOWNLOAD
+            my $magnet = $info->{'magnet'};
+            $message = `transmission-remote 192.168.1.10:9091 -a magnet:?xt=urn:btih:$magnet`;
+        }
+        ($l, $full, $r, $lb, $rb) = 
+            $c->model('Html')->info( $cout, $side, $left, $right, $info->{'code'}, $ds, $dsl, $info, $rew, 
+                                     $path, $message, $usreit, $usrew, $lo, $ba, $n, $pl );
+            $c->model('Yaml')->dump( $userPath, $id, $ds, $file, $left, $side, $right, $cout, $love );
+    }
+
+    elsif ($param->{New}) {                                             # NEW OR NOT USER
+        ($text)         = ($c->model('Html')->yes_new($userPath))         if $param->{New} eq 'Yes';
+        ($text, $ident) = ($c->model('Html')->not_new($userPath), 'pass') if $param->{New} eq 'No', ;
+    }        
+    else { 
+        $text = $c->model('Html')->start($userPath);                    # START SCREEN
+        $ident = 'start';
+    }
+    foreach my $avat (keys %$param) {                                   # CREATING NEW USER                                                                      
+        if ($avat =~ /ava\d+.x/) {
+            $avat =~ s/\.x//;
+            if ($param->{name} && $param->{mail}) {
+                $text = $c->model('Yaml')->user($c->config->{'userPath'}, $param->{name}, $avat, $param->{mail});
+                ($text, $ident) = ($c->model('Html')->enter($userPath), 'pass') if $text eq '';
+            }
+            else {
+                $text = $c->model('Html')->forgot();
             }
        }
     }
-
     $c->stash (
-        kshisa   => $kshisa,                                            # LOGO
-        avat     => '<div id="Avat">'.$ava.'</div>',                    # AVATAR
-        name     => '<div id="Name">'.$name.'</div>',                   # NAME
-        clock    => $clock,                                             # CLOCK
-        id       => '<input type="hidden" name="id" value="'.$id.'" />',# USERID
-        ba       => '<hr><div class="left_col">'.$ba,                   # BUTTON BASE-AUTH
-        l        => $lb.$l.'</div><div class="center_col">',            # LEFT PICTURES
+        user     => $user,                                              # HEADER
+        micro    => $micro,                                             # ALLPICTURES
+        l        => $lb.$l,                                             # LEFT PICTURES
         full     => $full,                                              # CENTER-FULLINFO
-        text     => $text,
-        all      => $all.'</div><div class="right_col">',               # ALLPICTURES
-        fr       => $fr,
-        r        => $rb.$r.'</div> ',                                   # RIGT PICTURES
-        codes    => $codes,
+        text     => $text,                                              # HTML CODE
+        r        => $rb.$r,                                             # RIGHT PICTURES
         forma    => $form,
-        action   => $action,
+        ident    => $ident,
     );
 }
-     
+sub admin :Local :FormConfig('find.json') {                             # ADMIN PANEL
+    
+    my ($self, $c, $user, $edit, $name ) = @_;
+    
+    my $form = $c->stash->{form};
+    my $param = $c->req->body_params;
+    my $select = $c->config->{'select'};
+    my $userPath = $c->config->{'userPath'};  
+    my $img_path1 = $c->config->{'img_path1'};
+    my $img_path2 = $c->config->{'img_path2'};
+    my $img_path3 = $c->config->{'img_path3'};
+    my $img_path4 = $c->config->{'img_path4'};
+
+    my (@cols, @cols1, %cols, $micro, $mail, $cols);
+    push @cols, $_->[0] foreach @{$c->config->{'cols'}};                # TABLES ROWS
+    push @cols1, $_->[0] foreach @{$c->config->{'cols1'}};
+    $form->add_valid('Address', $name);
+    if ($edit eq 'new' or $edit eq 'edit') {   
+        if ($edit eq 'new') {                       
+            ($micro, $mail) = ($c->model('Yaml')->search($name, $img_path3)) ;
+            $cols = $c->model('Yaml')->mail($mail, $select);
+        }
+        if ($edit eq 'edit') {
+            $cols = $c->model('Yaml')->mail($name, $select);
+        }
+        $form->add_valid($_.'_a', $cols->{$_}) foreach (keys %$cols);
+        my $orname = $c->model('Yaml')->tempIn1($cols, $userPath);      # IN TEMP FILE
+        my $rs = $c->model('Yaml')->resultset('Films2')->find({orname => $orname});
+        if ($rs) {
+            my $ds = LoadFile($userPath.'temp');
+            $ds->{code} = $rs->code;
+            DumpFile($userPath.'temp', $ds);
+            my %cols1;
+            foreach (@cols1) {                                           
+                if ($_ =~ /(\D+)_(\d+)/) {
+                    my @set = split ':', $rs->$1;
+                        $cols1{$_} = uc $set[$2];
+                }
+                else{
+                    $cols1{$_} = $rs->$_ ;
+                }
+            }
+            $form->add_valid($_.'_b', $cols1{$_}) foreach (keys %cols1);
+        }
+    }        
+    if ($edit eq 'insert') {                                            # INSERT IN MYSQL
+        $form->add_valid($_.'_a', '') foreach (@cols1);
+        $cols{$_} = $param->{$_.'_a'} foreach (@cols1);
+        $form->add_valid($_.'_b', $cols{$_}) foreach (keys %cols);
+        $c->model('Yaml')->create(\%cols);
+        $c->model('Yaml')->tempIn2($userPath, \%cols);                  # IN TEMP FILE
+    }
+    $c->stash (
+        user     => $user,                                              # HEADER
+        micro    => $micro,                                             # ALLPICTURES
+
+    );
+}
 =head2 default
 
 Standard 404 error page

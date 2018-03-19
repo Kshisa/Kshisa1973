@@ -1,23 +1,15 @@
 [% WRAPPER page.tt %]
 <main>
+<form method="post" id="[% ident %]" action="/">
 <header>
-<form method="post" id=start action="[% action %]">
-    [% id %]
-    [% avat %]
-    [% name %]
-    [% clock %]
-    [%kshisa%]
+    [% user %]
 </header>
     [% micro %]
+    [% l %]    
     [% form %]
-    [% ba %]
-    [% l %]
     [% full %]
     [% text %]
-    [% all %]
-    [% fr %]
     [% r %]
-    [% codes %]
     [% forma %]
 </form>
 </main>

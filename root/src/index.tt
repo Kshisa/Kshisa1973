@@ -1,4 +1,15 @@
-[% WRAPPER page.tt %]
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>kshisa</title>
+    <link rel="stylesheet" href="[% c.uri_for('/static/css/main.css') %]" />
+    <link rel="stylesheet" href="[% c.uri_for('/static/css/star-rating-svg.css') %]" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
 <main>
 <form method="post" id="[% ident %]" action="/">
 <header>
@@ -13,4 +24,85 @@
     [% forma %]
 </form>
 </main>
-[% END %]
+<div id="weather">
+    <a target="_blank" href="http://nochi.com/weather/kazan-4422">
+    <img src="https://w.bookcdn.com/weather/picture/1_4422_1_20_babec2_320_ffffff_333333_08488D_1_ffffff_333333_0_6.png?scode=124&domid=589&anc_id=35927"  alt="booked.net"/></a>
+    <p><h>      
+</div>
+
+<div id="info">
+    © 2017 Hakimov Marat. kshisa1973@gmail.com © 2017 Hakimov Marat. kshisa1973@gmail.com © 2017 Hakimov Marat. 
+    kshisa1973@gmail.com © 2017 Hakimov Marat kshisa1973@gmail.com
+</div>
+
+<script>
+    $(function() {
+    $(".my-rating-2").starRating({
+        totalStars: 9,
+        emptyColor: 'lightgray',
+        hoverColor: 'salmon',
+        activeColor: 'cornflowerblue',
+        strokeWidth: 0,
+        useGradient: false
+    });
+    });
+    function subm(){
+        var subm = document.getElementById("start");
+        subm.submit();
+    }
+    function subm1(){
+        var subm = document.getElementById("pass");
+        subm.submit();
+    }
+    function subm2(checkbox){
+        if(checkbox.checked == true) {
+            var subm = document.getElementById("main");
+            subm.submit();
+        }
+    }
+    $(document).ready(function() {
+    var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ]; 
+    var dayNames= ["Sun","Mon","Tue","Wen","Thu","Fri","Sut"]
+    
+    var h = $("#hours").text();
+    h = Number(h);
+    var m = $("#minut").text();
+    m = Number(m);
+    var h1 = 0;
+
+    var newDate = new Date();
+    newDate.setDate(newDate.getDate());
+    $('#Date').html(dayNames[newDate.getDay()] + " " + newDate.getDate() + 
+    ' ' + monthNames[newDate.getMonth()] + ' ' + newDate.getFullYear());
+
+    setInterval( function() {
+        var seconds = new Date().getSeconds();
+        $(".sec").html(( seconds < 10 ? "0" : "" ) + seconds);
+    },1000);
+    
+    setInterval( function() {
+        var minutes = new Date().getMinutes();
+        $(".min").html(( minutes < 10 ? "0" : "" ) + minutes);
+        minutes = minutes + m;
+        if (minutes > 59) {
+            minutes = minutes-60;
+            h1 = 1;
+        }
+        $(".min1").html(( minutes < 10 ? "0" : "" ) + minutes);
+    },1000);
+    
+    setInterval( function() {
+        var hours = new Date().getHours();
+        $(".hours").html(( hours < 10 ? "0" : "" ) + hours);
+        hours = hours + h + h1;
+        if (hours > 23) {
+            hours = hours - 24;
+        }
+        $(".hours1").html(( hours < 10 ? "0" : "" ) + hours);
+    }, 1000);   
+    });
+</script>
+<script src="../static/javascript/tv.js"></script>
+<script src="../static/javascript/jquery.star-rating-svg.js"></script>
+</body>
+</html>

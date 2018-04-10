@@ -20,17 +20,6 @@ kshisa::Controller::Root - Root Controller for kshisa
 The root page (/)
 =cut
 
-sub _findpic {
-    my ($numb) = @_;
-    my $left;
-    my $p = $numb/4 - int($numb/4);
-    if    ( $p == 0)    { $left = $numb-4}
-    elsif ( $p == 0.75) { $left = $numb-3}
-    elsif ( $p == 0.5)  { $left = $numb-2}
-    elsif ( $p == 0.25) { $left = $numb-1}
-    return $left
-}
-
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
     
@@ -57,10 +46,10 @@ sub index :Path :Args(0) {
         for (1..$ds0->{0}) {
             if ( $ds0->{$_}{1} eq $pass ) {
                 $id = $ds0->{$_}{0};                                    # HOME SCREEN
-                ( $user, $file, $side, $right, $maxr, $rcent, $ava, $lo, $ba, $dsl, $left, $maxl, $cout, $info, $ds, $love, $n ) = 
+                ($user, $file, $side, $right, $maxr, $rcent, $ava, $lo, $ba, $dsl, $left, $maxl, $cout, $info, $ds, $love, $n) = 
                     $c->model('Html')->load( $param, $userPath, $id );
                 ($l, $full, $r, $lb, $rb) = 
-                    $c->model('Html')->info( $cout, $side, $left, $right, $info->{'code'}, $ds, $dsl, $info, $rew, 
+                    $c->model('Html')->info( $cout, $side, $left, $right, $ds, $dsl, $info, $rew, 
                                              $path, $message, $usreit, $usrew, $lo, $ba, $n, $pl ); 
                     $c->model('Yaml')->dump( $userPath, $id, $ds, $file, $left, $side, $right, $cout, $love );
                 $flag = 1;
@@ -71,7 +60,7 @@ sub index :Path :Args(0) {
     
     elsif ($id = $param->{id}) {
         $ident = 'main';
-        ( $user, $file, $side, $right, $maxr, $rcent, $ava, $lo, $ba, $dsl, $left, $maxl, $cout, $info, $ds, $love, $n ) = 
+        ( $user, $file, $side, $right, $maxr, $rcent, $ava, $lo, $ba, $dsl, $left, $maxl, $cout, $info, $ds, $love, $n) = 
             $c->model('Html')->load( $param, $userPath, $id );
 
         if ( $param->{'Next_l.x'} or $param->{'Last_l.x'}) {            # STEP LEFT POSTERS
@@ -84,53 +73,73 @@ sub index :Path :Args(0) {
         elsif ($param->{'kadr2.x'}) { ($cout, $side, $info) = ($left+2,   0, $dsl->{1}{1}{$left+2}) }
         elsif ($param->{'kadr3.x'}) { ($cout, $side, $info) = ($left+3,   0, $dsl->{1}{1}{$left+3}) }
         elsif ($param->{'kadr4.x'}) { ($cout, $side, $info) = ($left+4,   0, $dsl->{1}{1}{$left+4}) }
-        elsif ($param->{'kadr5.x'}) { ($cout, $side, $info) = ($right+1,  1, $ds->{1}{2}{$right+1}) }
-        elsif ($param->{'kadr6.x'}) { ($cout, $side, $info) = ($right+2,  1, $ds->{1}{2}{$right+2}) }
-        elsif ($param->{'kadr7.x'}) { ($cout, $side, $info) = ($right+3,  1, $ds->{1}{2}{$right+3}) }
-        elsif ($param->{'kadr8.x'}) { ($cout, $side, $info) = ($right+4,  1, $ds->{1}{2}{$right+4}) }
-        
+        if ($love == 0) {
+            if ($param->{'kadr5.x'}) { ($cout, $side, $info) = ($right+1,  1, $ds->{1}{2}{$right+1}) }
+            if ($param->{'kadr6.x'}) { ($cout, $side, $info) = ($right+2,  1, $ds->{1}{2}{$right+2}) }
+            if ($param->{'kadr7.x'}) { ($cout, $side, $info) = ($right+3,  1, $ds->{1}{2}{$right+3}) }
+            if ($param->{'kadr8.x'}) { ($cout, $side, $info) = ($right+4,  1, $ds->{1}{2}{$right+4}) }
+        }
+        if ($love == 1) {
+            if ($param->{'kadr5.x'}) { ($cout, $side, $info) = ($right+1,  1, $ds->{1}{4}{$right+1}) }
+            if ($param->{'kadr6.x'}) { ($cout, $side, $info) = ($right+2,  1, $ds->{1}{4}{$right+2}) }
+            if ($param->{'kadr7.x'}) { ($cout, $side, $info) = ($right+3,  1, $ds->{1}{4}{$right+3}) }
+            if ($param->{'kadr8.x'}) { ($cout, $side, $info) = ($right+4,  1, $ds->{1}{4}{$right+4}) }
+        }
         if ( $side == 0 ) {
-            if ($param->{'g.x'} && $file==0) {                          # MAGIC CHOICE
-                my ( $dsc, $code ) = $c->model('Yaml')->magic($ds, $cout, $dsl, $userPath);
-           }
-            if ($param->{'g.x'} && $file==1) {                          # THE CHOICE FOR VIEWING
-                my $count = $c->model('Yaml')->magic($ds, $cout, $dsl, 'g');
-                ($cout, $side, $info, $right) = ($count,  1, $ds->{1}{2}{$count}, $count);
+            if  ( $file == 0 ) {
+                if ($param->{'g.x'}) {                                  # MASHINE CHOICE FOR VIEWING
+                    ($cout, $right) = $c->model('Yaml')->mashine($ds, $cout, $dsl, $userPath, 'g');
+                    ($file, $side, $info, $love) = (0, 1, $ds->{1}{2}{$cout}, 0);
+                }
+                if ($param->{'h.x'}) {                                  # MASHINE CHOICE OF FAVORITE
+                    ($cout, $right) = $c->model('Yaml')->mashine($ds, $cout, $dsl, $userPath, 'h');
+                    ($file, $side, $info, $love) = (0, 1, $ds->{1}{4}{$cout}, 1);
+                }
             }
-            if ($param->{'h.x'} && $file==1) {                          # THE CHOICE OF FAVORITE
-                my $count = $c->model('Yaml')->magic($ds, $cout, $dsl, 'h');
+            if  ( $file == 1 ) {
+                if ($param->{'g.x'}) {                                  # CHOICE FOR VIEWING
+                    ($cout, $right) = $c->model('Yaml')->mashine($ds, $cout, $dsl, $userPath, 'g');
+                    ($side, $info, $love) = (1, $ds->{1}{2}{$cout}, 0);
+                     
+                }
+                if ($param->{'h.x'}) {                                  # CHOICE OF FAVORITE
+                    ($cout, $right) = $c->model('Yaml')->mashine($ds, $cout, $dsl, $userPath, 'h');
+                    ($side, $info, $love) = (1, $ds->{1}{4}{$cout}, 1);
+                }
             }
         }
         if ( $side == 1 ) {
             if ($param->{'phon.x'} && $param->{rew}) {                  # SAVE USER REWIEW
-                ($usreit, $usrew) = $c->model('Yaml')->rew($ds, $cout, $id, $param);
+                ($usreit, $usrew) = $c->model('Yaml')->rew($ds, $cout, $param, $love);
             }        
             if ($param->{'phon.x'}) {  
-                $rew = $c->model('HTML')->rew($ds, $cout, $id);         # USER REWIEW PANEL
-           }
-            if ($param->{'del.x'}) {                                    # DELETE
-                ($cout, $side, $info, $left ) = $c->model('Yaml')->del($ds, $dsl, $rcent, $maxr);
+                $rew = $c->model('HTML')->rew($ds, $cout);              # USER REWIEW PANEL
+            }
+            if ($param->{'del.x'} && $love == 0) {                      # DELETE FOR VIEWING
+                ($cout, $side, $info, $left) = $c->model('Yaml')->del($ds, $dsl, $cout, $maxr, 2);
+            }
+            if ($param->{'del.x'} && $love == 1) {                      # DELETE OF FAVORITE
+                ($cout, $side, $info, $left) = $c->model('Yaml')->del($ds, $dsl, $cout, $maxr, 4);
             }
         } 
         
         if ($param->{ID}) {                                             # FIND IN BASE BY NUMBER
-            if ($param->{Info} <= $dsl->{1}{1}{0}) {
-                ($file, $cout, $side, $info, $left) = 
-                (1, $param->{Info},  0, $dsl->{1}{1}{$param->{Info}}, _findpic($param->{Info}));
-            }
-            else {
-                $message = 'exceeded maximum';
-            }
+            ($message, $cout, $side, $info, $left) = 
+                $c->model('Yaml')->numb($param->{Info}, $dsl);
         }
         if ($param->{find}) {                                           # FIND IN BASE BY NAME
             my $find = 0;
             ($file, $cout, $side, $info, $left, $find) = 
                 $c->model('Yaml')->find(lc $param->{Address}, $dsl);
             if ($find == 0) {                                           # FIND IN AFISHA BY NAME
+                $message = 'No result in base';
                 $c->detach('admin', [$user, 'new', $param->{Address}]);
             }            
         }
-        if ($param->{find1}) {                                          # INSERT INFO IN MYSQL BASE
+        if ($param->{find0}) {                                          # INSERT INFO IN MYSQL BASE
+            $c->detach('admin', [$user, 'create']);
+        }
+        if ($param->{find1}) {                                          # EDIT INFO IN MYSQL BASE
             $c->detach('admin', [$user, 'insert']);
         }   
         if ($param->{find2}) {                                          # LOAD PICTURES FROM MAIL.RU INTO /FIND1 AND SHOW
@@ -142,8 +151,12 @@ sub index :Path :Args(0) {
                 $micro = $c->model('Html')->micro($dsl, $key);
             }
             if ($key =~ /^(\d+)\.x/) {                                  # ONE FROM FILMS OF THAT YEAR
-                ($micro, $side, $cout, $info, $left) = 
-                    ('', 0, $1, $dsl->{1}{1}{$1}, _findpic($1));
+                ($micro, $side, $cout, $info) = ('', 0, $1, $dsl->{1}{1}{$1});
+                my $p = $cout/4 - int($cout/4);
+                if    ( $p == 0)    { $left = $cout-4}
+                elsif ( $p == 0.75) { $left = $cout-3}
+                elsif ( $p == 0.5)  { $left = $cout-2}
+                elsif ( $p == 0.25) { $left = $cout-1}
             }
             if ($key =~ /^(\d+_.*?)\.x/) { 
                 $key =~ tr[.x][]d;
@@ -155,22 +168,27 @@ sub index :Path :Args(0) {
             ($path, $info) = $c->model('Yaml')->tempIn3($userPath, $c->config->{'cols'}, $param);      # IN TEMP
         }
 
-        if ($param->{add1}) {                                           # CHOOSE 4 PICTURES AND LOAD POSTER AND GREY
+        if ($param->{find4}) {                                          # CHOOSE 4 PICTURES AND LOAD POSTER AND GREY
            my $code = 
                       $c->model('Yaml')->imgs( $userPath, $img_path1, $img_path2, $img_path3, $img_path4 ); 
-           my $find = $c->model('Yaml')->all($c->config->{'select'}, $c->config->{'userPath'}, $code);
+           ($cout, $left) = $c->model('Yaml')->all($c->config->{'select'}, $c->config->{'userPath'}, $code);
             
-           ($file, $cout, $side, $info, $left) = (1, $find, 0, $dsl->{1}{1}{$find}, _findpic($find));
+           ($file, $side, $info) = (1, 0, $dsl->{1}{1}{$cout});
         }
         if ($param->{edit}) {                                           # EDIT
             $c->detach('admin', [$user, 'new', $info->{'orname'}]);
         }
         if ($param->{down}) {                                           # DOWNLOAD
             my $magnet = $info->{'magnet'};
-            $message = `transmission-remote 192.168.1.10:9091 -a magnet:?xt=urn:btih:$magnet`;
+            $message = `transmission-remote 192.168.1.5:9091 -a magnet:?xt=urn:btih:$magnet`;
         }
+        if ($param->{sql}) {                                            # FOM ALL TO MYSQL
+            $c->model('Yaml')->conf($c->config->{'cols'}, $c->config->{'select'}, $c->config->{'form_path'});
+            #$c->model('Yaml')->mysql($c->config->{'cols'}, $c->config->{'select'}, $userPath);
+        }
+        # $message  = $cout.'-----'.$side.'-----'.$info.'-----'.$love;
         ($l, $full, $r, $lb, $rb) = 
-            $c->model('Html')->info( $cout, $side, $left, $right, $info->{'code'}, $ds, $dsl, $info, $rew, 
+            $c->model('Html')->info( $cout, $side, $left, $right, $ds, $dsl, $info, $rew, 
                                      $path, $message, $usreit, $usrew, $lo, $ba, $n, $pl );
             $c->model('Yaml')->dump( $userPath, $id, $ds, $file, $left, $side, $right, $cout, $love );
     }
@@ -187,11 +205,11 @@ sub index :Path :Args(0) {
         if ($avat =~ /ava\d+.x/) {
             $avat =~ s/\.x//;
             if ($param->{name} && $param->{mail}) {
-                $text = $c->model('Yaml')->user($c->config->{'userPath'}, $param->{name}, $avat, $param->{mail});
-                ($text, $ident) = ($c->model('Html')->enter($userPath), 'pass') if $text eq '';
+                my $pass = $c->model('Yaml')->user($c->config->{'userPath'}, $param->{name}, $avat, $param->{mail});
+                ($text, $ident) = ($c->model('Html')->enter($pass), 'pass')
             }
             else {
-                $text = $c->model('Html')->forgot();
+                $text = $c->model('Html')->forgot($c->config->{'userPath'});
             }
        }
     }
@@ -222,7 +240,7 @@ sub admin :Local :FormConfig('find.json') {                             # ADMIN 
     my (@cols, @cols1, %cols, $micro, $mail, $cols);
     push @cols, $_->[0] foreach @{$c->config->{'cols'}};                # TABLES ROWS
     push @cols1, $_->[0] foreach @{$c->config->{'cols1'}};
-    $form->add_valid('Address', $name);
+    
     if ($edit eq 'new' or $edit eq 'edit') {   
         if ($edit eq 'new') {                       
             ($micro, $mail) = ($c->model('Yaml')->search($name, $img_path3)) ;
@@ -231,9 +249,11 @@ sub admin :Local :FormConfig('find.json') {                             # ADMIN 
         if ($edit eq 'edit') {
             $cols = $c->model('Yaml')->mail($name, $select);
         }
+        my ($orname, $year) = $c->model('Yaml')->tempIn1($cols, $userPath);      # IN TEMP FILE
+        delete $cols->{'kad0'};
         $form->add_valid($_.'_a', $cols->{$_}) foreach (keys %$cols);
-        my $orname = $c->model('Yaml')->tempIn1($cols, $userPath);      # IN TEMP FILE
-        my $rs = $c->model('Yaml')->resultset('Films2')->find({orname => $orname});
+        my $rs = $c->model('Yaml')->resultset('Films2')->find({orname => $orname, year => $year});
+        
         if ($rs) {
             my $ds = LoadFile($userPath.'temp');
             $ds->{code} = $rs->code;
@@ -249,15 +269,24 @@ sub admin :Local :FormConfig('find.json') {                             # ADMIN 
                 }
             }
             $form->add_valid($_.'_b', $cols1{$_}) foreach (keys %cols1);
+            $form->add_valid('Address', $rs->id);
         }
     }        
-    if ($edit eq 'insert') {                                            # INSERT IN MYSQL
+     if ($edit eq 'create') {                                            # INSERT IN MYSQL
         $form->add_valid($_.'_a', '') foreach (@cols1);
         $cols{$_} = $param->{$_.'_a'} foreach (@cols1);
         $form->add_valid($_.'_b', $cols{$_}) foreach (keys %cols);
-        $c->model('Yaml')->create(\%cols);
+        $c->model('Yaml')->cret(\%cols);
+        $c->model('Yaml')->tempIn2($userPath, \%cols);                  # IN TEMP FILE
+    }  
+    if ($edit eq 'insert') {                                            # EDIT IN MYSQL
+        $form->add_valid($_.'_a', '') foreach (@cols1);
+        $cols{$_} = $param->{$_.'_a'} foreach (@cols1);
+        $form->add_valid($_.'_b', $cols{$_}) foreach (keys %cols);
+        $c->model('Yaml')->edit(\%cols, $param->{'Address'});
         $c->model('Yaml')->tempIn2($userPath, \%cols);                  # IN TEMP FILE
     }
+
     $c->stash (
         user     => $user,                                              # HEADER
         micro    => $micro,                                             # ALLPICTURES

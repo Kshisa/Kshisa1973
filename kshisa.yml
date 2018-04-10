@@ -1,11 +1,12 @@
 ---
-"name": "Kshisatv"
+"name": "kshisa"
 "default_view": "TT"
 "img_path1": "/home/marat/images/find1/"
 "img_path2": "/home/marat/images/imgs/"
 "img_path3": "/home/marat/images/find/"
 "img_path4": "/home/marat/images/imgs1/"
 "userPath": "/home/marat/Users/"
+"form_path": "/home/marat/kshisa/root/forms"
 "cols": [
     ["code", "Text"],
     ["year", "Text"],
@@ -21,7 +22,6 @@
     ["actor5", "Text"],
     ["review", "Text"],
     ["No", "Text"],
-    ["kad0", "Text"],
     ]
 "cols1": [
     ["code", "Text"],
@@ -44,14 +44,8 @@
     ["actor3", "Text"],
     ["actor4", "Text"],
     ["actor5", "Text"],
-    ["kad0", "Text"],
-    ["kad1", "Text"],
-    ["kad2", "Text"],
-    ["kad3", "Text"],
-    ["kad4", "Text"],
     ["review", "Text"],
     ["magnet1", "Text"],
-    ["format", "Text"],
     ["size", "Text"],
     ["No", "Text"]
     ]

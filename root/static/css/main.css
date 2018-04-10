@@ -27,7 +27,7 @@ header{
 main{
     background: url(/images/buttons/scene1.jpg) no-repeat;
     background-position: 50% 4%;
-    height: 1330px;
+    height: 1640px;
     width: 1325px; 
     margin-left: auto;
     margin-right: auto;
@@ -66,7 +66,6 @@ footer{
     left: 10%; 
     width: 895px; 
     float: left;
-
 }
 .right_col{
     background: url(/images/buttons/film3.jpg) no-repeat;
@@ -181,7 +180,7 @@ ul li {
     margin-top: 5px;
 }
 
-.poster{
+.post{
     float: left;
     width: 320px;
     height: 444px;
@@ -193,7 +192,7 @@ ul li {
 .note{
     margin-top: 100px;
 }
-.kadr1{
+.kadr{
     margin: 2px;
     width: 272px;
     height: 160px;
@@ -299,11 +298,10 @@ select {
 .imagemail {
     margin: 5px;
     width: 150px;
-
 }
 #pics {
     text-align: left;
-    height: 440px;
+    height: 400px;
     overflow: scroll;
 }
 #left {

@@ -1,11 +1,10 @@
  
-{ "elements"  :[{"type":"Block", "tag": "div class=left_col"},
-                {"type":"Block",  "tag": "div class=center_col",
-                 "elements":[{
+{ "elements"  :[{
                  "type":"Block",  "tag": "table", "elements":[
-                 {"type":"Block",  "tag": "tr", "elements":[{"type":"Submit", "name":"find1",    "container_tag":"span", "value":"find1", "id":"but"},
-                                                            {"type":"Text",   "name":"Address", "container_tag":"span", "size":"65"},
-                                                            {"type":"Submit", "name":"find2",    "container_tag":"span", "value":"find2", "id":"but"},
+                 {"type":"Block",  "tag": "tr", "elements":[{"type":"Submit", "name":"find0",    "container_tag":"span", "value":"cret", "id":"but"},
+                                                            {"type":"Submit", "name":"find1",    "container_tag":"span", "value":"edit", "id":"but"},
+                                                            {"type":"Text",   "name":"Address", "container_tag":"span", "size":"15"},
+                                                            {"type":"Submit", "name":"find2",    "container_tag":"span", "value":"2", "id":"but"},
                                                           ]
                 },
 
@@ -66,14 +65,19 @@
     },
     {"type":"Block",  "tag": "tr",
     "elements":
-    [{"type":"Block",  "tag": "td", "element":{"label":"kad0", "id":"kad", "type":"Text","name":"kad0_a", "size":"60"}},
-     {"type":"Block",  "tag": "td", "element":{"label":"kad0", "id":"kad", "type":"Text","name":"kad0_b", "size":"60"}}],
+    [{"type":"Block",  "tag": "td", "element":{"label":"No", "id":"kad", "type":"Text","name":"No_a", "size":"60"}},
+     {"type":"Block",  "tag": "td", "element":{"label":"No", "id":"kad", "type":"Text","name":"No_b", "size":"60"}}],
     },
     {"type":"Block",  "tag": "tr",
     "elements":
-    [{"type":"Block",  "tag": "td", "element":{"label":"No", "id":"kad", "type":"Text","name":"No_a", "size":"60"}},
-     {"type":"Block",  "tag": "td", "element":{"label":"No", "id":"kad", "type":"Text","name":"No_b", "size":"60"}}],
-    }, 
+    [{"type":"Block",  "tag": "td", "element":{"label":"magt", "id":"kad", "type":"Text","name":"magnet1_a", "size":"60"}},
+     {"type":"Block",  "tag": "td", "element":{"label":"magt", "id":"kad", "type":"Text","name":"magnet1_b", "size":"60"}}],
+    },
+    {"type":"Block",  "tag": "tr",
+    "elements":
+    [{"type":"Block",  "tag": "td", "element":{"label":"pics", "id":"kad", "type":"Text","name":"size_a", "size":"60"}},
+     {"type":"Block",  "tag": "td", "element":{"label":"pics", "id":"kad", "type":"Text","name":"size_b", "size":"60"}}],
+    },
       {"type":"Block",  "tag": "tr",
       "elements":
       [{"type":"Block",  "tag": "td", "element":{"label":"ct_0", "type":"Select","name":"coun_0_a", "options":[
@@ -152,21 +156,4 @@
     [{"type":"Block",  "tag": "td", "element":{"label":"rew", "type":"Textarea","name":"review_a", "cols":"45", "rows":"15"}},
      {"type":"Block",  "tag": "td", "element":{"label":"rew", "type":"Textarea","name":"review_b", "cols":"45", "rows":"15"}}],
     },
-    {"type":"Block",  "tag": "tr",
-    "elements":
-    [{"type":"Block",  "tag": "td", "element":{"label":"magt", "id":"kad", "type":"Text","name":"magnet1_a", "size":"60"}},
-     {"type":"Block",  "tag": "td", "element":{"label":"magt", "id":"kad", "type":"Text","name":"magnet1_b", "size":"60"}}],
-    },
-    {"type":"Block",  "tag": "tr",
-    "elements":
-    [{"type":"Block",  "tag": "td", "element":{"label":"form", "id":"kad", "type":"Text","name":"format_a", "size":"60"}},
-     {"type":"Block",  "tag": "td", "element":{"label":"form", "id":"kad", "type":"Text","name":"format_b", "size":"60"}}],
-    },
-    {"type":"Block",  "tag": "tr",
-    "elements":
-    [{"type":"Block",  "tag": "td", "element":{"label":"size", "id":"kad", "type":"Text","name":"size_a", "size":"60"}},
-     {"type":"Block",  "tag": "td", "element":{"label":"size", "id":"kad", "type":"Text","name":"size_b", "size":"60"}}],
-    },
- ]}]},
-     {"type":"Block",  "tag": "div class=right_col"},
- ]} 
+ ]}]} 

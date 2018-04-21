@@ -6,30 +6,8 @@
 "img_path3": "/home/marat/images/find/"
 "img_path4": "/home/marat/images/imgs1/"
 "userPath": "/home/marat/Users/"
-"form_path": "/home/marat/kshisa/root/forms"
+"form_path": "/home/marat/kshisa/root/forms/"
 "cols": [
-    ["code", "Text"],
-    ["year", "Text"],
-    ["time", "Text"],
-    ["reit", "Text"],
-    ["runame", "Text"],
-    ["orname", "Text"],
-    ["director", "Text"],
-    ["actor1", "Text"],
-    ["actor2", "Text"],
-    ["actor3", "Text"],
-    ["actor4", "Text"],
-    ["actor5", "Text"],
-    ["review", "Text"],
-    ["No", "Text"],
-    ]
-"cols1": [
-    ["code", "Text"],
-    ["year", "Text"],
-    ["time", "Text"],
-    ["reit", "Text"],
-    ["runame", "Text"],
-    ["orname", "Text"],
     ["coun_0", "Select"],
     ["coun_1", "Select"],
     ["coun_2", "Select"],
@@ -38,19 +16,25 @@
     ["genr_1", "Select"],
     ["genr_2", "Select"],
     ["genr_3", "Select"],
-    ["director", "Text"],
+    ["review", "Textarea"],    
+    ["code", "Text"],
+    ["year", "Text"],
+    ["time", "Text"],
+    ["reit", "Text"],
+    ["runame", "Text"],
+    ["orname", "Text"],
+    ["director", "Text"],   
     ["actor1", "Text"],
     ["actor2", "Text"],
     ["actor3", "Text"],
     ["actor4", "Text"],
     ["actor5", "Text"],
-    ["review", "Text"],
-    ["magnet1", "Text"],
+    ["magnet1", "Text"],     
     ["size", "Text"],
-    ["No", "Text"]
     ]
 "select":
-  "coun":    
+  "coun":
+    "AAAA": ["", ""]
     "USOA": ["USA", "США"]
     "RUSS": ["Russia","Россия"]   
     "FRAN": ["France", "Франция"]
@@ -75,7 +59,10 @@
     "SWED": ["Sweden", "Швеция"]
     "POLA": ["Poland", "Польша"]
     "NETH": ["Netherlands", "Нидерланды"]
-  "genr": 
+    "BRAZ": ["Brazil", "Бразилия"]
+    'IRAN': ["Iran", "Иран"]
+  "genr":
+    "AAAA": ["", ""]
     "SCIF": ["sci-fi", "фантастика"]
     "FANT": ["fantasy", "фэнтези"]   
     "HORR": ["horror", "ужасы"]

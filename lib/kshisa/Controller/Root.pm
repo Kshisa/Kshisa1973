@@ -5,7 +5,6 @@ use namespace::autoclean;
 use utf8;
 use YAML::Any qw(LoadFile DumpFile);
 
-
 BEGIN { extends 'Catalyst::Controller::HTML::FormFu' }
 
 __PACKAGE__->config(namespace => '');
@@ -14,7 +13,7 @@ __PACKAGE__->config(namespace => '');
 =head1 NAME
 kshisa::Controller::Root - Root Controller for kshisa
 =head1 DESCRIPTION
-[enter your description here]
+SPA Controller for site and admin
 =head1 METHODS
 =head2 index
 The root page (/)
@@ -32,9 +31,9 @@ sub index :Path :Args(0) {
 
     my ( $ident, $text, $form, $full, $ba, $lo, $ava, $name, $user, $id, $lb, $l, $r, $rb, $micro, $rew,
          $avat, $file, $side, $right, $maxr, $rcent, $dsl, $left, $maxl, $cout, $info, $ds, $path, $usreit, 
-         $usrew, $love, $message, $n, $film );
+         $usrew, $love, $message, $n, $film, $best);
     my $pl = 0;
-
+    my $flag = 0;
     if ($param->{'kshisa.x'}) {
         $c->response->redirect($c->uri_for("/"));
     }
@@ -42,25 +41,20 @@ sub index :Path :Args(0) {
         my $pass;
         for (1..6) { $pass = $pass.$param->{'P'.$_} if $param->{'P'.$_}}
         my ($ds0) = LoadFile($userPath.0);
-        my $flag = 0;
         for (1..$ds0->{0}) {
             if ( $ds0->{$_}{1} eq $pass ) {
                 $id = $ds0->{$_}{0};                                    # HOME SCREEN
-                ($user, $file, $side, $right, $maxr, $rcent, $ava, $lo, $ba, $dsl, $left, $maxl, $cout, $info, $ds, $love, $n) = 
-                    $c->model('Html')->load( $param, $userPath, $id );
-                ($l, $full, $r, $lb, $rb) = 
-                    $c->model('Html')->info( $cout, $side, $left, $right, $ds, $dsl, $info, $rew, 
-                                             $path, $message, $usreit, $usrew, $lo, $ba, $n, $pl ); 
-                    $c->model('Yaml')->dump( $userPath, $id, $ds, $file, $left, $side, $right, $cout, $love );
                 $flag = 1;
             }
+            else {
+                $flag = 2;
+            }
         }
-        ($text, $ident) = ($c->model('Html')->wrong($userPath), 'pass') if $flag == 0;  # WRONG PASSWORD
     }
-    
-    elsif ($id = $param->{id}) {
+
+    if ($id or $id = $param->{id}) {
         $ident = 'main';
-        ( $user, $file, $side, $right, $maxr, $rcent, $ava, $lo, $ba, $dsl, $left, $maxl, $cout, $info, $ds, $love, $n) = 
+        ( $user, $file, $side, $right, $maxr, $rcent, $ava, $lo, $ba, $dsl, $left, $maxl, $cout, $info, $ds, $love, $n, $avat) = 
             $c->model('Html')->load( $param, $userPath, $id );
 
         if ( $param->{'Next_l.x'} or $param->{'Last_l.x'}) {            # STEP LEFT POSTERS
@@ -122,6 +116,9 @@ sub index :Path :Args(0) {
                 ($cout, $side, $info, $left) = $c->model('Yaml')->del($ds, $dsl, $cout, $maxr, 4);
             }
         } 
+        if ($param->{'avat.x'}) { 
+            $best = $c->model('Html')->friends($userPath, $id);
+        }
         
         if ($param->{ID}) {                                             # FIND IN BASE BY NUMBER
             ($message, $cout, $side, $info, $left) = 
@@ -131,17 +128,17 @@ sub index :Path :Args(0) {
             my $find = 0;
             ($file, $cout, $side, $info, $left, $find) = 
                 $c->model('Yaml')->find(lc $param->{Address}, $dsl);
-            if ($find == 0) {                                           # FIND IN AFISHA BY NAME
+            if ($find == 0) {                                           # FIND IN MAIL.RU BY NAME
                 $message = 'No result in base';
                 $c->detach('admin', [$user, 'new', $param->{Address}]);
             }            
         }
-        if ($param->{find0}) {                                          # INSERT INFO IN MYSQL BASE
+        if ($param->{edit}) {                                           # EDIT
+            $c->detach('admin', [$user, 'new', $info->{'orname'}]);
+        }
+        if ($param->{find0}) {                                          # INSERT INFO
             $c->detach('admin', [$user, 'create']);
         }
-        if ($param->{find1}) {                                          # EDIT INFO IN MYSQL BASE
-            $c->detach('admin', [$user, 'insert']);
-        }   
         if ($param->{find2}) {                                          # LOAD PICTURES FROM MAIL.RU INTO /FIND1 AND SHOW
             $micro = $c->model('Yaml')->pics($img_path1, $userPath);
         }     
@@ -159,37 +156,31 @@ sub index :Path :Args(0) {
                 elsif ( $p == 0.25) { $left = $cout-1}
             }
             if ($key =~ /^(\d+_.*?)\.x/) { 
-                $key =~ tr[.x][]d;
-                $c->detach('admin', [$user, 'edit', $key]);             # CHOOSE ONE FILM FROM POSTERS
+                $c->detach('admin', [$user, 'new', $key]);              # CHOOSE ONE FILM FROM POSTERS
             }
         }
         if ($param->{find3}) {                                          # SHOW PREVIEW
             ($micro, $side, $pl) = ('', 0, 3);                              
-            ($path, $info) = $c->model('Yaml')->tempIn3($userPath, $c->config->{'cols'}, $param);      # IN TEMP
+            ($path, $info) = $c->model('Yaml')->prewiew($userPath, $img_path3, $c->config->{'cols'}, $param);
         }
 
         if ($param->{find4}) {                                          # CHOOSE 4 PICTURES AND LOAD POSTER AND GREY
-           my $code = 
-                      $c->model('Yaml')->imgs( $userPath, $img_path1, $img_path2, $img_path3, $img_path4 ); 
-           ($cout, $left) = $c->model('Yaml')->all($c->config->{'select'}, $c->config->{'userPath'}, $code);
-            
-           ($file, $side, $info) = (1, 0, $dsl->{1}{1}{$cout});
-        }
-        if ($param->{edit}) {                                           # EDIT
-            $c->detach('admin', [$user, 'new', $info->{'orname'}]);
+            ($cout, $left) = $c->model('Yaml')->imgs( $userPath, $img_path1, $img_path2, $img_path3, $img_path4 ); 
+            ($file, $side, $info) = (1, 0, $dsl->{1}{1}{$cout});
         }
         if ($param->{down}) {                                           # DOWNLOAD
             my $magnet = $info->{'magnet'};
             $message = `transmission-remote 192.168.1.5:9091 -a magnet:?xt=urn:btih:$magnet`;
         }
-        if ($param->{sql}) {                                            # FOM ALL TO MYSQL
-            $c->model('Yaml')->conf($c->config->{'cols'}, $c->config->{'select'}, $c->config->{'form_path'});
-            #$c->model('Yaml')->mysql($c->config->{'cols'}, $c->config->{'select'}, $userPath);
+        if ($param->{conf}) {                                           
+            $c->model('Html')->conf($c->config->{'cols'}, $c->config->{'select'}, $c->config->{'form_path'});
         }
-        # $message  = $cout.'-----'.$side.'-----'.$info.'-----'.$love;
+        if ($param->{sql}) {                                            # FROM ALL TO MYSQL
+            $c->model('Yaml')->mysql($c->config->{'cols'}, $c->config->{'select'}, $userPath);
+        }
         ($l, $full, $r, $lb, $rb) = 
             $c->model('Html')->info( $cout, $side, $left, $right, $ds, $dsl, $info, $rew, 
-                                     $path, $message, $usreit, $usrew, $lo, $ba, $n, $pl );
+                                     $path, $message, $usreit, $usrew, $lo, $ba, $n, $pl, $best, $avat );
             $c->model('Yaml')->dump( $userPath, $id, $ds, $file, $left, $side, $right, $cout, $love );
     }
 
@@ -197,10 +188,16 @@ sub index :Path :Args(0) {
         ($text)         = ($c->model('Html')->yes_new($userPath))         if $param->{New} eq 'Yes';
         ($text, $ident) = ($c->model('Html')->not_new($userPath), 'pass') if $param->{New} eq 'No', ;
     }        
-    else { 
-        $text = $c->model('Html')->start($userPath);                    # START SCREEN
-        $ident = 'start';
+    else {
+        if ($flag == 0) { 
+            $text = $c->model('Html')->start($userPath);                      # START SCREEN
+            $ident = 'start';
+        }
+        elsif ($flag == 2) {
+            ($text, $ident) = ($c->model('Html')->wrong($userPath), 'pass');  # WRONG PASSWORD
+        }        
     }
+
     foreach my $avat (keys %$param) {                                   # CREATING NEW USER                                                                      
         if ($avat =~ /ava\d+.x/) {
             $avat =~ s/\.x//;
@@ -224,79 +221,38 @@ sub index :Path :Args(0) {
         ident    => $ident,
     );
 }
-sub admin :Local :FormConfig('find.json') {                             # ADMIN PANEL
-    
+sub admin :Local :FormConfig('find4444.json') {                         # ADMIN PANEL
     my ($self, $c, $user, $edit, $name ) = @_;
-    
+
     my $form = $c->stash->{form};
-    my $param = $c->req->body_params;
-    my $select = $c->config->{'select'};
     my $userPath = $c->config->{'userPath'};  
-    my $img_path1 = $c->config->{'img_path1'};
-    my $img_path2 = $c->config->{'img_path2'};
-    my $img_path3 = $c->config->{'img_path3'};
-    my $img_path4 = $c->config->{'img_path4'};
 
-    my (@cols, @cols1, %cols, $micro, $mail, $cols);
-    push @cols, $_->[0] foreach @{$c->config->{'cols'}};                # TABLES ROWS
-    push @cols1, $_->[0] foreach @{$c->config->{'cols1'}};
+    my (@cols, %cols, $micro, $cols0, $cols1);
+    push @cols, $_->[0] foreach @{$c->config->{'cols'}};                # TABLE'S ROWS
     
-    if ($edit eq 'new' or $edit eq 'edit') {   
-        if ($edit eq 'new') {                       
-            ($micro, $mail) = ($c->model('Yaml')->search($name, $img_path3)) ;
-            $cols = $c->model('Yaml')->mail($mail, $select);
+    if ($edit eq 'new') {                                               # FIND IN MAIL AND IN BASE
+        ($micro, $cols0, $cols1)= $c->model('Yaml')->mail($name, $c->config->{'img_path3'}, $userPath, \@cols);
+        foreach (@cols) {
+            $form->add_valid($_.'_a', $cols0->{$_});
+            $form->add_valid($_.'_b', $cols1->{$_});
         }
-        if ($edit eq 'edit') {
-            $cols = $c->model('Yaml')->mail($name, $select);
-        }
-        my ($orname, $year) = $c->model('Yaml')->tempIn1($cols, $userPath);      # IN TEMP FILE
-        delete $cols->{'kad0'};
-        $form->add_valid($_.'_a', $cols->{$_}) foreach (keys %$cols);
-        my $rs = $c->model('Yaml')->resultset('Films2')->find({orname => $orname, year => $year});
-        
-        if ($rs) {
-            my $ds = LoadFile($userPath.'temp');
-            $ds->{code} = $rs->code;
-            DumpFile($userPath.'temp', $ds);
-            my %cols1;
-            foreach (@cols1) {                                           
-                if ($_ =~ /(\D+)_(\d+)/) {
-                    my @set = split ':', $rs->$1;
-                        $cols1{$_} = uc $set[$2];
-                }
-                else{
-                    $cols1{$_} = $rs->$_ ;
-                }
-            }
-            $form->add_valid($_.'_b', $cols1{$_}) foreach (keys %cols1);
-            $form->add_valid('Address', $rs->id);
-        }
+        $form->add_valid('Address', $name);
     }        
-     if ($edit eq 'create') {                                            # INSERT IN MYSQL
-        $form->add_valid($_.'_a', '') foreach (@cols1);
-        $cols{$_} = $param->{$_.'_a'} foreach (@cols1);
-        $form->add_valid($_.'_b', $cols{$_}) foreach (keys %cols);
-        $c->model('Yaml')->cret(\%cols);
-        $c->model('Yaml')->tempIn2($userPath, \%cols);                  # IN TEMP FILE
+    if ($edit eq 'create') {
+        foreach (@cols) {                                               # INSERT OR REPLASE IN ALL
+            $cols{$_} = $c->req->body_params->{$_.'_a'};   
+            $form->add_valid($_.'_a', '');
+            $form->add_valid($_.'_b', $cols{$_});
+        }
+        $c->model('Yaml')->cret(\%cols, $userPath, $c->config->{'select'});
     }  
-    if ($edit eq 'insert') {                                            # EDIT IN MYSQL
-        $form->add_valid($_.'_a', '') foreach (@cols1);
-        $cols{$_} = $param->{$_.'_a'} foreach (@cols1);
-        $form->add_valid($_.'_b', $cols{$_}) foreach (keys %cols);
-        $c->model('Yaml')->edit(\%cols, $param->{'Address'});
-        $c->model('Yaml')->tempIn2($userPath, \%cols);                  # IN TEMP FILE
-    }
-
     $c->stash (
         user     => $user,                                              # HEADER
         micro    => $micro,                                             # ALLPICTURES
-
     );
 }
 =head2 default
-
 Standard 404 error page
-
 =cut
 
 sub default :Path {

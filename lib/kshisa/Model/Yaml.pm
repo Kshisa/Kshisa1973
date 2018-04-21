@@ -99,39 +99,35 @@ sub user {
     DumpFile($userPath.$count, $info);
     return $pass
 }
-sub tempIn1 {
-    my ($self, $cols0, $userPath) = @_;
-    my $path = $userPath.'temp';
-    my $info = {%$cols0};
-    DumpFile($path, $info);
-    return $info->{orname}, $info->{year}
-}
-sub tempIn2 {
-    my ($self, $userPath, $cols) = @_;
-    my $ds = LoadFile($userPath.'temp');
-    my $code = substr lc $cols->{'orname'}, 0, 4;                       # CODE
-    $code = substr lc $cols->{'orname'}, 4,  4  if ($cols->{'orname'} =~ /^The/);
-    $code =~ tr[ ][_];
-    $ds->{'code'} = $code.$cols->{'year'}.lc($cols->{'coun_0'}).lc($cols->{'genr_0'});
-    DumpFile($userPath.'temp', $ds);
-}
-sub tempIn3 {
-    my ($self, $userPath, $cols, $param) = @_;
-    my (%cols, $path, $info);
-    my $ds = LoadFile($userPath.'temp');
 
+sub prewiew {
+    my ($self, $userPath, $img_path2, $cols, $param) = @_;
+    my (%cols, $path, $info);
+    my $temp = LoadFile($userPath.'temp');
+    my $code = $temp->{'code'};
     my $n = 1;
     foreach my $key (sort keys %$param) {                               # NUMBER OF PICS
         if ($key =~ /^(\d+)$/) {
-            $ds->{'k'.$n} = $1;
+            $temp->{'k'.$n} = $1;
             $path->[$n] = '" src="/images/find1/'.$1;
             $n++;
         }
     }
-    $path->[0] = '" src="/images/find/'.$ds->{'No'};
-
-    DumpFile($userPath.'temp', $ds);
-    $info->{$_->[0]} = $ds->{$_->[0]} foreach @{$cols};
+    getstore($temp->{'kad0'}, $img_path2.$code.'kad0.jpg');
+    $path->[0] = '" src="/images/find/'.$code.'kad0';
+    
+    my $image = Image::Magick->new;	
+    $image->Read($img_path2.$code.'kad0.jpg');
+    $image->Resize(width=>320, height=>455);
+    $image->Write($img_path2.$code.'kad0.jpg');
+    
+    my $image1 = Image::Magick->new;
+    $image1->Read($img_path2.$code.'kad0.jpg');
+    $image1->Quantize(colorspace=>'gray');
+    $image1->Write($img_path2.$code.'kad0G.jpg');
+    
+    DumpFile($userPath.'temp', $temp);
+    $info->{$_->[0]} = $temp->{$_->[0]} foreach @{$cols};
     return $path, $info
     
 }
@@ -178,53 +174,6 @@ sub rew {
     my $usrew = $ds->{1}{$n}{$cout}{$count}{'rewi'};
 
     return $usreit, $usrew
-}
-sub all {
-    my ($self, $select, $userPath, $code) = @_;
-    my $find;
-    my @rs  = $self->resultset('Films2')->search(undef, {order_by => { -desc => [qw/ year reit /] }});
-    my $max = $self->resultset('Films2')->get_column('id')->max() || 0;
-    my $mediainfo;
-    my $num = 1;
-    foreach my $rs ( @rs ) {
-        my @code_coun = split ':', uc $rs->coun;
-        my @code_genr = split ':', uc $rs->genr;
-        my $coun0 = $select->{'coun'}{$code_coun[0]}[1];
-        my $coun1 = $select->{'coun'}{$code_coun[1]}[1];
-        my $coun2 = $select->{'coun'}{$code_coun[2]}[1];
-        my $coun3 = $select->{'coun'}{$code_coun[3]}[1];
-
-        my $genr0 = $select->{'genr'}{$code_genr[0]}[1];
-        my $genr1 = $select->{'genr'}{$code_genr[1]}[1];
-        my $genr2 = $select->{'genr'}{$code_genr[2]}[1];
-        my $genr3 = $select->{'genr'}{$code_genr[3]}[1];
-        $mediainfo->{1}{1}{0} = $max;
-        $mediainfo->{1}{1}{$num} = {
-            code     => $rs->code,
-            year     => $rs->year,
-            coun     => $coun0.' '.$coun1.' '.$coun2.' '.$coun3,
-            genr     => $genr0.' '.$genr1.' '.$genr2.' '.$genr3,
-            time     => $rs->time,
-            reit     => $rs->reit,
-            runame   => $rs->runame,
-            orname   => $rs->orname,
-            director => $rs->director,
-            actor1   => $rs->actor1,
-            actor2   => $rs->actor2,
-            actor3   => $rs->actor3,
-            actor4   => $rs->actor4,
-            actor5   => $rs->actor5,
-            review   => $rs->review,
-            magnet   => $rs->magnet1,
-        };
-        if ($code eq $rs->code) {
-            $find = $num;
-        }
-        $num++;
-    }
-    DumpFile($userPath.'all', $mediainfo);
-    my $left = _findpic($find);
-    return $find, $left
 }
 sub step {
     my ($self, $param, $next, $count) = @_;
@@ -456,60 +405,57 @@ sub dump {
 
     DumpFile($userPath.$id, $ds);                                       # DUMP INFO IN USERFIle
 }
-sub search {
-    my ($self, $find, $img_path3) = @_;
-    my (@film0, @film1, @entries);
-    unlink glob "$img_path3*.*";
-    my $ua = LWP::UserAgent->new;
-    my $address = 'https://afisha.mail.ru/search/?region_id=42&q='.$find;
-    my $req = HTTP::Request->new( 'GET', $address);
-    $req->header('User-Agent' => 'Opera/9.80 (X11; Linux i686) Presto/2.12.388 Version/12.16');
-    $req->header('Accept-Language' => 'ru,en;q=0.9');
-    $req->header('Accept-Encoding' => 'gzip, deflate');
-    my $resp = $ua->request($req);
-    my $content = $resp->decoded_content;
-    for (split /\n/, $content) {
-        if ( $_ =~ m{/(\d+)/.*?movies/(.*?)/.*?}) {
-            @film0 = ( $1 );
-            @film1 = ( $2 );
-        }
-        if ( $_ =~ m{/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?}) {
-            @film0 = ( $1, $3 );
-            @film1 = ( $2, $4 );
-        }
-        if ( $_ =~ m{/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?}) {
-            @film0 = ( $1, $3, $5 );
-            @film1 = ( $2, $4, $6 );
-        }
-        if ( $_ =~ m{/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?}) {
-            @film0 = ( $1, $3, $5, $7 );
-            @film1 = ( $2, $4, $6, $8 );
-        }
-
-        if ( $_ =~ m{/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?}) {
-            @film0 = ( $1, $3, $5, $7, $9 );
-            @film1 = ( $2, $4, $6, $8, $10 );
-        }
-
-        if ( $_ =~ m{/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?}) {
-            @film0 = ( $1, $3, $5, $7, $9, $11 );
-            @film1 = ( $2, $4, $6, $8, $10, $12 );
-        }
-
-    }
-    my $micro;
-    for ( 0..5 ) {
-        my $dir = $img_path3.$film1[$_].'.jpg';
-        getstore( 'https://pic.afisha.mail.ru/'.$film0[$_].'/', $dir );
-        $micro = $micro.'<input type="image" name="'.$film1[$_].'" src="/images/find/'.$film1[$_].'.jpg" style="width: 200px;"/>' if $film1[$_];
-    }
-    $micro = '<hr><div id="pics">'.$micro.'</div>';
-    return $micro, $film1[0]
-}
 sub mail {
-    my ($self, $mail, $select) = @_;
-
-    my $address = 'https://afisha.mail.ru/cinema/movies/'.$mail;
+    my ($self, $find, $img_path3, $userPath, $cols) = @_;
+    my (@film0, @film1, @entries);
+    if ($find =~ /^(\d+_.*?)\.x/) {
+        $find =~ tr[.x][]d;
+    }
+    else {
+        unlink glob "$img_path3*.*";
+        my $ua = LWP::UserAgent->new;
+        my $address = 'https://afisha.mail.ru/search/?region_id=42&q='.$find;
+        my $req = HTTP::Request->new( 'GET', $address);
+        $req->header('User-Agent' => 'Opera/9.80 (X11; Linux i686) Presto/2.12.388 Version/12.16');
+        $req->header('Accept-Language' => 'ru,en;q=0.9');
+        $req->header('Accept-Encoding' => 'gzip, deflate');
+        my $resp = $ua->request($req);
+        my $content = $resp->decoded_content;
+        for (split /\n/, $content) {
+            if ( $_ =~ m{/(\d+)/.*?movies/(.*?)/.*?}) {
+                @film0 = ( $1 );
+                @film1 = ( $2 );
+            }
+            if ( $_ =~ m{/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?}) {
+                @film0 = ( $1, $3 );
+                @film1 = ( $2, $4 );
+            }
+            if ( $_ =~ m{/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?}) {
+                @film0 = ( $1, $3, $5 );
+                @film1 = ( $2, $4, $6 );
+            }
+            if ( $_ =~ m{/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?}) {
+                @film0 = ( $1, $3, $5, $7 );
+                @film1 = ( $2, $4, $6, $8 );
+            }
+=cut 
+            if ( $_ =~ m{/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?}) {
+                @film0 = ( $1, $3, $5, $7, $9 );
+                @film1 = ( $2, $4, $6, $8, $10 );
+            }
+            if ( $_ =~ m{/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?/(\d+)/.*?movies/(.*?)/.*?}) {
+                @film0 = ( $1, $3, $5, $7, $9, $11 );
+                @film1 = ( $2, $4, $6, $8, $10, $12 );
+            }
+=cut
+        }
+        $find = $film1[0];
+        for ( 0..5 ) {
+            my $dir = $img_path3.$film1[$_].'.jpg';
+            getstore( 'https://pic.afisha.mail.ru/'.$film0[$_].'/', $dir );
+        }
+   }
+    my $address = 'https://afisha.mail.ru/cinema/movies/'.$find;
     my $browser = LWP::UserAgent->new;
     my $response = $browser->get( $address, 
     'User-Agent'      => 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:44.0) Gecko/20100101 Firefox/44.0', 
@@ -530,36 +476,24 @@ sub mail {
             $reit = $reit.0;
             $cols1{'reit'} = $reit;
         }
-        my (@coun, @genr);
-        
-        my %country1;
-        my %country = %{$select->{'coun'}};
-        foreach (keys %country) {
-            $country1{$country{$_}[1]} = $_; 
-        }
 
         if ( $line =~ m{(<div class="itemevent__head__info"><a href="/cinema/all/.*?>(.*?)</a>)(, <a href="/cinema/all/.*?>(.*?)</a>)?(, <a href="/cinema/all/.*?>(.*?)</a>)?(, <a href="/cinema/all/.*?>(.*?)</a>)?} ) {
-            $cols1{'coun_0'} = $country1{$2} if $2;
-            $cols1{'coun_1'} = $country1{$4} if $4;
-            $cols1{'coun_2'} = $country1{$4} if $6;
-            $cols1{'coun_3'} = $country1{$4} if $8;
+            $cols1{'coun_0'} = $2 if $2;
+            $cols1{'coun_1'} = $4 if $4;
+            $cols1{'coun_2'} = $6 if $6;
+            $cols1{'coun_3'} = $8 if $8;
         }
 
         $cols1{'year'} = $1 if ( $line =~ m{class="itemevent__head__sep">/</span><a href="/cinema/all/.*?>(.*?)</a>} );
         my ($hour, $mints);
         $mints = $1 if ( $line =~ m{head__sep".*?></i>.*?ч. (.*?)&nbsp;мин.<meta} );
         $cols1{'time'} = $1*60+$mints if ( $line =~ m{head__sep".*?></i>(.*?)&nbsp;ч.*?} );
-        
-        my %genre1;
-        my %genre = %{$select->{'genr'}};
-        foreach (keys %genre) {
-            $genre1{$genre{$_}[1]} = $_; 
-        }
+
         if ( $line =~ m{(itemprop="genre"><a href="/cinema/all/.*?>(.*?)</a>)( <a href="/cinema/all/.*?>(.*?)</a>)?( <a href="/cinema/all/.*?>(.*?)</a>)?( <a href="/cinema/all/.*?>(.*?)</a>)?} ) {
-            $cols1{'genr_0'}  = $genre1{$2} if $2;
-            $cols1{'genr_1'}  = $genre1{$4} if $4;
-            $cols1{'genr_2'}  = $genre1{$6} if $6;
-            $cols1{'genr_3'}  = $genre1{$8} if $8;
+            $cols1{'genr_0'}  = $2 if $2;
+            $cols1{'genr_1'}  = $4 if $4;
+            $cols1{'genr_2'}  = $6 if $6;
+            $cols1{'genr_3'}  = $8 if $8;
         } 
 
         $cols1{'director'} = $1 if ( $line =~ m{itemprop="director"><a href.*?>(.*?)</a>} );
@@ -579,7 +513,7 @@ sub mail {
             $rew =~ s[.quo]["]d;
             $cols1{'review'} = $rew;
         }
-        $cols1{'No'} = $mail;
+        $cols1{'No'} = find;
         $cols1{'kad0'} = $1 if ( $line =~ m{class="movieabout__pic photo__inner">.*?href="(.*?)".*?data-module="Gallery"} );
         if ( $line =~ m{<div class="block_posrel">(.*?)<span class="countyellow">(\d+)</span>.*?} ) {
             $am = $2;
@@ -596,18 +530,64 @@ sub mail {
         }
     }
     $cols1{'size'} = $n-2;
-    return \%cols1
+    my $info = {%cols1};
+    
+    delete $cols1{'kad0'};
+    
+    my $ds = LoadFile($userPath.'all');
+    my %cols0;
+    for my $numb (1.. $ds->{1}{1}{0}) {
+        if ($ds->{1}{1}{$numb}{'orname'} eq $info->{'orname'} && $ds->{1}{1}{$numb}{'year'} eq $info->{'year'}) {
+            $info->{numb} = $numb;
+            $info->{code} = $ds->{1}{1}{$numb}{'code'};
+            foreach (@$cols) {
+                if ($_ =~ /(\D+)_(\d+)/) {
+                    my @set = split ' ', $ds->{1}{1}{$numb}{$1};
+                    $cols0{$_} = $set[$2];
+                }
+                else {
+                    $cols0{$_} = $ds->{1}{1}{$numb}{$_}
+                }
+            }
+        }
+    }
+    DumpFile($userPath.'temp', $info);
+    my $micro;
+    for ( 0..5 ) {
+        $micro = $micro.'<input type="image" name="'.$film1[$_].'" src="/images/find/'.$film1[$_].'.jpg" style="width: 200px;"/>' if $film1[$_];
+    }
+    $micro = '<hr><div id="pics">'.$micro.'</div>';
+    return $micro, \%cols1, \%cols0, 
 }
 sub cret {
-    my ($self, $cols) = @_;
+    my ($self, $cols, $userPath, $select) = @_;
+    my $ds = LoadFile($userPath.'all');
+    my $temp = LoadFile($userPath.'temp');
+    my $numb = $ds->{1}{1}{0};
+    my $numb1 = $temp->{numb};
+    
     my %cols = %$cols;
     my $code = substr lc $cols{'orname'}, 0, 4;                        # FILM CODE
     $code = substr lc $cols{'orname'}, 4,  4  if ($cols{'orname'} =~ /^The/);
     $code =~ tr[ ][_];
-    $cols{'code'} = $code.$cols{'year'}.lc$cols{'coun_0'}.lc$cols{'genr_0'};
     
-    $cols{'coun'} = $cols{'coun_0'}.':'.$cols{'coun_1'}.':'.$cols{'coun_2'}.':'.$cols{'coun_3'};
-    $cols{'genr'} = $cols{'genr_0'}.':'.$cols{'genr_1'}.':'.$cols{'genr_2'}.':'.$$cols{'genr_3'};
+    my (@coun, @genr);
+    my %country1;
+    my %country = %{$select->{'coun'}};
+    foreach (keys %country) {
+        $country1{$country{$_}[1]} = $_; 
+    }
+    my %genre1;
+    my %genre = %{$select->{'genr'}};
+    foreach (keys %genre) {
+        $genre1{$genre{$_}[1]} = $_; 
+    }
+    my $coun = $country1{$cols{'coun_0'}};
+    my $genr = $genre1{$cols{'genr_0'}};
+    
+    $cols{'code'} = $code.$cols{'year'}.lc$coun.lc$genr;
+    $cols{'coun'} = $cols{'coun_0'}.' '.$cols{'coun_1'}.' '.$cols{'coun_2'}.' '.$cols{'coun_3'};
+    $cols{'genr'} = $cols{'genr_0'}.' '.$cols{'genr_1'}.' '.$cols{'genr_2'}.' '.$$cols{'genr_3'};
     delete $cols{'coun_0'};
     delete $cols{'coun_1'};
     delete $cols{'coun_2'};
@@ -617,28 +597,38 @@ sub cret {
     delete $cols{'genr_2'};
     delete $cols{'genr_3'};
     
-    $self->resultset('Films2')->create({ %cols });
-}
-sub edit {
-    my ($self, $cols, $address) = @_;
-    my %cols = %$cols;
-    my $code = substr lc $cols{'orname'}, 0, 4;                        # FILM CODE
-    $code = substr lc $cols{'orname'}, 4,  4  if ($cols{'orname'} =~ /^The/);
-    $code =~ tr[ ][_];
-    $cols{'code'} = $code.$cols{'year'}.lc$cols{'coun_0'}.lc$cols{'genr_0'};
-    
-    $cols{'coun'} = $cols{'coun_0'}.':'.$cols{'coun_1'}.':'.$cols{'coun_2'}.':'.$cols{'coun_3'};
-    $cols{'genr'} = $cols{'genr_0'}.':'.$cols{'genr_1'}.':'.$cols{'genr_2'}.':'.$$cols{'genr_3'};
-    delete $cols{'coun_0'};
-    delete $cols{'coun_1'};
-    delete $cols{'coun_2'};
-    delete $cols{'coun_3'};
-    delete $cols{'genr_0'};
-    delete $cols{'genr_1'};
-    delete $cols{'genr_2'};
-    delete $cols{'genr_3'};
-    
-    $self->resultset('Films2')->search({id => $address})->update({ %cols });
+    if ($numb1) {
+        $ds->{1}{1}{$numb1} = {%cols};
+    }
+    else {
+        $numb++;
+        $ds->{1}{1}{$numb} = {%cols};
+    }
+    my (@info, $info);                                                  # SORT BY YEAR AND REIT
+    for (1..$numb) {
+        push @info, {
+            numb=>$_,
+            code=>$ds->{1}{1}{$_}{'code'},
+            year=>$ds->{1}{1}{$_}{'year'}, 
+            reit=>$ds->{1}{1}{$_}{'reit'},
+            }
+    }
+    @info = sort {
+        $b->{year} <=> $a->{year}
+        ||
+        $b->{reit} <=> $a->{reit}
+    } @info;
+    $info->{1}{1}{0} =  $numb;
+    for (1..$numb) {
+        my $n = $info[$_-1]->{numb};
+        $info->{1}{1}{$_} = $ds->{1}{1}{$n};
+        if ($info->{1}{1}{$_}{'code'} eq $cols{'code'}) {
+            $temp->{numb} = $_;
+        }
+    }
+    $temp->{code} = $cols{'code'};
+    DumpFile($userPath.'all', $info);
+    DumpFile($userPath.'temp', $temp);
 }
 sub pics {
     my ($self, $img_path, $userPath) = @_;
@@ -678,24 +668,12 @@ sub imgs {
         copy ($img_path1.$temp->{'k'.$_}.'.jpg', $img_path2.$code.'kad'.$_.'.jpg');
         copy ($img_path1.$temp->{'k'.$_}.'.jpg', $img_path4.$code.'kad'.$_.'.jpg');
     }
-    getstore($temp->{'kad0'}, $img_path3.$temp->{'code'}.'kad0.jpg');
-    
-    my $image = Image::Magick->new;	
-    $image->Read($img_path3.$code.'kad0.jpg');
-    $image->Resize(width=>320, height=>455);
-    $image->Write($img_path3.$code.'kad0.jpg');
-    
-    my $image1 = Image::Magick->new;
-    $image1->Read($img_path3.$code.'kad0.jpg');
-    $image1->Quantize(colorspace=>'gray');
-    $image1->Write($img_path3.$code.'kad0G.jpg');
-    
     copy ($img_path3.$temp->{'code'}.'kad0.jpg', $img_path2.$code.'kad0.jpg');
     copy ($img_path3.$temp->{'code'}.'kad0G.jpg', $img_path2.$code.'kad0G.jpg');
     copy ($img_path3.$temp->{'code'}.'kad0.jpg', $img_path4.$code.'kad0.jpg');
     copy ($img_path3.$temp->{'code'}.'kad0G.jpg', $img_path4.$code.'kad0G.jpg');
-    
-    return $code
+    my $left = _findpic($temp->{'numb'});
+    return $temp->{'numb'}, $left
 }
 sub mysql {                                                             # FROM YAML TO MYSQL
     my ($self, $cols, $select, $userPath) = @_;

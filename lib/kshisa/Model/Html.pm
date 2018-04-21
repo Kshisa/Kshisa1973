@@ -164,7 +164,7 @@ sub load {
  
     my ($ba, $lo, $dsl, $left, $maxl, $right, $maxr, $cout, $info, $n);
     my ($name, $avat) = ($ds->{0}{0}, $ds->{0}{1});
-    my $ava = $s0.'buts" src="/images/avat/'.$avat.'.png" />';
+    my $ava = $s8.$s1."buts".$s2.'avat" src="/images/avat/'.$avat.'.png" />';
     # USER CLOCK KSHISA
     my $user = '<input type="hidden" name="id" value="'.$id.'" />       
                 <div id="Avat">'.$ava.'</div>
@@ -223,11 +223,21 @@ sub load {
     }
 
     return $user, $file, $side, $right, $maxr, $rcent, $ava, $lo, $ba, $dsl, 
-        $left, $maxl, $cout, $info, $ds, $love, $n;
+        $left, $maxl, $cout, $info, $ds, $love, $n, $avat;
 }
-
+sub friends {
+    my ($self, $userPath, $id) = @_;
+    my ($ds)  = LoadFile($userPath.$id); 
+    my $best;
+    for(1..8) {
+        my $code = $ds->{1}{2}{$_}{'code'} || 'blank';                 # 8 FIRST CODES THE USER
+        $best = $best.'<input class="kadr2" type="image" src="/images/imgs/'.$code.'kad0.jpg" name="'.$_.'" />';
+    }
+    return $best
+}
 sub info {
-    my ( $self, $cout, $side, $left, $rigt, $ds, $dsl, $info, $rew, $path, $message, $usreit, $usrew, $lo, $ba, $n, $pl ) = @_;
+    my ( $self, $cout, $side, $left, $rigt, $ds, $dsl, $info, $rew, $path, 
+    $message, $usreit, $usrew, $lo, $ba, $n, $pl, $best, $avat ) = @_;
 
     if ($side == 1) {
         for (1..$info->{0}) { 
@@ -264,11 +274,12 @@ sub info {
     my $pl7 = '<span><input name="down" type="submit" value="down" id="but"></span>';
     my $pl8 = '<span><input name="add" type="submit" value="add" id="but"></span>';
     my $pl9 = '<span><input name="find4" type="submit" value="4" id="but"></span>';
-    my $pl10 = '<span><input name="sql" type="submit" value="sql" id="but"></span>';
-    $pl4 = $pl5.$pl6.$pl7.$pl10 if ( $pl == 0 );
-    $pl4 = $pl5                 if ( $pl == 1 );
-    $pl4 = $pl8                 if ( $pl == 2 );
-    $pl4 = $pl9                 if ( $pl == 3 );
+    my $pl10 = '<span><input name="conf" type="submit" value="conf" id="but"></span>';
+    my $pl11 = '<span><input name="sql" type="submit" value="sql" id="but"></span>';
+    $pl4 = $pl5.$pl6.$pl7.$pl10.$pl11   if ( $pl == 0 );
+    $pl4 = $pl5                         if ( $pl == 1 );
+    $pl4 = $pl8                         if ( $pl == 2 );
+    $pl4 = $pl9                         if ( $pl == 3 );
 
     my ( $ch, $check, $p, $k );
     $ch = 1 if $left+1  == $cout && $side == 0;                         # CHECK
@@ -294,33 +305,41 @@ sub info {
 
     my $p1 = my $p2 = my $p3 = my $p4 = my $p5 = my $p6 = my $p7 = my $p8 =
     $s0.'image'.$s3.'blankkad0'.$s4; 
-    
-    $p1 = $s8.$dsl->{1}{1}{$left+1}{$title}.$s1.'image'.$s2.'kadr1'.$s3.$dsl->{1}{1}{$left+1}{'code'}.'kad0'.$s4 if ($dsl->{1}{1}{$left+1});
-    $p2 = $s8.$dsl->{1}{1}{$left+2}{$title}.$s1.'image'.$s2.'kadr2'.$s3.$dsl->{1}{1}{$left+2}{'code'}.'kad0'.$s4 if ($dsl->{1}{1}{$left+2});
-    $p3 = $s8.$dsl->{1}{1}{$left+3}{$title}.$s1.'image'.$s2.'kadr3'.$s3.$dsl->{1}{1}{$left+3}{'code'}.'kad0'.$s4 if ($dsl->{1}{1}{$left+3});
-    $p4 = $s8.$dsl->{1}{1}{$left+4}{$title}.$s1.'image'.$s2.'kadr4'.$s3.$dsl->{1}{1}{$left+4}{'code'}.'kad0'.$s4 if ($dsl->{1}{1}{$left+4});
-    my $l = $s5.($left+1).$s6.$p1.$s5.($left+2).$s6.$p2.$s5.($left+3).$s6.$p3.$s5.($left+4).$s6.$p4.$s5.$s6.'</div><div class="center_col">';        # LEFT PICS
-    if (!$path) {
-        $p = $s0.'post'.$s3.$code.'kad0.jpg"/>';                        # POSTER
-        $k = $s0.'kadr'.$s3.$code.'kad1.jpg"/>'.                        # FRAMES
-             $s0.'kadr'.$s3.$code.'kad2.jpg"/>'.
-             $s0.'kadr'.$s3.$code.'kad3.jpg"/>'.
-             $s0.'kadr'.$s3.$code.'kad4.jpg"/>';
-    }
-    else {
+
+    my ($full, $l, $r);
+    if ($path) {
         $p = $s0.'post'.$path->[0].'.jpg"/>';                           # POSTER
         $k = $s0.'kadr'.$path->[1].'.jpg"/>'.                           # FRAMES
              $s0.'kadr'.$path->[2].'.jpg"/>'. 
              $s0.'kadr'.$path->[3].'.jpg"/>'. 
              $s0.'kadr'.$path->[4].'.jpg"/>';
-    }
+        $full = $p.'<div class="foto">'.$k.'<hr></div>'.$pl4.'</div><div class="right_col">';
+    } 
+    elsif ($best) {
+        $p = $s0.'post" src="/images/avat/'.$avat.'.png" />';           # POSTER
+        $k = $best;
+        $full = $p.'<div class="foto">'.$k.'<hr></div></div><div class="right_col">';
+    }  
+    else {
+        $p = $s0.'post'.$s3.$code.'kad0.jpg"/>';                        # POSTER
+        $k = $s0.'kadr'.$s3.$code.'kad1.jpg"/>'.                        # FRAMES
+             $s0.'kadr'.$s3.$code.'kad2.jpg"/>'.
+             $s0.'kadr'.$s3.$code.'kad3.jpg"/>'.
+             $s0.'kadr'.$s3.$code.'kad4.jpg"/>';
+    
+    $p1 = $s8.$dsl->{1}{1}{$left+1}{$title}.$s1.'image'.$s2.'kadr1'.$s3.$dsl->{1}{1}{$left+1}{'code'}.'kad0'.$s4 if ($dsl->{1}{1}{$left+1});
+    $p2 = $s8.$dsl->{1}{1}{$left+2}{$title}.$s1.'image'.$s2.'kadr2'.$s3.$dsl->{1}{1}{$left+2}{'code'}.'kad0'.$s4 if ($dsl->{1}{1}{$left+2});
+    $p3 = $s8.$dsl->{1}{1}{$left+3}{$title}.$s1.'image'.$s2.'kadr3'.$s3.$dsl->{1}{1}{$left+3}{'code'}.'kad0'.$s4 if ($dsl->{1}{1}{$left+3});
+    $p4 = $s8.$dsl->{1}{1}{$left+4}{$title}.$s1.'image'.$s2.'kadr4'.$s3.$dsl->{1}{1}{$left+4}{'code'}.'kad0'.$s4 if ($dsl->{1}{1}{$left+4});
+    $l = $s5.($left+1).$s6.$p1.$s5.($left+2).$s6.$p2.$s5.($left+3).$s6.$p3.$s5.($left+4).$s6.$p4.$s5.$s6;        # LEFT PICS
+    
     $p5 = $s8.$ds->{1}{$n}{$rigt+1}{$title}.$s1.'image'.$s2.'kadr5'.$s3.$ds->{1}{$n}{$rigt+1}{'code'}.'kad0'.$ds->{1}{$n}{$rigt+1}{'grey'}.$s4 if ($ds->{1}{$n}{$rigt+1});
     $p6 = $s8.$ds->{1}{$n}{$rigt+2}{$title}.$s1.'image'.$s2.'kadr6'.$s3.$ds->{1}{$n}{$rigt+2}{'code'}.'kad0'.$ds->{1}{$n}{$rigt+2}{'grey'}.$s4 if ($ds->{1}{$n}{$rigt+2});
     $p7 = $s8.$ds->{1}{$n}{$rigt+3}{$title}.$s1.'image'.$s2.'kadr7'.$s3.$ds->{1}{$n}{$rigt+3}{'code'}.'kad0'.$ds->{1}{$n}{$rigt+3}{'grey'}.$s4 if ($ds->{1}{$n}{$rigt+3});
     $p8 = $s8.$ds->{1}{$n}{$rigt+4}{$title}.$s1.'image'.$s2.'kadr8'.$s3.$ds->{1}{$n}{$rigt+4}{'code'}.'kad0'.$ds->{1}{$n}{$rigt+4}{'grey'}.$s4 if ($ds->{1}{$n}{$rigt+4});
-    my $r = $s5.($rigt+1).$s6.$p5.$s5.($rigt+2).$s6.$p6.$s5.($rigt+3).$s6.$p7.$s5.($rigt+4).$s6.$p8.$check.$s5.$s6.'</div>' ;         # RIGT PICS
-
-    my $full = $pl1.$message.$pl2.$cout.$pl3.$dsl->{1}{1}{0}.'&nbsp;&nbsp;'.$pl4.'<hr>'.$p.
+    $r = $s5.($rigt+1).$s6.$p5.$s5.($rigt+2).$s6.$p6.$s5.($rigt+3).$s6.$p7.$s5.($rigt+4).$s6.$p8.$check.$s5.$s6;         # RIGT PICS
+    
+    $full = $pl1.$message.$pl2.$cout.$pl3.$dsl->{1}{1}{0}.'&nbsp;&nbsp;'.$pl4.'<hr>'.$p.
     '<div class="my-rating-2" data-rating="'.($info->{reit}/100).'"></div>'.$usreit.
     '<div class="foto">'.$k.'<hr>
      <h3>'.$info->{year}.'<input type="checkbox" onchange="subm2(this)" name="'.$info->{year}.'"/>&nbsp;&nbsp;&nbsp;'.$info->{coun}.'</h3></p><hr>'
@@ -331,60 +350,61 @@ sub info {
       .$info->{review}.'</p><hr>'.
       $clock.'<hr>'
       .$buts.'<hr>'.$rew.$usrew.'</div><div class="right_col">';
-      
+     }
+    $l = $l.'</div><div class="center_col">';
+    $r = $r.'</div>'; 
     return  $l, $full, $r, $lb, $rb;
 }
 sub conf {
 my ($self, $cols1, $select, $form_path) = @_;
 
 my $conf = qq( 
- {"elements"  :[{"type":"Block", "tag": "div class=left_col"},
-                {"type":"Block",  "tag": "div class=center_col",
+ {"elements"  :[{"type":"Block",  "tag": "div class=center_col",
                  "elements":[{
                  "type":"Block",  "tag": "table", "elements":[
-                 {"type":"Block",  "tag": "tr", "elements":[{"type":"Submit", "name":"find0",    "container_tag":"span", "value":"1-create", "id":"but"},
-                                                            {"type":"Submit", "name":"find1",    "container_tag":"span", "value":"1 - edit", "id":"but"},
+                 {"type":"Block",  "tag": "tr", "elements":[{"type":"Submit", "name":"find0",    "container_tag":"span", "value":"1", "id":"but"},
                                                             {"type":"Text",   "name":"Address", "container_tag":"span", "size":"65"},
                                                             {"type":"Submit", "name":"find2",    "container_tag":"span", "value":"2", "id":"but"},
                                                           ]},);
-for my $i ( 1..26 ) {
-    if ($i eq 'Select') {
+for my $i ( 0..23 ) {
+    if ($cols1->[$i][1] eq 'Select') {
         $conf = $conf.qq(
             {"type":"Block",  "tag": "tr",
                 "elements":
-                    [{"type":"Block",  "tag": "td", "element":{"label":"@$cols1[$i]", "type":"@$cols1[$i]","name":"@$cols1[$i]_a", "options":[
+                    [{"type":"Block",  "tag": "td", "element":{"label":"$cols1->[$i][0]", "type":"$cols1->[$i][1]","name":"$cols1->[$i][0]_a", "options":[
             );
-        my $name = @$cols1[$i];
+        my $name = $cols1->[$i][0];
+        chop $name;
         chop $name;
         foreach my $sel (sort keys %{$select->{$name}}){
-            $conf = $conf.qq({"value":"$select->{$name}->{$sel}", "label":"$sel"},);
+            $conf = $conf.qq({"value":"$select->{$name}{$sel}[1]", "label":"$select->{$name}{$sel}[1]"},);
         }
         $conf = $conf.qq(]}},
-        {"type":"Block",  "tag": "td", "element":{"label":"@$cols1[$i]", "type":"@$cols1[$i]","name":"@$cols1[$i]_b", "options":[
+        {"type":"Block",  "tag": "td", "element":{"label":"$cols1->[$i][0]", "type":"$cols1->[$i][1]","name":"$cols1->[$i][0]_b", "options":[
         );
         foreach my $sel (sort keys %{$select->{$name}}){
-            $conf = $conf.qq({"value":"$select->{$name}->{$sel}", "label":"$sel"},);
+            $conf = $conf.qq({"value":"$select->{$name}{$sel}[1]", "label":"$select->{$name}{$sel}[1]"},);
         }
         $conf = $conf.qq(]}}],},)
     }
-    elsif ($i eq 'Text') {
+    elsif ($cols1->[$i][1] eq 'Text') {
         $conf = $conf.qq(
         {"type":"Block",  "tag": "tr",
         "elements":
-        [{"type":"Block",  "tag": "td", "element":{"label":"@$cols1[$i]", "type":"@$cols1[$i]","name":"@$cols1[$i]_a", "size":"60"}},
-        {"type":"Block",  "tag": "td", "element":{"label":"@$cols1[$i]", "type":"@$cols1[$i]","name":"@$cols1[$i]_b", "size":"60"}}],
+        [{"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"$cols1->[$i][0]", "type":"$cols1->[$i][1]","name":"$cols1->[$i][0]_a", "size":"60"}},
+         {"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"$cols1->[$i][0]", "type":"$cols1->[$i][1]","name":"$cols1->[$i][0]_b", "size":"60"}}],
         },)
     }
-    elsif ($i eq 'Textarea') {
+    elsif ($cols1->[$i][1] eq 'Textarea') {
         $conf = $conf.qq(
         {"type":"Block",  "tag": "tr",
         "elements":
-        [{"type":"Block",  "tag": "td", "element":{"label":"@$cols1[$i]", "type":"@$cols1[$i]","name":"@$cols1[$i]_a", "cols":"60", "rows":"7"}},
-        {"type":"Block",  "tag": "td", "element":{"label":"@$cols1[$i]", "type":"@$cols1[$i]","name":"@$cols1[$i]_b", "cols":"60", "rows":"7"}}],
+        [{"type":"Block",  "tag": "td", "element":{"label":"$cols1->[$i][0]", "type":"$cols1->[$i][1]","name":"$cols1->[$i][0]_a", "cols":"45", "rows":"15"}},
+         {"type":"Block",  "tag": "td", "element":{"label":"$cols1->[$i][0]", "type":"$cols1->[$i][1]","name":"$cols1->[$i][0]_b", "cols":"45", "rows":"15"}}],
         },)
     }
 }
-$conf = $conf.qq( ]}]} );
+$conf = $conf.qq( ]}]}]} );
 
 my $filename = $form_path.'find4444.json';
 open my $fh, '>', $filename;

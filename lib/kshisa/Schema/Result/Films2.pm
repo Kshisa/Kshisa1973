@@ -153,24 +153,6 @@ __PACKAGE__->table("films2");
   is_nullable: 0
   size: 10
 
-=head2 kadr1
-
-  data_type: 'varchar'
-  is_nullable: 0
-  size: 200
-
-=head2 kadr2
-
-  data_type: 'varchar'
-  is_nullable: 0
-  size: 200
-
-=head2 kadr3
-
-  data_type: 'varchar'
-  is_nullable: 0
-  size: 200
-
 =cut
 
 __PACKAGE__->add_columns(
@@ -204,28 +186,15 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 0, size => 50 },
   "actor5",
   { data_type => "varchar", is_nullable => 0, size => 50 },
-  "kad0",
-  { data_type => "varchar", is_nullable => 0, size => 200 },
-  "kad1",
-  { data_type => "varchar", is_nullable => 0, size => 200 },
-  "kad2",
-  { data_type => "varchar", is_nullable => 0, size => 200 },
-  "kad3",
-  { data_type => "varchar", is_nullable => 0, size => 200 },
-  "kad4",
-  { data_type => "varchar", is_nullable => 0, size => 200 },
   "review",
   { data_type => "varchar", is_nullable => 0, size => 2000 },
   "magnet1",
   { data_type => "varchar", is_nullable => 0, size => 200 },
-  "format",
-  { data_type => "varchar", is_nullable => 0, size => 10 },
   "size",
   { data_type => "integer", is_nullable => 0 },
   "No",
   { data_type => "integer", is_nullable => 0 },
 );
 __PACKAGE__->set_primary_key("id");
-__PACKAGE__->add_unique_constraint("code", ["code"]);
 __PACKAGE__->meta->make_immutable;
 1;

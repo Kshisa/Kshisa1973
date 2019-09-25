@@ -1,0 +1,132 @@
+ 
+ {"elements"  :[{"type":"Block",  "tag": "div class=center_col",
+                 "elements":[{
+                 "type":"Block",  "tag": "table", "elements":[
+                  {"type":"Block",  "tag": "tr", "elements":[{"type":"Text",   "name":"Address", "id":"Address", "container_tag":"span", "size":"44"},
+                                                             {"type":"Submit", "name":"conf",   "container_tag":"span", "value":"conf", "id":"but"},
+                                                             {"type":"Submit", "name":"sql",   "container_tag":"span", "value":"sql", "id":"but"},
+                                                             {"type":"Submit", "name":"mongo",   "container_tag":"span", "value":"mongo", "id":"but"},
+                                                             {"type":"Submit", "name":"best",   "container_tag":"span", "value":"best", "id":"but"}]},
+            {"type":"Block",  "tag": "tr",
+                "elements":
+                    [{"type":"Block",  "tag": "td", "element":{"label":"coun_0", "type":"Select","name":"coun_0_a", "options":[
+            {"value":"", "label":""},{"value":"Аргентина", "label":"Аргентина"},{"value":"Австралия", "label":"Австралия"},{"value":"Бельгия", "label":"Бельгия"},{"value":"Бразилия", "label":"Бразилия"},{"value":"Китай", "label":"Китай"},{"value":"Чехия", "label":"Чехия"},{"value":"Франция", "label":"Франция"},{"value":"Германия", "label":"Германия"},{"value":"Гонконг", "label":"Гонконг"},{"value":"Индия", "label":"Индия"},{"value":"Иран", "label":"Иран"},{"value":"Ирландия", "label":"Ирландия"},{"value":"Италия", "label":"Италия"},{"value":"Япония", "label":"Япония"},{"value":"Канада", "label":"Канада"},{"value":"Мексика", "label":"Мексика"},{"value":"Нидерланды", "label":"Нидерланды"},{"value":"Новая Зеландия", "label":"Новая Зеландия"},{"value":"Польша", "label":"Польша"},{"value":"Россия", "label":"Россия"},{"value":"ЮАР", "label":"ЮАР"},{"value":"Корея Южная", "label":"Корея Южная"},{"value":"Испания", "label":"Испания"},{"value":"Швеция", "label":"Швеция"},{"value":"Тайвань", "label":"Тайвань"},{"value":"Великобритания", "label":"Великобритания"},{"value":"США", "label":"США"},]}},
+        {"type":"Block",  "tag": "td", "element":{"label":"coun_0", "type":"Select","name":"coun_0_b", "options":[
+        {"value":"", "label":""},{"value":"Аргентина", "label":"Аргентина"},{"value":"Австралия", "label":"Австралия"},{"value":"Бельгия", "label":"Бельгия"},{"value":"Бразилия", "label":"Бразилия"},{"value":"Китай", "label":"Китай"},{"value":"Чехия", "label":"Чехия"},{"value":"Франция", "label":"Франция"},{"value":"Германия", "label":"Германия"},{"value":"Гонконг", "label":"Гонконг"},{"value":"Индия", "label":"Индия"},{"value":"Иран", "label":"Иран"},{"value":"Ирландия", "label":"Ирландия"},{"value":"Италия", "label":"Италия"},{"value":"Япония", "label":"Япония"},{"value":"Канада", "label":"Канада"},{"value":"Мексика", "label":"Мексика"},{"value":"Нидерланды", "label":"Нидерланды"},{"value":"Новая Зеландия", "label":"Новая Зеландия"},{"value":"Польша", "label":"Польша"},{"value":"Россия", "label":"Россия"},{"value":"ЮАР", "label":"ЮАР"},{"value":"Корея Южная", "label":"Корея Южная"},{"value":"Испания", "label":"Испания"},{"value":"Швеция", "label":"Швеция"},{"value":"Тайвань", "label":"Тайвань"},{"value":"Великобритания", "label":"Великобритания"},{"value":"США", "label":"США"},]}}],},
+            {"type":"Block",  "tag": "tr",
+                "elements":
+                    [{"type":"Block",  "tag": "td", "element":{"label":"coun_1", "type":"Select","name":"coun_1_a", "options":[
+            {"value":"", "label":""},{"value":"Аргентина", "label":"Аргентина"},{"value":"Австралия", "label":"Австралия"},{"value":"Бельгия", "label":"Бельгия"},{"value":"Бразилия", "label":"Бразилия"},{"value":"Китай", "label":"Китай"},{"value":"Чехия", "label":"Чехия"},{"value":"Франция", "label":"Франция"},{"value":"Германия", "label":"Германия"},{"value":"Гонконг", "label":"Гонконг"},{"value":"Индия", "label":"Индия"},{"value":"Иран", "label":"Иран"},{"value":"Ирландия", "label":"Ирландия"},{"value":"Италия", "label":"Италия"},{"value":"Япония", "label":"Япония"},{"value":"Канада", "label":"Канада"},{"value":"Мексика", "label":"Мексика"},{"value":"Нидерланды", "label":"Нидерланды"},{"value":"Новая Зеландия", "label":"Новая Зеландия"},{"value":"Польша", "label":"Польша"},{"value":"Россия", "label":"Россия"},{"value":"ЮАР", "label":"ЮАР"},{"value":"Корея Южная", "label":"Корея Южная"},{"value":"Испания", "label":"Испания"},{"value":"Швеция", "label":"Швеция"},{"value":"Тайвань", "label":"Тайвань"},{"value":"Великобритания", "label":"Великобритания"},{"value":"США", "label":"США"},]}},
+        {"type":"Block",  "tag": "td", "element":{"label":"coun_1", "type":"Select","name":"coun_1_b", "options":[
+        {"value":"", "label":""},{"value":"Аргентина", "label":"Аргентина"},{"value":"Австралия", "label":"Австралия"},{"value":"Бельгия", "label":"Бельгия"},{"value":"Бразилия", "label":"Бразилия"},{"value":"Китай", "label":"Китай"},{"value":"Чехия", "label":"Чехия"},{"value":"Франция", "label":"Франция"},{"value":"Германия", "label":"Германия"},{"value":"Гонконг", "label":"Гонконг"},{"value":"Индия", "label":"Индия"},{"value":"Иран", "label":"Иран"},{"value":"Ирландия", "label":"Ирландия"},{"value":"Италия", "label":"Италия"},{"value":"Япония", "label":"Япония"},{"value":"Канада", "label":"Канада"},{"value":"Мексика", "label":"Мексика"},{"value":"Нидерланды", "label":"Нидерланды"},{"value":"Новая Зеландия", "label":"Новая Зеландия"},{"value":"Польша", "label":"Польша"},{"value":"Россия", "label":"Россия"},{"value":"ЮАР", "label":"ЮАР"},{"value":"Корея Южная", "label":"Корея Южная"},{"value":"Испания", "label":"Испания"},{"value":"Швеция", "label":"Швеция"},{"value":"Тайвань", "label":"Тайвань"},{"value":"Великобритания", "label":"Великобритания"},{"value":"США", "label":"США"},]}}],},
+            {"type":"Block",  "tag": "tr",
+                "elements":
+                    [{"type":"Block",  "tag": "td", "element":{"label":"coun_2", "type":"Select","name":"coun_2_a", "options":[
+            {"value":"", "label":""},{"value":"Аргентина", "label":"Аргентина"},{"value":"Австралия", "label":"Австралия"},{"value":"Бельгия", "label":"Бельгия"},{"value":"Бразилия", "label":"Бразилия"},{"value":"Китай", "label":"Китай"},{"value":"Чехия", "label":"Чехия"},{"value":"Франция", "label":"Франция"},{"value":"Германия", "label":"Германия"},{"value":"Гонконг", "label":"Гонконг"},{"value":"Индия", "label":"Индия"},{"value":"Иран", "label":"Иран"},{"value":"Ирландия", "label":"Ирландия"},{"value":"Италия", "label":"Италия"},{"value":"Япония", "label":"Япония"},{"value":"Канада", "label":"Канада"},{"value":"Мексика", "label":"Мексика"},{"value":"Нидерланды", "label":"Нидерланды"},{"value":"Новая Зеландия", "label":"Новая Зеландия"},{"value":"Польша", "label":"Польша"},{"value":"Россия", "label":"Россия"},{"value":"ЮАР", "label":"ЮАР"},{"value":"Корея Южная", "label":"Корея Южная"},{"value":"Испания", "label":"Испания"},{"value":"Швеция", "label":"Швеция"},{"value":"Тайвань", "label":"Тайвань"},{"value":"Великобритания", "label":"Великобритания"},{"value":"США", "label":"США"},]}},
+        {"type":"Block",  "tag": "td", "element":{"label":"coun_2", "type":"Select","name":"coun_2_b", "options":[
+        {"value":"", "label":""},{"value":"Аргентина", "label":"Аргентина"},{"value":"Австралия", "label":"Австралия"},{"value":"Бельгия", "label":"Бельгия"},{"value":"Бразилия", "label":"Бразилия"},{"value":"Китай", "label":"Китай"},{"value":"Чехия", "label":"Чехия"},{"value":"Франция", "label":"Франция"},{"value":"Германия", "label":"Германия"},{"value":"Гонконг", "label":"Гонконг"},{"value":"Индия", "label":"Индия"},{"value":"Иран", "label":"Иран"},{"value":"Ирландия", "label":"Ирландия"},{"value":"Италия", "label":"Италия"},{"value":"Япония", "label":"Япония"},{"value":"Канада", "label":"Канада"},{"value":"Мексика", "label":"Мексика"},{"value":"Нидерланды", "label":"Нидерланды"},{"value":"Новая Зеландия", "label":"Новая Зеландия"},{"value":"Польша", "label":"Польша"},{"value":"Россия", "label":"Россия"},{"value":"ЮАР", "label":"ЮАР"},{"value":"Корея Южная", "label":"Корея Южная"},{"value":"Испания", "label":"Испания"},{"value":"Швеция", "label":"Швеция"},{"value":"Тайвань", "label":"Тайвань"},{"value":"Великобритания", "label":"Великобритания"},{"value":"США", "label":"США"},]}}],},
+            {"type":"Block",  "tag": "tr",
+                "elements":
+                    [{"type":"Block",  "tag": "td", "element":{"label":"coun_3", "type":"Select","name":"coun_3_a", "options":[
+            {"value":"", "label":""},{"value":"Аргентина", "label":"Аргентина"},{"value":"Австралия", "label":"Австралия"},{"value":"Бельгия", "label":"Бельгия"},{"value":"Бразилия", "label":"Бразилия"},{"value":"Китай", "label":"Китай"},{"value":"Чехия", "label":"Чехия"},{"value":"Франция", "label":"Франция"},{"value":"Германия", "label":"Германия"},{"value":"Гонконг", "label":"Гонконг"},{"value":"Индия", "label":"Индия"},{"value":"Иран", "label":"Иран"},{"value":"Ирландия", "label":"Ирландия"},{"value":"Италия", "label":"Италия"},{"value":"Япония", "label":"Япония"},{"value":"Канада", "label":"Канада"},{"value":"Мексика", "label":"Мексика"},{"value":"Нидерланды", "label":"Нидерланды"},{"value":"Новая Зеландия", "label":"Новая Зеландия"},{"value":"Польша", "label":"Польша"},{"value":"Россия", "label":"Россия"},{"value":"ЮАР", "label":"ЮАР"},{"value":"Корея Южная", "label":"Корея Южная"},{"value":"Испания", "label":"Испания"},{"value":"Швеция", "label":"Швеция"},{"value":"Тайвань", "label":"Тайвань"},{"value":"Великобритания", "label":"Великобритания"},{"value":"США", "label":"США"},]}},
+        {"type":"Block",  "tag": "td", "element":{"label":"coun_3", "type":"Select","name":"coun_3_b", "options":[
+        {"value":"", "label":""},{"value":"Аргентина", "label":"Аргентина"},{"value":"Австралия", "label":"Австралия"},{"value":"Бельгия", "label":"Бельгия"},{"value":"Бразилия", "label":"Бразилия"},{"value":"Китай", "label":"Китай"},{"value":"Чехия", "label":"Чехия"},{"value":"Франция", "label":"Франция"},{"value":"Германия", "label":"Германия"},{"value":"Гонконг", "label":"Гонконг"},{"value":"Индия", "label":"Индия"},{"value":"Иран", "label":"Иран"},{"value":"Ирландия", "label":"Ирландия"},{"value":"Италия", "label":"Италия"},{"value":"Япония", "label":"Япония"},{"value":"Канада", "label":"Канада"},{"value":"Мексика", "label":"Мексика"},{"value":"Нидерланды", "label":"Нидерланды"},{"value":"Новая Зеландия", "label":"Новая Зеландия"},{"value":"Польша", "label":"Польша"},{"value":"Россия", "label":"Россия"},{"value":"ЮАР", "label":"ЮАР"},{"value":"Корея Южная", "label":"Корея Южная"},{"value":"Испания", "label":"Испания"},{"value":"Швеция", "label":"Швеция"},{"value":"Тайвань", "label":"Тайвань"},{"value":"Великобритания", "label":"Великобритания"},{"value":"США", "label":"США"},]}}],},
+            {"type":"Block",  "tag": "tr",
+                "elements":
+                    [{"type":"Block",  "tag": "td", "element":{"label":"genr_0", "type":"Select","name":"genr_0_a", "options":[
+            {"value":"", "label":""},{"value":"боевик", "label":"боевик"},{"value":"приключения", "label":"приключения"},{"value":"биография", "label":"биография"},{"value":"мультфильмы", "label":"мультфильмы"},{"value":"комедия", "label":"комедия"},{"value":"концерт", "label":"концерт"},{"value":"криминал", "label":"криминал"},{"value":"детектив", "label":"детектив"},{"value":"документальный", "label":"документальный"},{"value":"драма", "label":"драма"},{"value":"фэнтези", "label":"фэнтези"},{"value":"история", "label":"история"},{"value":"ужасы", "label":"ужасы"},{"value":"мелодрама", "label":"мелодрама"},{"value":"военный", "label":"военный"},{"value":"мюзикл", "label":"мюзикл"},{"value":"фантастика", "label":"фантастика"},{"value":"спорт", "label":"спорт"},{"value":"триллер", "label":"триллер"},{"value":"вестерн", "label":"вестерн"},]}},
+        {"type":"Block",  "tag": "td", "element":{"label":"genr_0", "type":"Select","name":"genr_0_b", "options":[
+        {"value":"", "label":""},{"value":"боевик", "label":"боевик"},{"value":"приключения", "label":"приключения"},{"value":"биография", "label":"биография"},{"value":"мультфильмы", "label":"мультфильмы"},{"value":"комедия", "label":"комедия"},{"value":"концерт", "label":"концерт"},{"value":"криминал", "label":"криминал"},{"value":"детектив", "label":"детектив"},{"value":"документальный", "label":"документальный"},{"value":"драма", "label":"драма"},{"value":"фэнтези", "label":"фэнтези"},{"value":"история", "label":"история"},{"value":"ужасы", "label":"ужасы"},{"value":"мелодрама", "label":"мелодрама"},{"value":"военный", "label":"военный"},{"value":"мюзикл", "label":"мюзикл"},{"value":"фантастика", "label":"фантастика"},{"value":"спорт", "label":"спорт"},{"value":"триллер", "label":"триллер"},{"value":"вестерн", "label":"вестерн"},]}}],},
+            {"type":"Block",  "tag": "tr",
+                "elements":
+                    [{"type":"Block",  "tag": "td", "element":{"label":"genr_1", "type":"Select","name":"genr_1_a", "options":[
+            {"value":"", "label":""},{"value":"боевик", "label":"боевик"},{"value":"приключения", "label":"приключения"},{"value":"биография", "label":"биография"},{"value":"мультфильмы", "label":"мультфильмы"},{"value":"комедия", "label":"комедия"},{"value":"концерт", "label":"концерт"},{"value":"криминал", "label":"криминал"},{"value":"детектив", "label":"детектив"},{"value":"документальный", "label":"документальный"},{"value":"драма", "label":"драма"},{"value":"фэнтези", "label":"фэнтези"},{"value":"история", "label":"история"},{"value":"ужасы", "label":"ужасы"},{"value":"мелодрама", "label":"мелодрама"},{"value":"военный", "label":"военный"},{"value":"мюзикл", "label":"мюзикл"},{"value":"фантастика", "label":"фантастика"},{"value":"спорт", "label":"спорт"},{"value":"триллер", "label":"триллер"},{"value":"вестерн", "label":"вестерн"},]}},
+        {"type":"Block",  "tag": "td", "element":{"label":"genr_1", "type":"Select","name":"genr_1_b", "options":[
+        {"value":"", "label":""},{"value":"боевик", "label":"боевик"},{"value":"приключения", "label":"приключения"},{"value":"биография", "label":"биография"},{"value":"мультфильмы", "label":"мультфильмы"},{"value":"комедия", "label":"комедия"},{"value":"концерт", "label":"концерт"},{"value":"криминал", "label":"криминал"},{"value":"детектив", "label":"детектив"},{"value":"документальный", "label":"документальный"},{"value":"драма", "label":"драма"},{"value":"фэнтези", "label":"фэнтези"},{"value":"история", "label":"история"},{"value":"ужасы", "label":"ужасы"},{"value":"мелодрама", "label":"мелодрама"},{"value":"военный", "label":"военный"},{"value":"мюзикл", "label":"мюзикл"},{"value":"фантастика", "label":"фантастика"},{"value":"спорт", "label":"спорт"},{"value":"триллер", "label":"триллер"},{"value":"вестерн", "label":"вестерн"},]}}],},
+            {"type":"Block",  "tag": "tr",
+                "elements":
+                    [{"type":"Block",  "tag": "td", "element":{"label":"genr_2", "type":"Select","name":"genr_2_a", "options":[
+            {"value":"", "label":""},{"value":"боевик", "label":"боевик"},{"value":"приключения", "label":"приключения"},{"value":"биография", "label":"биография"},{"value":"мультфильмы", "label":"мультфильмы"},{"value":"комедия", "label":"комедия"},{"value":"концерт", "label":"концерт"},{"value":"криминал", "label":"криминал"},{"value":"детектив", "label":"детектив"},{"value":"документальный", "label":"документальный"},{"value":"драма", "label":"драма"},{"value":"фэнтези", "label":"фэнтези"},{"value":"история", "label":"история"},{"value":"ужасы", "label":"ужасы"},{"value":"мелодрама", "label":"мелодрама"},{"value":"военный", "label":"военный"},{"value":"мюзикл", "label":"мюзикл"},{"value":"фантастика", "label":"фантастика"},{"value":"спорт", "label":"спорт"},{"value":"триллер", "label":"триллер"},{"value":"вестерн", "label":"вестерн"},]}},
+        {"type":"Block",  "tag": "td", "element":{"label":"genr_2", "type":"Select","name":"genr_2_b", "options":[
+        {"value":"", "label":""},{"value":"боевик", "label":"боевик"},{"value":"приключения", "label":"приключения"},{"value":"биография", "label":"биография"},{"value":"мультфильмы", "label":"мультфильмы"},{"value":"комедия", "label":"комедия"},{"value":"концерт", "label":"концерт"},{"value":"криминал", "label":"криминал"},{"value":"детектив", "label":"детектив"},{"value":"документальный", "label":"документальный"},{"value":"драма", "label":"драма"},{"value":"фэнтези", "label":"фэнтези"},{"value":"история", "label":"история"},{"value":"ужасы", "label":"ужасы"},{"value":"мелодрама", "label":"мелодрама"},{"value":"военный", "label":"военный"},{"value":"мюзикл", "label":"мюзикл"},{"value":"фантастика", "label":"фантастика"},{"value":"спорт", "label":"спорт"},{"value":"триллер", "label":"триллер"},{"value":"вестерн", "label":"вестерн"},]}}],},
+            {"type":"Block",  "tag": "tr",
+                "elements":
+                    [{"type":"Block",  "tag": "td", "element":{"label":"genr_3", "type":"Select","name":"genr_3_a", "options":[
+            {"value":"", "label":""},{"value":"боевик", "label":"боевик"},{"value":"приключения", "label":"приключения"},{"value":"биография", "label":"биография"},{"value":"мультфильмы", "label":"мультфильмы"},{"value":"комедия", "label":"комедия"},{"value":"концерт", "label":"концерт"},{"value":"криминал", "label":"криминал"},{"value":"детектив", "label":"детектив"},{"value":"документальный", "label":"документальный"},{"value":"драма", "label":"драма"},{"value":"фэнтези", "label":"фэнтези"},{"value":"история", "label":"история"},{"value":"ужасы", "label":"ужасы"},{"value":"мелодрама", "label":"мелодрама"},{"value":"военный", "label":"военный"},{"value":"мюзикл", "label":"мюзикл"},{"value":"фантастика", "label":"фантастика"},{"value":"спорт", "label":"спорт"},{"value":"триллер", "label":"триллер"},{"value":"вестерн", "label":"вестерн"},]}},
+        {"type":"Block",  "tag": "td", "element":{"label":"genr_3", "type":"Select","name":"genr_3_b", "options":[
+        {"value":"", "label":""},{"value":"боевик", "label":"боевик"},{"value":"приключения", "label":"приключения"},{"value":"биография", "label":"биография"},{"value":"мультфильмы", "label":"мультфильмы"},{"value":"комедия", "label":"комедия"},{"value":"концерт", "label":"концерт"},{"value":"криминал", "label":"криминал"},{"value":"детектив", "label":"детектив"},{"value":"документальный", "label":"документальный"},{"value":"драма", "label":"драма"},{"value":"фэнтези", "label":"фэнтези"},{"value":"история", "label":"история"},{"value":"ужасы", "label":"ужасы"},{"value":"мелодрама", "label":"мелодрама"},{"value":"военный", "label":"военный"},{"value":"мюзикл", "label":"мюзикл"},{"value":"фантастика", "label":"фантастика"},{"value":"спорт", "label":"спорт"},{"value":"триллер", "label":"триллер"},{"value":"вестерн", "label":"вестерн"},]}}],},
+        {"type":"Block",  "tag": "tr",
+        "elements":
+        [{"type":"Block",  "tag": "td", "element":{"label":"review", "type":"Textarea","name":"review_a", "cols":"45", "rows":"15"}},
+         {"type":"Block",  "tag": "td", "element":{"label":"review", "type":"Textarea","name":"review_b", "cols":"45", "rows":"15"}}],
+        },
+        {"type":"Block",  "tag": "tr",
+        "elements":
+        [{"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"code", "type":"Text","name":"code_a", "size":"60"}},
+         {"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"code", "type":"Text","name":"code_b", "size":"60"}}],
+        },
+        {"type":"Block",  "tag": "tr",
+        "elements":
+        [{"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"year", "type":"Text","name":"year_a", "size":"60"}},
+         {"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"year", "type":"Text","name":"year_b", "size":"60"}}],
+        },
+        {"type":"Block",  "tag": "tr",
+        "elements":
+        [{"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"time", "type":"Text","name":"time_a", "size":"60"}},
+         {"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"time", "type":"Text","name":"time_b", "size":"60"}}],
+        },
+        {"type":"Block",  "tag": "tr",
+        "elements":
+        [{"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"reit", "type":"Text","name":"reit_a", "size":"60"}},
+         {"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"reit", "type":"Text","name":"reit_b", "size":"60"}}],
+        },
+        {"type":"Block",  "tag": "tr",
+        "elements":
+        [{"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"runame", "type":"Text","name":"runame_a", "size":"60"}},
+         {"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"runame", "type":"Text","name":"runame_b", "size":"60"}}],
+        },
+        {"type":"Block",  "tag": "tr",
+        "elements":
+        [{"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"orname", "type":"Text","name":"orname_a", "size":"60"}},
+         {"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"orname", "type":"Text","name":"orname_b", "size":"60"}}],
+        },
+        {"type":"Block",  "tag": "tr",
+        "elements":
+        [{"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"director", "type":"Text","name":"director_a", "size":"60"}},
+         {"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"director", "type":"Text","name":"director_b", "size":"60"}}],
+        },
+        {"type":"Block",  "tag": "tr",
+        "elements":
+        [{"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"actor1", "type":"Text","name":"actor1_a", "size":"60"}},
+         {"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"actor1", "type":"Text","name":"actor1_b", "size":"60"}}],
+        },
+        {"type":"Block",  "tag": "tr",
+        "elements":
+        [{"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"actor2", "type":"Text","name":"actor2_a", "size":"60"}},
+         {"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"actor2", "type":"Text","name":"actor2_b", "size":"60"}}],
+        },
+        {"type":"Block",  "tag": "tr",
+        "elements":
+        [{"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"actor3", "type":"Text","name":"actor3_a", "size":"60"}},
+         {"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"actor3", "type":"Text","name":"actor3_b", "size":"60"}}],
+        },
+        {"type":"Block",  "tag": "tr",
+        "elements":
+        [{"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"actor4", "type":"Text","name":"actor4_a", "size":"60"}},
+         {"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"actor4", "type":"Text","name":"actor4_b", "size":"60"}}],
+        },
+        {"type":"Block",  "tag": "tr",
+        "elements":
+        [{"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"actor5", "type":"Text","name":"actor5_a", "size":"60"}},
+         {"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"actor5", "type":"Text","name":"actor5_b", "size":"60"}}],
+        },
+        {"type":"Block",  "tag": "tr",
+        "elements":
+        [{"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"magnet1", "type":"Text","name":"magnet1_a", "size":"60"}},
+         {"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"magnet1", "type":"Text","name":"magnet1_b", "size":"60"}}],
+        },
+        {"type":"Block",  "tag": "tr",
+        "elements":
+        [{"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"size", "type":"Text","name":"size_a", "size":"60"}},
+         {"type":"Block",  "tag": "td", "element":{"id":"kad", "label":"size", "type":"Text","name":"size_b", "size":"60"}}],
+        }, ]}]}]} 

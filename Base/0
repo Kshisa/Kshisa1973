@@ -1,0 +1,106 @@
+---
+- - - 'https://afisha.mail.ru/search/?region_id=42&q='
+    - 'https://afisha.mail.ru/cinema/movies/'
+    - '^(\d+_.*?)\.jpg/'
+  - - ['<tr>', '<td><label>', '</label><input name="', '" type="text" value="', '" id="kad" size="60"></td>', '</tr>']
+    - ['<tr>','<td>', '<label>','</label>', '<select name="', '">', '<option value="', '">', '</option>', '</select>','</td>', '</tr>', '" selected="selected"']
+    - - ['', 1900, 1901, 1902, 1903, 1904, 1905, 1906, 1907, 1908, 1909, 1910, 1911, 1912, 1913, 1914, 1915, 1916, 1917, 1918, 1919, 1920, 1921, 1922, 1923, 1924, 1925, 1926, 1927, 1928, 1929, 1930, 1931, 1932, 1933, 1934, 1935, 1936, 1937, 1938, 1939, 1940, 1941, 1942, 1943, 1944, 1945, 1946, 1947, 1948, 1949, 1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965, 1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975, 1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018]
+    - - ['', csif,       fant,    horr,   thri,    acti,   crim,     come,    adve,        hist,       dram,  melo,      mili,    west,    docu,           anim,        musi,        conc,    spor,  biog,      dete      ]
+    - - ['', sci-fi,     fantasy, horror, thiller, action, crime,    comedy,  adventure,   historical, drama, melodrama, war fil, western, documentary,    animation,   musical,     concert, sport, biography, detective ]
+    - - ['', фантастика, фэнтези, ужасы,  триллер, боевик, криминал, комедия, приключения, история,    драма, мелодрама, военный, вестерн, документальный, мультфильмы, музыкальный, концерт, спорт, биография, детектив  ]
+    - - ['', usoa, russ,   fran,    unki,           germ,     kana,   ital,   span,    czec,  rosa, rosk,         belg,    arge,      mexi,    chin,  japa,   aust,      taiw,    irel,     hong,      indi,  swed,   pola,   neth,        braz,     iran, nzel          ]
+    - - ['', USA,  Russia, France,  UK,             Germany,  Kanada, Italy,  Spain,   Czech, RSA,  Rep of Korea, Belgium, Argentina, Mexico,  China, Japan,  Australia, Taiwan,  Ireland,  Hong Kong, India, Sweded, Poland, Netherlands, Brazil,   Iran, New Zealand   ]
+    - - ['', США,  Россия, Франция, Великобритания, Германия, Канада, Италия, Испания, Чехия, ЮАР,  Южная Корея,  Бельгия, Аргентина, Мексика, Китай, Япония, Австралия, Тайвань, Ирландия, Гонконг,   Индия, Швеция, Польша, Нидерланды,  Бразилия, Иран, Новая Зеландия]
+    - - 'width': '300px'
+    - ['<tr>', '<td><label>', '</label><textarea name="', '" cols="40" rows="15">', '</textarea></td>', '</tr>']  
+- - - code
+    - 
+    - 'my @time; ($time[0], $time[1], $time[2], $time[3], $time[4], $time[5]) = localtime(); $time[4]++; for (0..4) { $time[$_] = "0".$time[$_] if $time[$_] < 10;} code = ($time[5]-100).$time[4].$time[3].$time[2].$time[1].$time[0];'
+    - 0
+    -
+  - - mail 
+    - '/(\d+)/.*?movies/(.*?)/.*?'
+    - 
+    - 0
+    -
+  - - rusn
+    - 'itemprop="name".*?>(.*?)</h1'
+    -
+    - 0
+    - 0
+  - - orin
+    - 'alternativeHeadline">(.*?)</h2><'
+    - 
+    - 0
+    - 0
+  - - reit
+    - '<span class="margin_left_10">(.*?)<'
+    -
+    - 0
+    - 0
+  - - year
+    - 'all/\d+.*?/"><span class="link__text">(.*?)<'
+    - 
+    - 0
+    - 1
+    - - 2
+  - - time 
+    - 'duration" content="(.*?)"/>'
+    -
+    - 0
+    - 0
+  - - genr
+    - 'badge_link.*?<span class="badge__text">(.*?)<'
+    -
+    - 3
+    - 1
+    - - 5
+  - - review
+    - 'description"><p>(.*?)<' 
+    - 
+    - 0
+    - 2
+  - - dirr 
+    - 'director.*?href=".*?"><span.*?>(.*?)<'
+    -
+    - 0
+    - 5
+  - - actr 
+    - 'actor.*?href=".*?"><span.*?>(.*?)<'
+    -
+    - 4
+    - 0
+  - - coun 
+    - 'ne" href="/c.*?text">(.*?)<'
+    -
+    - 3
+    - 1
+    - - 8
+  - - post 
+    - 'cols__column_large_23">.*?(https:\/\/pic.kino.mail.ru\/\d+\/)'
+    -
+    - 0
+    - 
+  - - kads 
+    - 'https://pic.afisha.mail.ru/'
+    -
+    - 100
+    -
+  - - magn
+    -
+    - 0
+    - 0
+- - - [0, code, none, c] # 0
+  - - [0, reit, view, c] # 1  
+  - - [0, year, view, s] # 2  
+  - - [3, coun, view, s] # 3
+  - - [3, genr, view, s] # 4  
+  - - [0, rusn, view, s] # 5
+  - - [0, orin, view, s] # 6
+  - - [0, dirr, view, s] # 7 
+  - - [4, actr, view, s] # 8 
+  - - [0, revi, view, s] # 9    
+  - - [0, time, view, c] # 10
+- - - 'FDNA'  
+  - - [0, code, none,         ] # 0
+  - - [0, glob, T, none, с, n ] # 1

@@ -192,8 +192,6 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 0, size => 200 },
   "size",
   { data_type => "integer", is_nullable => 0 },
-  "No",
-  { data_type => "integer", is_nullable => 0 },
 );
 __PACKAGE__->set_primary_key("id");
 __PACKAGE__->meta->make_immutable;

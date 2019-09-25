@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>kshisa</title>
+    <link rel="stylesheet" href="[% c.uri_for('/static/css/main.css') %]" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<main>
+<form method="post" action="/main">
+    <input type="hidden" name="id" value="[% id %]" />
+    <input type="hidden" name="idl" value="[% idl %]" />
+    <div id="findimgs">
+        [% pics %]
+    </div>
+    <hr>
+    <div id="row">
+        [% r %] 
+    </div>
+    <div class="left_col">
+        <input type="image" name="prevl" src="/images/buttons/prev.jpg">
+        <input type="image" name="find1" src="/images/buttons/find.jpg">
+        <input type="image" name="add1"  src="/images/buttons/add0.jpg">
+        <input type="image" name="nextl" src="/images/buttons/next.jpg">
+        [% l %] 
+    </div>
+    <div class="center_col">
+		<span><input name="Address" type="text" id="Address" size="44"></span>
+		<span><input name="numb" type="text" value="[% id %]" size="2"></span>
+		<span>[% all %]</span>
+		[% full %]
+	<table style="float:left;width:400px;"><tbody>	
+		[% form2 %]
+	</table></tbody>
+	<table style="float:left;width:400px;"><tbody>
+		[% form1 %]
+    </table></tbody>
+    </div>
+    <div id="right_col">
+        <input type="image" name="prevr" src="/images/buttons/prev.jpg">
+        <input type="image" name="find"  src="/images/buttons/find.jpg">
+        <input type="image" name="add0"  src="/images/buttons/add0.jpg">
+        <input type="image" name="nextr" src="/images/buttons/next.jpg">
+        [% post %]  
+    </div>   
+</form>
+</main>
+</body>
+</html>

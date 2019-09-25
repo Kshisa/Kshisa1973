@@ -1,0 +1,10 @@
+ 
+ {"elements"  :[{"type":"Block", "tag": "div class=left_col"},
+                {"type":"Block",  "tag": "div class=center_col",
+                 "elements":[{
+                 "type":"Block",  "tag": "table", "elements":[
+                 {"type":"Block",  "tag": "tr", "elements":[{"type":"Submit", "name":"find0",    "container_tag":"span", "value":"1-create", "id":"but"},
+                                                            {"type":"Submit", "name":"find1",    "container_tag":"span", "value":"1 - edit", "id":"but"},
+                                                            {"type":"Text",   "name":"Address", "container_tag":"span", "size":"65"},
+                                                            {"type":"Submit", "name":"find2",    "container_tag":"span", "value":"2", "id":"but"},
+                                                          ]}, ]}]} 

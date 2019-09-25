@@ -1,0 +1,95 @@
+---
+- - - 1
+    - code
+    - T
+    - n
+    - none
+    - c
+    - n
+  - - 0
+    - rusn
+    - T
+    - v
+    - prew
+    - s
+    - n
+    - itemprop="name".*?>(.*?)</h1
+  - - 0
+    - orin
+    - T
+    - v
+    - prew
+    - s
+    - n
+    - alternativeHeadline">(.*?)</h2><
+  - - 0
+    - reit
+    - T
+    - v
+    - prew
+    - s
+    - n
+    - <span class="margin_left_10">(.*?)<
+  - - 0
+    - year
+    - S
+    - v
+    - prew
+    - s
+    - m
+    - all/\d+.*?/"><span class="link__text">(.*?)<
+  - - 0
+    - time
+    - T
+    - v
+    - prew
+    - s
+    - n
+    - duration" content="(.*?)"/>
+  - - 3
+    - genr
+    - S
+    - v
+    - prew
+    - s
+    - m
+    - badge_link.*?<span class="badge__text">(.*?)<
+  - - 0
+    - revi
+    - A
+    - v
+    - prew
+    - s
+    - n
+    - description"><p>(.*?)<
+  - - 0
+    - dirr
+    - T
+    - v
+    - prew
+    - s
+    - n
+    - director.*?href=".*?"><span.*?>(.*?)<
+  - - 4
+    - actr
+    - T
+    - v
+    - prew
+    - s
+    - n
+    - actor.*?href=".*?"><span.*?>(.*?)<
+  - - 3
+    - coun
+    - S
+    - v
+    - prew
+    - s
+    - m
+    - ne" href="/c.*?text">(.*?)<
+  - - 0
+    - glob
+    - T
+    - n
+    - none
+    - с
+    - n

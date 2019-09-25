@@ -1,0 +1,52 @@
+[% WRAPPER page.tt %]
+
+<form method="post" action="[% act %]">
+    <input type="hidden" name="id" value="[% id %]" />
+    <input type="hidden" name="frId" value="[% frId %]" />
+        <div class="left_col">
+        <span><input name="Last_l" type="image" src="/images/buttons/prev.jpg" /></span>
+        <span><input name="All_l" type="image" src="/images/buttons/all.jpg" /></span>
+        <span><input name="Next_l" type="image" src="/images/buttons/next.jpg" /></span>
+        <div class="numb">[% numbL+1 %]</div>
+        [% kadr1 %]
+        <div class="numb">[% numbL+2 %]</div>
+        [% kadr2 %]
+        <div class="numb">[% numbL+3 %]</div>
+        [% kadr3 %]
+    </div>
+    <div class="center_col">
+    <table>
+        <tr>
+        <td>
+        <div>
+            <label>
+                <img class="buts" src="/images/avat/[% ava2 %].jpg">
+            </label>
+            <textarea name="review_a" cols="44" rows="8"></textarea>
+        </div>
+        </td>
+        <td>
+        <div>
+            <label>
+                <input name="ava" type="image" class="buts" src="/images/avat/[% ava1 %].jpg">
+            </label>
+            <textarea name="review_b" cols="44" rows="8">[% rew %]</textarea>
+        </div>
+        </td>
+        </tr>
+    </table>
+    </div>
+    <div class="right_col">
+        <span><input name="Last_r" type="image" src="/images/buttons/prev.jpg" /></span>
+        <span><input name="All_r" type="image" src="/images/buttons/all.jpg" /></span>
+        <span><input name="Next_r" type="image" src="/images/buttons/next.jpg" /></span>
+        <div class="numb">[% numbR+1 %]</div>
+        [% kadr4 %]
+        <div class="numb">[% numbR+2 %]</div>
+        [% kadr5 %]
+        <div class="numb">[% numbR+3 %]</div>
+        [% kadr6 %]
+    </div>
+</form>
+
+[% END %]

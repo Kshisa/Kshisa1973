@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>kshisa</title>
+    <link rel="stylesheet" href="[% c.uri_for('/static/css/admin.css') %]" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<main>
+<form method="post" action="/admin">
+    <input type="hidden" name="id" value="[% id %]" />
+    [% micro %]
+    <hr><div class="left_col">
+        <input type="image" name="exit" src="/images/buttons/prev.jpg">
+        <input type="image" name="find1" src="/images/buttons/find1.jpg">
+        <input type="image" name="find2" src="/images/buttons/find1.jpg">
+        <input type="image" name="find0" src="/images/buttons/next.jpg">
+    [% l %] 
+    </div>
+        <input type="image" name="prev" src="/images/buttons/prev.jpg">
+       <h1>[% id %]/[% all %]</h1>        
+        <input type="image" name="next" src="/images/buttons/next.jpg">
+    [% form %]
+    [% r %]
+</form>
+</main>
+</body>
+</html>

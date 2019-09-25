@@ -3,6 +3,6 @@ use warnings;
 use Test::More;
 
 
-BEGIN { use_ok 'kshisa::View::Email::Template' }
+BEGIN { use_ok 'kshisa::Model::Mongodb' }
 
 done_testing();
